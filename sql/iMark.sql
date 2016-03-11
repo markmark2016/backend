@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/11 10:57:07                           */
+/* Created on:     2016/3/11 13:23:39                           */
 /*==============================================================*/
 
 
@@ -52,6 +52,8 @@ create table t_applygroup
    primary key (id)
 );
 
+alter table t_applygroup comment '状态0为未审核通过，1为审核通过';
+
 /*==============================================================*/
 /* Table: t_association                                         */
 /*==============================================================*/
@@ -61,7 +63,7 @@ create table t_association
    create_time          datetime,
    update_time          datetime,
    name                 varchar(30),
-   state                char(1),
+   state                char(1) comment '0停用，1启用',
    user_id_fk           bigint(20),
    primary key (id)
 );
@@ -78,6 +80,7 @@ create table t_association_group
    group_id_fk          bigint(20),
    create_time          datetime,
    update_time          datetime,
+   statie               char(1) comment '0停用，1启用',
    primary key (id)
 );
 
@@ -118,7 +121,7 @@ create table t_book
    primary key (id)
 );
 
-alter table t_book comment '书籍信息表';
+alter table t_book comment '后面的英文栏位，是看到原版本设计中有这些，所以保留了下来，不知道原版本是什么考虑';
 
 /*==============================================================*/
 /* Table: t_group                                               */
@@ -144,7 +147,7 @@ create table t_group
    primary key (id)
 );
 
-alter table t_group comment '读书小组表';
+alter table t_group comment '小组信息表，所读书籍为书籍表主键，领读人为用户表主键，小组状态分为未开始，小组模式是原来数据库结构中存在的 不知道什么用';
 
 /*==============================================================*/
 /* Table: t_group_user                                          */
@@ -161,6 +164,8 @@ create table t_group_user
    primary key (id)
 );
 
+alter table t_group_user comment '该表为小组和用户的关系表，用户状态0为退出，1为在组内，2为已经读完。类别为1的为发起人，0为小组成员';
+
 /*==============================================================*/
 /* Table: t_interact                                            */
 /*==============================================================*/
@@ -174,6 +179,8 @@ create table t_interact
    primary key (id)
 );
 
+alter table t_interact comment '书评具体的互动信息，若为赞，则评论内容为空';
+
 /*==============================================================*/
 /* Table: t_picture                                             */
 /*==============================================================*/
@@ -183,6 +190,8 @@ create table t_picture
    url                  varchar(1024),
    create_time          datetime,
    update_time          datetime,
+   id_fk                bigint(20),
+   type                 char(2) comment '1 为 书评图片，对应外键为书评外键，2 为 书/小组图片 ，3 为社群图片',
    primary key (id)
 );
 
@@ -203,7 +212,7 @@ create table t_remark
    primary key (id)
 );
 
-alter table t_remark comment '2016-03-10 当前的书评查询按照小组来查询，以后出现多个小组读一本书的时候再细化';
+alter table t_remark comment '2016-03-10 当前的书评查询按照小组来查询，以后出现多个小组读一本书的时候再细化。该表同时作为打卡记录的功能表。';
 
 /*==============================================================*/
 /* Table: t_remark_interact                                     */
@@ -216,6 +225,7 @@ create table t_remark_interact
    type                 char(1),
    create_time          datetime,
    update_time          datetime,
+   state                char(1) comment '0为未读，1为已读',
    primary key (id)
 );
 
@@ -229,8 +239,11 @@ create table t_score
    update_time          datetime,
    score                bigint(6),
    user_id_fk           bigint(20),
+   group_id_fk          bigint(20),
    primary key (id)
 );
+
+alter table t_score comment '更新积分时，可以每次插入一条新积分，或者唯一更新某一小组的积分数据';
 
 /*==============================================================*/
 /* Table: t_user                                                */
@@ -256,7 +269,7 @@ create table t_user
    primary key (id)
 );
 
-alter table t_user comment '用户信息表';
+alter table t_user comment '存储用户的个人信息';
 
 /*==============================================================*/
 /* Table: t_user_like                                           */
@@ -272,7 +285,7 @@ create table t_user_like
    primary key (id)
 );
 
-alter table t_user_like comment '用户最喜欢的书，和用户最想看的书';
+alter table t_user_like comment '用于存储用户个人信息中，最喜欢的三本书和最想看的三本书，状态为0代表用户移除了这本书';
 
 /*==============================================================*/
 /* Table: t_user_message                                        */
