@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/12 9:20:34                            */
+/* Created on:     2016/3/12 18:16:03                           */
 /*==============================================================*/
 
 
@@ -68,7 +68,7 @@ create table t_association
    primary key (id)
 );
 
-alter table t_association comment 't_association';
+alter table t_association comment '…Á»∫±Ì';
 
 /*==============================================================*/
 /* Table: t_association_group                                   */
