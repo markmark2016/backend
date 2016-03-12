@@ -1,8 +1,0 @@
- # cat .gitignore
- *.class
- *~
- *.log   
- *.project
- *.classpath
- /.setting/*
- /target/*
