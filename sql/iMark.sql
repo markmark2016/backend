@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/11 13:23:39                           */
+/* Created on:     2016/3/12 9:20:34                            */
 /*==============================================================*/
 
 
@@ -40,15 +40,15 @@ create table t_applygroup
    id                   bigint(20) not null auto_increment,
    update_time          datetime,
    create_time          datetime,
-   book_id_fk           bigint(20),
-   book_name            varchar(100),
-   user_id_fk           bigint(20),
-   applicant_email      varchar(32),
-   applicant_desc       varchar(1024),
-   apply_group_name     varchar(32),
-   read_slogan          varchar(2014),
-   group_desc           varchar(2014),
-   apply_state          char(1) comment '0ÎªÎ´ÉóºË£¬1ÎªÒÑÍ¨¹ı¡£',
+   book_id_fk           bigint(20) comment 'ÉêÇëĞ¡×éÒª¶ÁµÄÊéµÄÍâ¼ü',
+   book_name            varchar(100) comment 'ÉêÇë¶ÁµÄÊéµÄÃû³Æ',
+   user_id_fk           bigint(20) comment 'ÉêÇëÈËµÄid£¬¶ÔÓ¦ÓÃ»§±íµÄÖ÷¼ü',
+   applicant_email      varchar(32) comment 'ÉêÇëÈËµÄÓÊÏä',
+   applicant_desc       varchar(1024) comment 'ÉêÇëÈË¼ò½é',
+   apply_group_name     varchar(32) comment 'ÉêÇëĞ¡×éÃû³Æ',
+   read_slogan          varchar(2014) comment '¶ÁÊé±êÓï',
+   group_desc           varchar(2014) comment 'Ğ¡×é¼ò½é',
+   apply_state          char(1) comment 'ËùÉêÇëĞ¡×éµÄ×´Ì¬£¬0ÎªÎ´ÉóºË£¬1ÎªÒÑÍ¨¹ı¡£',
    primary key (id)
 );
 
@@ -62,9 +62,9 @@ create table t_association
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   name                 varchar(30),
-   state                char(1) comment '0Í£ÓÃ£¬1ÆôÓÃ',
-   user_id_fk           bigint(20),
+   name                 varchar(30) comment 'ÉçÈºÃû',
+   state                char(1) comment 'ÉçÈº×´Ì¬,0Í£ÓÃ£¬1ÆôÓÃ',
+   user_id_fk           bigint(20) comment 'ÉçÈºÓµÓĞÕß,t_userÖ÷¼ü',
    primary key (id)
 );
 
@@ -76,13 +76,15 @@ alter table t_association comment 't_association';
 create table t_association_group
 (
    id                   bigint(20) not null auto_increment,
-   association_id_fk    bigint(20),
-   group_id_fk          bigint(20),
+   association_id_fk    bigint(20) comment 't_associationÖ÷¼ü',
+   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
    create_time          datetime,
    update_time          datetime,
-   statie               char(1) comment '0Í£ÓÃ£¬1ÆôÓÃ',
+   statie               char(1) comment 'ÉçÈºÓëĞ¡×éµÄ¹ØÏµ×´Ì¬£¬0²»ÔÚ×éÄÚÁË£¬1ÔÚ×éÄÚ',
    primary key (id)
 );
+
+alter table t_association_group comment 'ÉçÈºÓëĞ¡×é¹ØÏµ±í';
 
 /*==============================================================*/
 /* Table: t_book                                                */
@@ -92,10 +94,10 @@ create table t_book
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   title                varchar(128),
-   author               varchar(256),
-   pic_id_fk            varchar(1024),
-   state                char(1) comment '0ÎªËø¶¨£¬1Îª¿ÉÓÃ',
+   title                varchar(128) comment 'ÊéÃû',
+   author               varchar(256) comment '×÷Õß',
+   pic_id_fk            varchar(1024) comment 'ÊéµÄÍ¼Æ¬µØÖ·£¬¶ÔÓ¦t_pic±íµÄÖ÷¼ü',
+   state                char(1) comment 'ÊéµÄ×´Ì¬£¬0ÎªËø¶¨£¬1Îª¿ÉÓÃ',
    origin_title         varchar(128),
    alt_title            varchar(128),
    subtitle             varchar(128),
@@ -131,19 +133,19 @@ create table t_group
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   begin_time           datetime,
-   end_time             datetime,
-   guarantee            integer,
-   frequency            varchar(20),
-   latest_time          datetime,
-   book_id_fk           varchar(36),
-   read_slogan          varchar(2014),
-   group_desc           varchar(144),
-   captain_brief        varchar(144),
-   user_id_fk           bigint(20) comment 'ÓÃ»§±íÖ÷¼ü',
-   book_brief           varchar(200),
-   state                char(1) comment '0ÎªÒÑ½áÊø£¬1Îª½øĞĞÖĞ£¬2ÎªÎ´¿ªÊ¼',
-   group_mode           varchar(50),
+   begin_time           datetime comment 'Ğ¡×é¿ªÊ¼Ê±¼ä',
+   end_time             datetime comment 'Ğ¡×é½áÊøÊ±¼ä',
+   guarantee            integer comment '±£Ö¤½ğ',
+   frequency            varchar(20) comment '´ò¿¨ÆµÂÊ',
+   latest_time          datetime comment '×îÍí¼ÓÈëÊ±¼ä',
+   book_id_fk           varchar(36) comment 'Ğ¡×éËù¶ÁÍ¼Êé£¬Êé¼®±íÍâ¼ü',
+   read_slogan          varchar(2014) comment '¶ÁÊé±êÓï',
+   group_desc           varchar(144) comment 'Ğ¡×é¼ò½é',
+   captain_brief        varchar(144) comment 'Áì¶ÁÈË¼ò½é',
+   user_id_fk           bigint(20) comment 'Áì¶ÁÈË¶ÔÓ¦ÔÚÓÃ»§±íÖĞµÄÖ÷¼ü',
+   book_brief           varchar(200) comment 'Í¼Êé¼ò½é',
+   state                char(1) comment 'Ğ¡×éµÄ×´Ì¬¡£0ÎªÒÑ½áÊø£¬1Îª½øĞĞÖĞ£¬2ÎªÎ´¿ªÊ¼',
+   group_mode           varchar(50) comment 'Ğ¡×éÄ£Ê½',
    primary key (id)
 );
 
@@ -155,12 +157,12 @@ alter table t_group comment 'Ğ¡×éĞÅÏ¢±í£¬Ëù¶ÁÊé¼®ÎªÊé¼®±íÖ÷¼ü£¬Áì¶ÁÈËÎªÓÃ»§±íÖ÷¼
 create table t_group_user
 (
    id                   bigint(20) not null auto_increment,
-   group_id_fk          bigint(20),
-   user_id_fk           bigint(20),
+   group_id_fk          bigint(20) comment 'Ğ¡×é±íÍâ¼ü',
+   user_id_fk           bigint(20) comment 'ÓÃ»§±íÍâ¼ü',
    create_time          datetime,
    update_time          datetime,
-   user_state           char(1) comment '0ÎªÍË³öĞ¡×é,1ÎªÔÚĞ¡×éÄÚ,2ÎªÒÑ¶ÁÍê',
-   user_class           char(1) comment '1Îª·¢ÆğÈË£¬0Îª·Ç·¢ÆğÈË',
+   user_state           char(1) comment '³ÉÔ±ÔÚĞ¡×éÖĞµÄ×´Ì¬¡£0ÎªÍË³öĞ¡×é,1ÎªÔÚĞ¡×éÄÚ,2ÎªÒÑ¶ÁÍê',
+   user_class           char(1) comment '³ÉÔ±µÄÀà±ğ¡£1Îª·¢ÆğÈË£¬0Îª·Ç·¢ÆğÈË',
    primary key (id)
 );
 
@@ -175,7 +177,7 @@ create table t_interact
    create_time          datetime,
    update_time          datetime,
    content              varchar(1024) comment 'Èô¸ÃÏîÀàĞÍÎª ÔŞ ÔòÕâÀïÎª¿Õ',
-   user_id_fk           bigint(20),
+   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
    primary key (id)
 );
 
@@ -190,10 +192,12 @@ create table t_picture
    url                  varchar(1024),
    create_time          datetime,
    update_time          datetime,
-   id_fk                bigint(20),
-   type                 char(2) comment '1 Îª ÊéÆÀÍ¼Æ¬£¬¶ÔÓ¦Íâ¼üÎªÊéÆÀÍâ¼ü£¬2 Îª Êé/Ğ¡×éÍ¼Æ¬ £¬3 ÎªÉçÈºÍ¼Æ¬',
+   id_fk                bigint(20) comment '¸ù¾İtype¾ßÌå¶ø¶¨',
+   type                 char(2) comment '1 Îª t_remakÖ÷¼ü£¬2 Îªt_bookÖ÷¼ü(Ğ¡×éµÄÍ¼Æ¬¾ÍÊÇÊéµÄÍ¼Æ¬)£¬3 Îªt_associationÖ÷¼ü',
    primary key (id)
 );
+
+alter table t_picture comment '¸Ã±íÄ¿Ç°´æ´¢ÈıÀàÍ¼Æ¬µÄµØÖ·£¬1ÊéÆÀÍ¼Æ¬£¬2Êé/Ğ¡×éÍ¼Æ¬£¬3ÉçÈºÍ¼Æ¬';
 
 /*==============================================================*/
 /* Table: t_remark                                              */
@@ -203,12 +207,12 @@ create table t_remark
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   group_id_fk          bigint(20),
-   book_id_fk           bigint(20),
-   user_id_fk           bigint(20),
-   start_page           integer,
-   end_page             integer,
-   comment              Text,
+   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
+   book_id_fk           bigint(20) comment 't_bookÖ÷¼ü',
+   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
+   start_page           integer comment '±¾´Î´ò¿¨/ÊéÆÀ¿ªÊ¼Ò³Âë',
+   end_page             integer comment '±¾´Î´ò¿¨/ÊéÆÀ½áÊøÒ³Âë',
+   comment              Text comment '±¾´Î´ò¿¨/ÊéÆÀ ¾ßÌåÄÚÈİ',
    primary key (id)
 );
 
@@ -220,14 +224,16 @@ alter table t_remark comment '2016-03-10 µ±Ç°µÄÊéÆÀ²éÑ¯°´ÕÕĞ¡×éÀ´²éÑ¯£¬ÒÔºó³öÏÖ¶
 create table t_remark_interact
 (
    id                   bigint(20) not null auto_increment,
-   remark_id_fk         bigint(20),
-   interact_id_fk       bigint(20),
-   type                 char(1),
+   remark_id_fk         bigint(20) comment 't_remarkÖ÷¼ü',
+   interact_id_fk       bigint(20) comment 't_interactÖ÷¼ü',
+   type                 char(1) comment '»¥¶¯ÀàĞÍ£¬1ÎªÆÀÂÛ£¬2ÎªÔŞ',
    create_time          datetime,
    update_time          datetime,
-   state                char(1) comment '0ÎªÎ´¶Á£¬1ÎªÒÑ¶Á',
+   state                char(1) comment '¸Ä»¥¶¯¼ÇÂ¼×´Ì¬£¬0ÎªÎ´¶Á£¬1ÎªÒÑ¶Á',
    primary key (id)
 );
+
+alter table t_remark_interact comment 'ÊéÆÀÓëÊéÆÀ»¥¶¯ ¹ØÏµ±í';
 
 /*==============================================================*/
 /* Table: t_score                                               */
@@ -237,9 +243,9 @@ create table t_score
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   score                bigint(6),
-   user_id_fk           bigint(20),
-   group_id_fk          bigint(20),
+   score                bigint(6) comment '»ı·Ö',
+   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
+   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
    primary key (id)
 );
 
@@ -255,17 +261,18 @@ create table t_user
    update_time          datetime,
    user_id              bigint(20) comment '²»×ßÎ¢ĞÅÇşµÀÊ±ºò¿ÉÓÃ',
    openid               varchar(50) comment 'Î¢ĞÅopenid',
-   nickname             varchar(20),
+   nickname             varchar(20) comment 'êÇ³Æ',
    gender               char(1) comment '1´ú±íÄĞ2´ú±íÅ®',
-   interests            varchar(24),
-   intro                varchar(144),
-   city                 varchar(32),
-   province             varchar(32),
-   school               varchar(22),
-   occupation           varchar(20),
-   constellation        char(4),
-   affective_state      char(1) comment '0Îªµ¥Éí,1ÎªÁµ°®,2ÎªÒÑ»é',
-   pic_id_fk            bigint(20),
+   interests            varchar(24) comment 'ĞËÈ¤ÁìÓò',
+   intro                varchar(144) comment 'ÃèÊö
+            ',
+   city                 varchar(32) comment '³ÇÊĞ',
+   province             varchar(32) comment 'Ê¡·İ',
+   school               varchar(22) comment 'Ñ§Ğ£',
+   occupation           varchar(20) comment 'Ö°Òµ',
+   constellation        char(4) comment 'ĞÇ×ù',
+   affective_state      char(1) comment 'Çé¸Ğ×´Ì¬¡£0Îªµ¥Éí,1ÎªÁµ°®,2ÎªÒÑ»é',
+   pic_id_fk            bigint(20) comment 'Í·ÏñµØÖ·£¬pic±íµÄÍâ¼ü',
    primary key (id)
 );
 
@@ -277,11 +284,12 @@ alter table t_user comment '´æ´¢ÓÃ»§µÄ¸öÈËĞÅÏ¢';
 create table t_user_like
 (
    id                   bigint(20) not null,
-   user_id_fk           bigint(20),
-   book_id_fk           bigint(20),
+   user_id_fk           bigint(20) comment 'ÓÃ»§±íÖ÷¼ü',
+   book_id_fk           bigint(20) comment 'Êé¼®±íÖ÷¼ü',
    create_time          datetime,
    update_time          datetime,
-   state                char(1) comment '0ÎªÊ§Ğ§£¬1Îª¿ÉÓÃ',
+   type                 char(1) comment 'ÓÃ»§¶ÔÊéÏ´ºÃÀàĞÍ£¬1Îª×îÏ²»¶µÄÊé£¬2Îª×îÏë¶ÁµÄÊé',
+   state                char(1) comment 'ÓÃ»§¶Á¸ÃÊéµÄ²Ù×÷£¬Èô¼ÓÈëÎª1£¬ÒÆ³ıÎª0.0ÎªÊ§Ğ§£¬1Îª¿ÉÓÃ',
    primary key (id)
 );
 
@@ -293,10 +301,10 @@ alter table t_user_like comment 'ÓÃÓÚ´æ´¢ÓÃ»§¸öÈËĞÅÏ¢ÖĞ£¬×îÏ²»¶µÄÈı±¾ÊéºÍ×îÏë¿´µ
 create table t_user_message
 (
    id                   bigint(20) not null,
-   user_id_fk           bigint(20),
-   content              varchar(2014),
-   url                  varchar(2014),
-   is_check             char(1),
+   user_id_fk           bigint(20) comment 'ÍÆËÍµ½µÄÓÃ»§£¬t_userÖ÷¼ü',
+   content              varchar(2014) comment 'ÍÆËÍ¾ßÌåÄÚÈİ',
+   url                  varchar(2014) comment 'µØÖ·',
+   is_check             char(1) comment 'ÊÇ·ñ±»²é¿´',
    create_time          datetime,
    update_time          datetime,
    primary key (id)
