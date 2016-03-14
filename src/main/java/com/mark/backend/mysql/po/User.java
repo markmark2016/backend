@@ -31,7 +31,7 @@ public class User {
 
     private String constellation;
 
-    private String affectiveState;
+    private String affectiveStatus;
 
     private Long picIdFk;
 
@@ -147,12 +147,12 @@ public class User {
         this.constellation = constellation == null ? null : constellation.trim();
     }
 
-    public String getAffectiveState() {
-        return affectiveState;
+    public String getAffectiveStatus() {
+        return affectiveStatus;
     }
 
-    public void setAffectiveState(String affectiveState) {
-        this.affectiveState = affectiveState == null ? null : affectiveState.trim();
+    public void setAffectiveStatus(String affectiveStatus) {
+        this.affectiveStatus = affectiveStatus == null ? null : affectiveStatus.trim();
     }
 
     public Long getPicIdFk() {

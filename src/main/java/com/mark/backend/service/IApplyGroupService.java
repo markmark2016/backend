@@ -1,6 +1,7 @@
 package com.mark.backend.service;
 
 /**
+ * 申请小组service
  * 
  * @Title:IApplyGroupService
  * @Description:申请小组接口

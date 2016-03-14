@@ -1045,73 +1045,73 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateIsNull() {
-            addCriterion("affective_state is null");
+        public Criteria andAffectiveStatusIsNull() {
+            addCriterion("affective_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateIsNotNull() {
-            addCriterion("affective_state is not null");
+        public Criteria andAffectiveStatusIsNotNull() {
+            addCriterion("affective_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateEqualTo(String value) {
-            addCriterion("affective_state =", value, "affectiveState");
+        public Criteria andAffectiveStatusEqualTo(String value) {
+            addCriterion("affective_status =", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateNotEqualTo(String value) {
-            addCriterion("affective_state <>", value, "affectiveState");
+        public Criteria andAffectiveStatusNotEqualTo(String value) {
+            addCriterion("affective_status <>", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateGreaterThan(String value) {
-            addCriterion("affective_state >", value, "affectiveState");
+        public Criteria andAffectiveStatusGreaterThan(String value) {
+            addCriterion("affective_status >", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateGreaterThanOrEqualTo(String value) {
-            addCriterion("affective_state >=", value, "affectiveState");
+        public Criteria andAffectiveStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("affective_status >=", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateLessThan(String value) {
-            addCriterion("affective_state <", value, "affectiveState");
+        public Criteria andAffectiveStatusLessThan(String value) {
+            addCriterion("affective_status <", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateLessThanOrEqualTo(String value) {
-            addCriterion("affective_state <=", value, "affectiveState");
+        public Criteria andAffectiveStatusLessThanOrEqualTo(String value) {
+            addCriterion("affective_status <=", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateLike(String value) {
-            addCriterion("affective_state like", value, "affectiveState");
+        public Criteria andAffectiveStatusLike(String value) {
+            addCriterion("affective_status like", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateNotLike(String value) {
-            addCriterion("affective_state not like", value, "affectiveState");
+        public Criteria andAffectiveStatusNotLike(String value) {
+            addCriterion("affective_status not like", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateIn(List<String> values) {
-            addCriterion("affective_state in", values, "affectiveState");
+        public Criteria andAffectiveStatusIn(List<String> values) {
+            addCriterion("affective_status in", values, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateNotIn(List<String> values) {
-            addCriterion("affective_state not in", values, "affectiveState");
+        public Criteria andAffectiveStatusNotIn(List<String> values) {
+            addCriterion("affective_status not in", values, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateBetween(String value1, String value2) {
-            addCriterion("affective_state between", value1, value2, "affectiveState");
+        public Criteria andAffectiveStatusBetween(String value1, String value2) {
+            addCriterion("affective_status between", value1, value2, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStateNotBetween(String value1, String value2) {
-            addCriterion("affective_state not between", value1, value2, "affectiveState");
+        public Criteria andAffectiveStatusNotBetween(String value1, String value2) {
+            addCriterion("affective_status not between", value1, value2, "affectiveStatus");
             return (Criteria) this;
         }
 
