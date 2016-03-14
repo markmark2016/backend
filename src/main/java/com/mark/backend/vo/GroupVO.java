@@ -18,6 +18,8 @@ public class GroupVO {
 
 	private Date updateTime;
 
+	private String groupName;
+
 	private Date beginTime;
 
 	private Date endTime;
@@ -30,6 +32,10 @@ public class GroupVO {
 
 	private String bookIdFk;
 
+	private String bookName;
+
+	private String bookBrief;
+
 	private String readSlogan;
 
 	private String groupDesc;
@@ -38,11 +44,15 @@ public class GroupVO {
 
 	private Long userIdFk;
 
-	private String bookBrief;
+	private String captainEmail;
 
-	private String status;
+	private String captainWecode;
+
+	private String captainPhone;
 
 	private String groupMode;
+
+	private String status = "0";
 
 	public Long getId() {
 		return id;
@@ -66,6 +76,14 @@ public class GroupVO {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName == null ? null : groupName.trim();
 	}
 
 	public Date getBeginTime() {
@@ -97,7 +115,7 @@ public class GroupVO {
 	}
 
 	public void setFrequency(String frequency) {
-		this.frequency = frequency;
+		this.frequency = frequency == null ? null : frequency.trim();
 	}
 
 	public Date getLatestTime() {
@@ -113,7 +131,23 @@ public class GroupVO {
 	}
 
 	public void setBookIdFk(String bookIdFk) {
-		this.bookIdFk = bookIdFk;
+		this.bookIdFk = bookIdFk == null ? null : bookIdFk.trim();
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName == null ? null : bookName.trim();
+	}
+
+	public String getBookBrief() {
+		return bookBrief;
+	}
+
+	public void setBookBrief(String bookBrief) {
+		this.bookBrief = bookBrief == null ? null : bookBrief.trim();
 	}
 
 	public String getReadSlogan() {
@@ -121,7 +155,7 @@ public class GroupVO {
 	}
 
 	public void setReadSlogan(String readSlogan) {
-		this.readSlogan = readSlogan;
+		this.readSlogan = readSlogan == null ? null : readSlogan.trim();
 	}
 
 	public String getGroupDesc() {
@@ -129,7 +163,7 @@ public class GroupVO {
 	}
 
 	public void setGroupDesc(String groupDesc) {
-		this.groupDesc = groupDesc;
+		this.groupDesc = groupDesc == null ? null : groupDesc.trim();
 	}
 
 	public String getCaptainBrief() {
@@ -137,7 +171,7 @@ public class GroupVO {
 	}
 
 	public void setCaptainBrief(String captainBrief) {
-		this.captainBrief = captainBrief;
+		this.captainBrief = captainBrief == null ? null : captainBrief.trim();
 	}
 
 	public Long getUserIdFk() {
@@ -148,20 +182,29 @@ public class GroupVO {
 		this.userIdFk = userIdFk;
 	}
 
-	public String getBookBrief() {
-		return bookBrief;
+	public String getCaptainEmail() {
+		return captainEmail;
 	}
 
-	public void setBookBrief(String bookBrief) {
-		this.bookBrief = bookBrief;
+	public void setCaptainEmail(String captainEmail) {
+		this.captainEmail = captainEmail == null ? null : captainEmail.trim();
 	}
 
-	public String getStatus() {
-		return status;
+	public String getCaptainWecode() {
+		return captainWecode;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCaptainWecode(String captainWecode) {
+		this.captainWecode = captainWecode == null ? null : captainWecode
+				.trim();
+	}
+
+	public String getCaptainPhone() {
+		return captainPhone;
+	}
+
+	public void setCaptainPhone(String captainPhone) {
+		this.captainPhone = captainPhone == null ? null : captainPhone.trim();
 	}
 
 	public String getGroupMode() {
@@ -169,7 +212,15 @@ public class GroupVO {
 	}
 
 	public void setGroupMode(String groupMode) {
-		this.groupMode = groupMode;
+		this.groupMode = groupMode == null ? null : groupMode.trim();
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
 	}
 
 }

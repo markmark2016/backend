@@ -9,6 +9,8 @@ public class Group {
 
     private Date updateTime;
 
+    private String groupName;
+
     private Date beginTime;
 
     private Date endTime;
@@ -21,6 +23,10 @@ public class Group {
 
     private String bookIdFk;
 
+    private String bookName;
+
+    private String bookBrief;
+
     private String readSlogan;
 
     private String groupDesc;
@@ -29,11 +35,15 @@ public class Group {
 
     private Long userIdFk;
 
-    private String bookBrief;
+    private String captainEmail;
 
-    private String status;
+    private String captainWecode;
+
+    private String captainPhone;
 
     private String groupMode;
+
+    private String status;
 
     public Long getId() {
         return id;
@@ -57,6 +67,14 @@ public class Group {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName == null ? null : groupName.trim();
     }
 
     public Date getBeginTime() {
@@ -107,6 +125,22 @@ public class Group {
         this.bookIdFk = bookIdFk == null ? null : bookIdFk.trim();
     }
 
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName == null ? null : bookName.trim();
+    }
+
+    public String getBookBrief() {
+        return bookBrief;
+    }
+
+    public void setBookBrief(String bookBrief) {
+        this.bookBrief = bookBrief == null ? null : bookBrief.trim();
+    }
+
     public String getReadSlogan() {
         return readSlogan;
     }
@@ -139,20 +173,28 @@ public class Group {
         this.userIdFk = userIdFk;
     }
 
-    public String getBookBrief() {
-        return bookBrief;
+    public String getCaptainEmail() {
+        return captainEmail;
     }
 
-    public void setBookBrief(String bookBrief) {
-        this.bookBrief = bookBrief == null ? null : bookBrief.trim();
+    public void setCaptainEmail(String captainEmail) {
+        this.captainEmail = captainEmail == null ? null : captainEmail.trim();
     }
 
-    public String getStatus() {
-        return status;
+    public String getCaptainWecode() {
+        return captainWecode;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setCaptainWecode(String captainWecode) {
+        this.captainWecode = captainWecode == null ? null : captainWecode.trim();
+    }
+
+    public String getCaptainPhone() {
+        return captainPhone;
+    }
+
+    public void setCaptainPhone(String captainPhone) {
+        this.captainPhone = captainPhone == null ? null : captainPhone.trim();
     }
 
     public String getGroupMode() {
@@ -161,5 +203,13 @@ public class Group {
 
     public void setGroupMode(String groupMode) {
         this.groupMode = groupMode == null ? null : groupMode.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }

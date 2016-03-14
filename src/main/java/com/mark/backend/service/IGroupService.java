@@ -15,6 +15,14 @@ import com.mark.backend.vo.GroupVO;
  */
 public interface IGroupService {
 	/**
+	 * 创建新小组
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	Long createGroup(GroupVO vo);
+
+	/**
 	 * 获得全部小组
 	 * 
 	 * @return
@@ -28,4 +36,24 @@ public interface IGroupService {
 	 * @return
 	 */
 	GroupVO getGroupById(Long id);
+
+	/**
+	 * 用户加入吓阻
+	 * 
+	 * @param groupId
+	 * @param userId
+	 * @return
+	 */
+	Long joinGroup(Long groupId, Long userId, String clazz);
+
+	/**
+	 * 用户退出小组
+	 * 
+	 * @param groupId
+	 * @param userId
+	 * @return
+	 */
+	Integer quitGroup(Long groupId, Long userId);
+
+	List<GroupVO> getUserGroup(Long userId);
 }
