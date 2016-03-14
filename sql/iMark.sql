@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/12 18:16:03                           */
+/* Created on:     2016/3/14 11:44:53                           */
 /*==============================================================*/
 
 
@@ -48,7 +48,7 @@ create table t_applygroup
    apply_group_name     varchar(32) comment '申请小组名称',
    read_slogan          varchar(2014) comment '读书标语',
    group_desc           varchar(2014) comment '小组简介',
-   apply_state          char(1) comment '所申请小组的状态，0为未审核，1为已通过。',
+   apply_status         char(1) comment '所申请小组的状态，0为未审核，1为已通过。',
    primary key (id)
 );
 
@@ -63,12 +63,12 @@ create table t_association
    create_time          datetime,
    update_time          datetime,
    name                 varchar(30) comment '社群名',
-   state                char(1) comment '社群状态,0停用，1启用',
+   status               char(1) comment '社群状态,0停用，1启用',
    user_id_fk           bigint(20) comment '社群拥有者,t_user主键',
    primary key (id)
 );
 
-alter table t_association comment '社群表';
+alter table t_association comment 't_association';
 
 /*==============================================================*/
 /* Table: t_association_group                                   */
@@ -80,7 +80,7 @@ create table t_association_group
    group_id_fk          bigint(20) comment 't_group主键',
    create_time          datetime,
    update_time          datetime,
-   statie               char(1) comment '社群与小组的关系状态，0不在组内了，1在组内',
+   statius              char(1) comment '社群与小组的关系状态，0不在组内了，1在组内',
    primary key (id)
 );
 
@@ -97,7 +97,7 @@ create table t_book
    title                varchar(128) comment '书名',
    author               varchar(256) comment '作者',
    pic_id_fk            varchar(1024) comment '书的图片地址，对应t_pic表的主键',
-   state                char(1) comment '书的状态，0为锁定，1为可用',
+   status               char(1) comment '书的状态，0为锁定，1为可用',
    origin_title         varchar(128),
    alt_title            varchar(128),
    subtitle             varchar(128),
@@ -144,7 +144,7 @@ create table t_group
    captain_brief        varchar(144) comment '领读人简介',
    user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
    book_brief           varchar(200) comment '图书简介',
-   state                char(1) comment '小组的状态。0为已结束，1为进行中，2为未开始',
+   status               char(1) comment '小组的状态。0为已结束，1为进行中，2为未开始',
    group_mode           varchar(50) comment '小组模式',
    primary key (id)
 );
@@ -161,7 +161,7 @@ create table t_group_user
    user_id_fk           bigint(20) comment '用户表外键',
    create_time          datetime,
    update_time          datetime,
-   user_state           char(1) comment '成员在小组中的状态。0为退出小组,1为在小组内,2为已读完',
+   user_status          char(1) comment '成员在小组中的状态。0为退出小组,1为在小组内,2为已读完',
    user_class           char(1) comment '成员的类别。1为发起人，0为非发起人',
    primary key (id)
 );
@@ -229,7 +229,7 @@ create table t_remark_interact
    type                 char(1) comment '互动类型，1为评论，2为赞',
    create_time          datetime,
    update_time          datetime,
-   state                char(1) comment '改互动记录状态，0为未读，1为已读',
+   status               char(1) comment '改互动记录状态，0为未读，1为已读',
    primary key (id)
 );
 
@@ -271,7 +271,7 @@ create table t_user
    school               varchar(22) comment '学校',
    occupation           varchar(20) comment '职业',
    constellation        char(4) comment '星座',
-   affective_state      char(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
+   affective_status     char(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
    pic_id_fk            bigint(20) comment '头像地址，pic表的外键',
    primary key (id)
 );
@@ -289,7 +289,7 @@ create table t_user_like
    create_time          datetime,
    update_time          datetime,
    type                 char(1) comment '用户对书洗好类型，1为最喜欢的书，2为最想读的书',
-   state                char(1) comment '用户读该书的操作，若加入为1，移除为0.0为失效，1为可用',
+   status               char(1) comment '用户读该书的操作，若加入为1，移除为0.0为失效，1为可用',
    primary key (id)
 );
 
