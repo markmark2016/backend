@@ -40,7 +40,7 @@ public class GroupVO {
 
 	private String bookBrief;
 
-	private String state;
+	private String status;
 
 	private String groupMode;
 
@@ -156,12 +156,12 @@ public class GroupVO {
 		this.bookBrief = bookBrief;
 	}
 
-	public String getState() {
-		return state;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getGroupMode() {

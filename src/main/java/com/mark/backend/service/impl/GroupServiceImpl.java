@@ -17,9 +17,9 @@ import com.mark.backend.service.IGroupService;
 import com.mark.backend.vo.GroupVO;
 
 @Service
-public class GroupService implements IGroupService {
+public class GroupServiceImpl implements IGroupService {
 	private final static Logger LOGGER = LoggerFactory
-			.getLogger(GroupService.class);
+			.getLogger(GroupServiceImpl.class);
 	@Resource
 	private GroupMapper groupMapper;
 
@@ -39,5 +39,17 @@ public class GroupService implements IGroupService {
 			voList.add(vo);
 		}
 		return voList;
+	}
+
+	@Override
+	public GroupVO getGroupById(Long id) {
+		Group po = groupMapper.selectByPrimaryKey(id);
+		GroupVO vo = new GroupVO();
+		try {
+			BeanUtils.copyProperties(po, vo);
+		} catch (Exception e) {
+			LOGGER.error("po转vo出错", e);
+		}
+		return vo;
 	}
 }

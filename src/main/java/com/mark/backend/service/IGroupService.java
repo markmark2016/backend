@@ -14,5 +14,18 @@ import com.mark.backend.vo.GroupVO;
  * 
  */
 public interface IGroupService {
+	/**
+	 * 获得全部小组
+	 * 
+	 * @return
+	 */
 	List<GroupVO> getAllGroup();
+
+	/**
+	 * 根据id获得小组
+	 * 
+	 * @param id
+	 * @return
+	 */
+	GroupVO getGroupById(Long id);
 }

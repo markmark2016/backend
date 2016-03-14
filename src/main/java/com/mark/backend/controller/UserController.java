@@ -13,7 +13,7 @@ import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IUserService;
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 public class UserController {
 	@Resource
 	private IUserService userService;
