@@ -1,10 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/14 11:44:53                           */
+/* Created on:     2016/3/14 15:18:31                           */
 /*==============================================================*/
 
-
-drop table if exists t_applygroup;
 
 drop table if exists t_association;
 
@@ -33,28 +31,6 @@ drop table if exists t_user_like;
 drop table if exists t_user_message;
 
 /*==============================================================*/
-/* Table: t_applygroup                                          */
-/*==============================================================*/
-create table t_applygroup
-(
-   id                   bigint(20) not null auto_increment,
-   update_time          datetime,
-   create_time          datetime,
-   book_id_fk           bigint(20) comment '申请小组要读的书的外键',
-   book_name            varchar(100) comment '申请读的书的名称',
-   user_id_fk           bigint(20) comment '申请人的id，对应用户表的主键',
-   applicant_email      varchar(32) comment '申请人的邮箱',
-   applicant_desc       varchar(1024) comment '申请人简介',
-   apply_group_name     varchar(32) comment '申请小组名称',
-   read_slogan          varchar(2014) comment '读书标语',
-   group_desc           varchar(2014) comment '小组简介',
-   apply_status         char(1) comment '所申请小组的状态，0为未审核，1为已通过。',
-   primary key (id)
-);
-
-alter table t_applygroup comment '状态0为未审核通过，1为审核通过';
-
-/*==============================================================*/
 /* Table: t_association                                         */
 /*==============================================================*/
 create table t_association
@@ -65,6 +41,8 @@ create table t_association
    name                 varchar(30) comment '社群名',
    status               char(1) comment '社群状态,0停用，1启用',
    user_id_fk           bigint(20) comment '社群拥有者,t_user主键',
+   association_desc     varchar(200),
+   slogan               varchar(100),
    primary key (id)
 );
 
@@ -133,19 +111,24 @@ create table t_group
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
+   group_name           varchar(40),
    begin_time           datetime comment '小组开始时间',
    end_time             datetime comment '小组结束时间',
    guarantee            integer comment '保证金',
    frequency            varchar(20) comment '打卡频率',
    latest_time          datetime comment '最晚加入时间',
    book_id_fk           varchar(36) comment '小组所读图书，书籍表外键',
+   book_name            varchar(50),
+   book_brief           varchar(200) comment '图书简介',
    read_slogan          varchar(2014) comment '读书标语',
    group_desc           varchar(144) comment '小组简介',
-   captain_brief        varchar(144) comment '领读人简介',
-   user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
-   book_brief           varchar(200) comment '图书简介',
-   status               char(1) comment '小组的状态。0为已结束，1为进行中，2为未开始',
+   captain_brief        varchar(144) comment '领读人/申请人简介',
+   user_id_fk           bigint(20) comment '领读人/申请人对应在用户表中的主键',
+   captain_email        varchar(100),
+   captain_wecode       varchar(50),
+   captain_phone        varchar(22),
    group_mode           varchar(50) comment '小组模式',
+   status               char(1) comment '小组的状态。0为未审核，1为审核通过，2为未开始,3为进行中,4为已结束',
    primary key (id)
 );
 
