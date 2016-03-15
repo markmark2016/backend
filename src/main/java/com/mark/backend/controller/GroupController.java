@@ -27,18 +27,22 @@ public class GroupController {
 	public @ResponseBody
 	Object getGroupList(Model model) {
 		List<GroupVO> voList = groupService.getAllGroup();
-		model.addAttribute("status", "0");
-		model.addAttribute("data", voList);
-		return model;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 1);
+		map.put("msg", "成功");
+		map.put("data", voList);
+		return map;
 	}
 
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupById(@PathVariable("groupId") Long groupId, Model model) {
 		GroupVO vo = groupService.getGroupById(groupId);
-		model.addAttribute("status", "0");
-		model.addAttribute("data", vo);
-		return model;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 1);
+		map.put("msg", "成功");
+		map.put("data", vo);
+		return map;
 	}
 
 	@RequestMapping(value = "/apply", method = RequestMethod.POST)
