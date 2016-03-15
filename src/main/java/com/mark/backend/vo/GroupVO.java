@@ -54,6 +54,8 @@ public class GroupVO {
 
 	private String status = "0";
 
+	private String image;
+
 	public Long getId() {
 		return id;
 	}
@@ -221,6 +223,14 @@ public class GroupVO {
 
 	public void setStatus(String status) {
 		this.status = status == null ? null : status.trim();
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

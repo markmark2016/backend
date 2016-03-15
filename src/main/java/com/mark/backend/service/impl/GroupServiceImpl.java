@@ -2,6 +2,7 @@ package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.mark.backend.dto.GroupDto;
+import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.GroupMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
 import com.mark.backend.mysql.po.Group;
@@ -28,6 +31,8 @@ public class GroupServiceImpl implements IGroupService {
 	private GroupMapper groupMapper;
 	@Resource
 	private GroupUserMapper groupUserMapper;
+	@Resource
+	private GroupExMapper groupExMapper;
 
 	@Override
 	public List<GroupVO> getAllGroup() {
@@ -109,5 +114,11 @@ public class GroupServiceImpl implements IGroupService {
 	public List<GroupVO> getUserGroup(Long userId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<GroupDto> getGroupList(Map<String, Object> params) {
+		List<GroupDto> resultList = groupExMapper.queryGroupList(params);
+		return resultList;
 	}
 }

@@ -1,7 +1,9 @@
 package com.mark.backend.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.vo.GroupVO;
 
 /**
@@ -55,5 +57,18 @@ public interface IGroupService {
 	 */
 	Integer quitGroup(Long groupId, Long userId);
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	List<GroupVO> getUserGroup(Long userId);
+
+	/**
+	 * 根据参数查询小组
+	 * 
+	 * @param params
+	 * @return
+	 */
+	List<GroupDto> getGroupList(Map<String, Object> params);
 }

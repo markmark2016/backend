@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.vo.GroupUserVO;
 import com.mark.backend.vo.GroupVO;
@@ -27,11 +28,13 @@ public class GroupController {
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(Model model) {
-		List<GroupVO> voList = groupService.getAllGroup();
+		Map<String, Object> params = new HashMap<String, Object>();
+		// List<GroupVO> voList = groupService.getAllGroup();
+		List<GroupDto> dtoList = groupService.getGroupList(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
 		map.put("msg", "成功");
-		map.put("data", voList);
+		map.put("data", dtoList);
 		return map;
 	}
 

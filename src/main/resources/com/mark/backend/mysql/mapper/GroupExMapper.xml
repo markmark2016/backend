@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.mark.backend.mysql.mapper.GroupExMapper">
+
+	<select id="queryGroupList" parameterType="java.util.Map"
+		resultType="com.mark.backend.dto.GroupDto">
+		SELECT
+		tg.id,
+		tg.group_name AS groupName,
+		tg.book_name AS bookName,
+		tg.group_desc AS groupDesc,
+		tb.image AS groupImage
+		FROM
+		t_group tg,
+		t_book tb
+		WHERE
+		tg.book_id_fk = tb.id
+		AND tg. STATUS != 0
+		<if test="jobNameForQuery != null">
+			AND a.name LIKE '%${jobNameForQuery}%'
+		</if>
+	</select>
+
+
+</mapper>
