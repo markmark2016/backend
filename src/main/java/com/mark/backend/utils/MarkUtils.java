@@ -10,7 +10,7 @@ import com.mark.backend.model.CheckModel;
 
 public class MarkUtils {
 
-	private static final String wxTokenStr = "yangtianxiao";
+	private static final String wxTokenStr = Constans.TOKEN;
 
 	private static final String ALGORITHM = "MD5";
 
