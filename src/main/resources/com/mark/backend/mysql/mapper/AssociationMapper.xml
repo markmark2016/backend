@@ -1,259 +1,345 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mark.backend.mysql.mapper.AssociationMapper" >
-  <resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Association" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="CHAR" />
-    <result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
-    <result column="association_desc" property="associationDesc" jdbcType="VARCHAR" />
-    <result column="slogan" property="slogan" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, create_time, update_time, name, status, user_id_fk, association_desc, slogan
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.AssociationExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from t_association
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_association
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_association
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.AssociationExample" >
-    delete from t_association
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.mark.backend.mysql.po.Association" >
-    insert into t_association (id, create_time, update_time, 
-      name, status, user_id_fk, 
-      association_desc, slogan)
-    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{name,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{userIdFk,jdbcType=BIGINT}, 
-      #{associationDesc,jdbcType=VARCHAR}, #{slogan,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Association" >
-    insert into t_association
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="userIdFk != null" >
-        user_id_fk,
-      </if>
-      <if test="associationDesc != null" >
-        association_desc,
-      </if>
-      <if test="slogan != null" >
-        slogan,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=CHAR},
-      </if>
-      <if test="userIdFk != null" >
-        #{userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="associationDesc != null" >
-        #{associationDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="slogan != null" >
-        #{slogan,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.mark.backend.mysql.po.AssociationExample" resultType="java.lang.Integer" >
-    select count(*) from t_association
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_association
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=CHAR},
-      </if>
-      <if test="record.userIdFk != null" >
-        user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="record.associationDesc != null" >
-        association_desc = #{record.associationDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.slogan != null" >
-        slogan = #{record.slogan,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_association
-    set id = #{record.id,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      name = #{record.name,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=CHAR},
-      user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-      association_desc = #{record.associationDesc,jdbcType=VARCHAR},
-      slogan = #{record.slogan,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Association" >
-    update t_association
-    <set >
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=CHAR},
-      </if>
-      <if test="userIdFk != null" >
-        user_id_fk = #{userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="associationDesc != null" >
-        association_desc = #{associationDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="slogan != null" >
-        slogan = #{slogan,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Association" >
-    update t_association
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
-      status = #{status,jdbcType=CHAR},
-      user_id_fk = #{userIdFk,jdbcType=BIGINT},
-      association_desc = #{associationDesc,jdbcType=VARCHAR},
-      slogan = #{slogan,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+<mapper namespace="com.mark.backend.mysql.mapper.AssociationMapper">
+	<resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Association">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
+		<result column="association_desc" property="associationDesc"
+			jdbcType="VARCHAR" />
+		<result column="slogan" property="slogan" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, create_time, update_time, name, status, user_id_fk,
+		association_desc,
+		slogan
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.mark.backend.mysql.po.AssociationExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from t_association
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_association
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_association
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.AssociationExample">
+		delete from t_association
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.mark.backend.mysql.po.Association">
+		insert into t_association (id,
+		create_time, update_time,
+		name, status, user_id_fk,
+		association_desc,
+		slogan)
+		values (#{id,jdbcType=BIGINT},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{name,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+		#{userIdFk,jdbcType=BIGINT},
+		#{associationDesc,jdbcType=VARCHAR},
+		#{slogan,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Association">
+		insert into t_association
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="userIdFk != null">
+				user_id_fk,
+			</if>
+			<if test="associationDesc != null">
+				association_desc,
+			</if>
+			<if test="slogan != null">
+				slogan,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=CHAR},
+			</if>
+			<if test="userIdFk != null">
+				#{userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="associationDesc != null">
+				#{associationDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="slogan != null">
+				#{slogan,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.mark.backend.mysql.po.AssociationExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_association
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_association
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=BIGINT},
+			</if>
+			<if test="record.createTime != null">
+				create_time = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateTime != null">
+				update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.name != null">
+				name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				status = #{record.status,jdbcType=CHAR},
+			</if>
+			<if test="record.userIdFk != null">
+				user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="record.associationDesc != null">
+				association_desc =
+				#{record.associationDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="record.slogan != null">
+				slogan = #{record.slogan,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_association
+		set id = #{record.id,jdbcType=BIGINT},
+		create_time
+		= #{record.createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{record.updateTime,jdbcType=TIMESTAMP},
+		name =
+		#{record.name,jdbcType=VARCHAR},
+		status =
+		#{record.status,jdbcType=CHAR},
+		user_id_fk =
+		#{record.userIdFk,jdbcType=BIGINT},
+		association_desc =
+		#{record.associationDesc,jdbcType=VARCHAR},
+		slogan =
+		#{record.slogan,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Association">
+		update t_association
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=CHAR},
+			</if>
+			<if test="userIdFk != null">
+				user_id_fk = #{userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="associationDesc != null">
+				association_desc = #{associationDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="slogan != null">
+				slogan = #{slogan,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Association">
+		update
+		t_association
+		set create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		name =
+		#{name,jdbcType=VARCHAR},
+		status = #{status,jdbcType=CHAR},
+		user_id_fk =
+		#{userIdFk,jdbcType=BIGINT},
+		association_desc =
+		#{associationDesc,jdbcType=VARCHAR},
+		slogan =
+		#{slogan,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+
+	<resultMap id="GroupResultMap" type="com.mark.backend.mysql.po.Group">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
+		<result column="frequency" property="frequency" jdbcType="VARCHAR" />
+		<result column="latest_time" property="latestTime" jdbcType="TIMESTAMP" />
+		<result column="book_id_fk" property="bookIdFk" jdbcType="VARCHAR" />
+		<result column="book_name" property="bookName" jdbcType="VARCHAR" />
+		<result column="book_brief" property="bookBrief" jdbcType="VARCHAR" />
+		<result column="read_slogan" property="readSlogan" jdbcType="VARCHAR" />
+		<result column="group_desc" property="groupDesc" jdbcType="VARCHAR" />
+		<result column="captain_brief" property="captainBrief"
+			jdbcType="VARCHAR" />
+		<result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
+		<result column="captain_email" property="captainEmail"
+			jdbcType="VARCHAR" />
+		<result column="captain_wecode" property="captainWecode"
+			jdbcType="VARCHAR" />
+		<result column="captain_phone" property="captainPhone"
+			jdbcType="VARCHAR" />
+		<result column="group_mode" property="groupMode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Group_Column_List">
+		tg.id,tg.create_time, tg.update_time, tg.group_name,
+		tg.begin_time,
+		tg.end_time,
+		tg.guarantee, tg.frequency,
+		tg.latest_time,
+		tg.book_id_fk, tg.book_name,
+		tg.book_brief, tg.read_slogan,
+		tg.group_desc,
+		tg.captain_brief,
+		tg.user_id_fk,
+		tg.captain_email,
+		tg.captain_wecode, tg.captain_phone, tg.group_mode, tg.status
+	</sql>
+	<select id="getGroupByAssociationId" parameterType="Long"
+		resultMap="GroupResultMap">
+		SELECT
+		<include refid="Group_Column_List" />
+		from t_association_group tag,
+		t_group tg WHERE
+		tag.group_id_fk = tg.id
+		AND tag.association_id_fk = #{id,jdbcType=BIGINT}
+	</select>
 </mapper>

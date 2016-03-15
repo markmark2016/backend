@@ -15,8 +15,10 @@ import com.mark.backend.mysql.mapper.AssociationMapper;
 import com.mark.backend.mysql.mapper.GroupMapper;
 import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.AssociationExample;
+import com.mark.backend.mysql.po.Group;
 import com.mark.backend.service.IAssociationService;
 import com.mark.backend.vo.AssociationVO;
+import com.mark.backend.vo.GroupVO;
 
 @Service
 public class AssociationServiceImpl implements IAssociationService {
@@ -49,7 +51,18 @@ public class AssociationServiceImpl implements IAssociationService {
 
 	@Override
 	public AssociationVO getAssociationById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		AssociationVO avo = new AssociationVO();
+		Association apo = aMapper.selectByPrimaryKey(id);
+		BeanUtils.copyProperties(apo, avo);
+		List<Group> groupList = aMapper.getGroupByAssociationId(id);
+		List<GroupVO> groupVoList = new ArrayList<GroupVO>();
+		for (Group gpo : groupList) {
+			GroupVO gvo = new GroupVO();
+			BeanUtils.copyProperties(gpo, gvo);
+			groupVoList.add(gvo);
+		}
+		
+		avo.setGroupList(groupVoList);
+		return avo;
 	}
 }

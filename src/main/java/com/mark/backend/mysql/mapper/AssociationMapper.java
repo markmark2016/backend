@@ -1,9 +1,12 @@
 package com.mark.backend.mysql.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.AssociationExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.mark.backend.mysql.po.Group;
 
 public interface AssociationMapper {
     int countByExample(AssociationExample example);
@@ -27,4 +30,6 @@ public interface AssociationMapper {
     int updateByPrimaryKeySelective(Association record);
 
     int updateByPrimaryKey(Association record);
+
+	List<Group> getGroupByAssociationId(Long assId);
 }
