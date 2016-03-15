@@ -12,6 +12,7 @@ import com.mark.backend.utils.MarkUtils;
 @Controller
 @RequestMapping(value = "/wechat")
 public class WechatController {
+
 	/**
 	 * 微信验证
 	 * 
@@ -22,8 +23,7 @@ public class WechatController {
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	public @ResponseBody
 	String validate(CheckModel checkModel, Model model) {
-		String result = MarkUtils
-				.validateWechatInfo("yangtianxiao", checkModel);
+		String result = MarkUtils.validateWechatInfo(checkModel);
 		return result;
 	}
 

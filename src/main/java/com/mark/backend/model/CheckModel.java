@@ -17,6 +17,10 @@ public class CheckModel extends ErrorCodeModel {
 	 * 随机字符串
 	 */
 	private String echostr;
+	/**
+	 * 自定义token
+	 */
+	private String token;
 
 	public String getSignature() {
 		return signature;
@@ -48,6 +52,14 @@ public class CheckModel extends ErrorCodeModel {
 
 	public void setEchostr(String echostr) {
 		this.echostr = echostr;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

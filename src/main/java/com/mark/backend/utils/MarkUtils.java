@@ -10,6 +10,8 @@ import com.mark.backend.model.CheckModel;
 
 public class MarkUtils {
 
+	private static final String wxTokenStr = "yangtianxiao";
+
 	private static final String ALGORITHM = "MD5";
 
 	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5',
@@ -32,10 +34,9 @@ public class MarkUtils {
 	 * @param tokenModel
 	 * @return
 	 */
-	public static String validateWechatInfo(String wxToken,
-			CheckModel tokenModel) {
-
-		String signature = tokenModel.getSignature();
+	public static String validateWechatInfo(CheckModel tokenModel) {
+		String wxToken = wxTokenStr;
+ 		String signature = tokenModel.getSignature();
 		Long timestamp = tokenModel.getTimestamp();
 		Long nonce = tokenModel.getNonce();
 		String echoStr = tokenModel.getEchostr();
@@ -65,7 +66,7 @@ public class MarkUtils {
 	 * @param str
 	 * @return
 	 */
-	private static String encode(String algorithm, String str) {
+	public static String encode(String algorithm, String str) {
 		if (str == null) {
 			return null;
 		}
