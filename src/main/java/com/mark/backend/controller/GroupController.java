@@ -23,6 +23,7 @@ public class GroupController {
 	@Resource
 	private IGroupService groupService;
 
+	// 所有小组
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(Model model) {
@@ -34,6 +35,7 @@ public class GroupController {
 		return map;
 	}
 
+	// 查看指定小组
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupById(@PathVariable("groupId") Long groupId, Model model) {
@@ -45,6 +47,7 @@ public class GroupController {
 		return map;
 	}
 
+	// 申请小组
 	@RequestMapping(value = "/apply", method = RequestMethod.POST)
 	public @ResponseBody
 	Object applyGroup(GroupVO vo, Model model) {
@@ -60,6 +63,7 @@ public class GroupController {
 		return map;
 	}
 
+	// 用户加入小组
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public @ResponseBody
 	Object joinGroup(GroupUserVO vo, Model model) {
@@ -76,6 +80,7 @@ public class GroupController {
 		return map;
 	}
 
+	// 用户退出小组
 	@RequestMapping(value = "/quit", method = RequestMethod.PUT)
 	public @ResponseBody
 	Object quitGroup(GroupUserVO vo, Model model) {
@@ -92,6 +97,7 @@ public class GroupController {
 		return map;
 	}
 
+	// 打卡时用
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(@PathVariable(value = "userId") Long userId, Model model) {
