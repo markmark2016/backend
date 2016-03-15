@@ -11,15 +11,27 @@
 		tg.book_name AS bookName,
 		tg.group_desc AS groupDesc,
 		tb.image AS groupImage
+		<if test="allInfo != null">
+			,tb.summary AS bookSummary,
+			tb.author AS author,
+			tg.begin_time AS beginDate,
+			tg.end_time AS endDate,
+			tg.latest_time AS
+			latestDate,
+			tg.read_slogan AS readSlogan,
+			tg.guarantee,
+			tg.frequency
+		</if>
 		FROM
 		t_group tg,
 		t_book tb
 		WHERE
 		tg.book_id_fk = tb.id
 		AND tg. STATUS != 0
-		<if test="jobNameForQuery != null">
-			AND a.name LIKE '%${jobNameForQuery}%'
+		<if test="groupId != null">
+			AND tg.id = ${groupId}
 		</if>
+
 	</select>
 
 

@@ -29,7 +29,6 @@ public class GroupController {
 	public @ResponseBody
 	Object getGroupList(Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		// List<GroupVO> voList = groupService.getAllGroup();
 		List<GroupDto> dtoList = groupService.getGroupList(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
@@ -42,12 +41,21 @@ public class GroupController {
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupById(@PathVariable("groupId") Long groupId, Model model) {
-		GroupVO vo = groupService.getGroupById(groupId);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 1);
-		map.put("msg", "成功");
-		map.put("data", vo);
-		return map;
+		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		params.put("allInfo", "true");
+		params.put("groupId", groupId);
+		List<GroupDto> dtoList = groupService.getGroupList(params);
+		if (dtoList.size() > 0) {
+			resultMap.put("status", 1);
+			resultMap.put("msg", "成功");
+			resultMap.put("data", dtoList.get(0));
+		} else {
+			resultMap.put("status", 0);
+			resultMap.put("msg", "未查到小组信息");
+			resultMap.put("data", null);
+		}
+		return resultMap;
 	}
 
 	// 申请小组

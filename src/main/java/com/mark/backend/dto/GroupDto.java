@@ -1,5 +1,7 @@
 package com.mark.backend.dto;
 
+import java.util.Date;
+
 /**
  * 小组显示相关
  * 
@@ -11,10 +13,56 @@ package com.mark.backend.dto;
  */
 public class GroupDto {
 	private Long id;
-	private String groupName;
-	private String bookName;
-	private String groupDesc;
+	/**
+	 * 小组图片=图书图片
+	 */
 	private String groupImage;
+	/**
+	 * 小组名
+	 */
+	private String groupName;
+	/**
+	 * 所读书名
+	 */
+	private String bookName;
+	/**
+	 * 书籍作者名
+	 */
+	private String author;
+	/**
+	 * 读书标语
+	 */
+	private String readSlogan;
+
+	/**
+	 * 小组简介
+	 */
+	private String groupDesc;
+	/**
+	 * 开始时间
+	 */
+	private Date beginDate;
+	/**
+	 * 结束时间
+	 */
+	private Date endDate;
+	/**
+	 * 频率
+	 */
+	private String frequency;
+	/**
+	 * 保证金
+	 */
+	private String guarantee;
+	/**
+	 * 最晚加入时间
+	 */
+	private Date latestDate;
+
+	/**
+	 * 图书简介
+	 */
+	private String bookSummary;
 
 	public Long getId() {
 		return id;
@@ -22,6 +70,14 @@ public class GroupDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getGroupImage() {
+		return groupImage;
+	}
+
+	public void setGroupImage(String groupImage) {
+		this.groupImage = groupImage;
 	}
 
 	public String getGroupName() {
@@ -40,6 +96,22 @@ public class GroupDto {
 		this.bookName = bookName;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getReadSlogan() {
+		return readSlogan;
+	}
+
+	public void setReadSlogan(String readSlogan) {
+		this.readSlogan = readSlogan;
+	}
+
 	public String getGroupDesc() {
 		return groupDesc;
 	}
@@ -48,12 +120,52 @@ public class GroupDto {
 		this.groupDesc = groupDesc;
 	}
 
-	public String getGroupImage() {
-		return groupImage;
+	public Date getBeginDate() {
+		return beginDate;
 	}
 
-	public void setGroupImage(String groupImage) {
-		this.groupImage = groupImage;
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getGuarantee() {
+		return guarantee;
+	}
+
+	public void setGuarantee(String guarantee) {
+		this.guarantee = guarantee;
+	}
+
+	public Date getLatestDate() {
+		return latestDate;
+	}
+
+	public void setLatestDate(Date latestDate) {
+		this.latestDate = latestDate;
+	}
+
+	public String getBookSummary() {
+		return bookSummary;
+	}
+
+	public void setBookSummary(String bookSummary) {
+		this.bookSummary = bookSummary;
 	}
 
 }
