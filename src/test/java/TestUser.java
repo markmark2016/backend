@@ -22,6 +22,7 @@ public class TestUser {
 		// ius.getUserById(1L);
 		User u = new User();
 		u.setCity("閸掓濮电�锟�");
+		logger.info("");
 		ius.insertUser(u);
 	}
 
