@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.dto.UserDto;
 import com.mark.backend.service.IGroupService;
+import com.mark.backend.service.IUserService;
 import com.mark.backend.vo.GroupUserVO;
 import com.mark.backend.vo.GroupVO;
 
@@ -23,6 +25,8 @@ import com.mark.backend.vo.GroupVO;
 public class GroupController {
 	@Resource
 	private IGroupService groupService;
+	@Resource
+	private IUserService userService;
 
 	// 所有小组
 	@RequestMapping(method = RequestMethod.GET)
@@ -116,5 +120,19 @@ public class GroupController {
 		model.addAttribute("status", "0");
 		model.addAttribute("data", voList);
 		return model;
+	}
+
+	// 小组内成员
+	@RequestMapping(value = "/{groupId}/users", method = RequestMethod.GET)
+	public @ResponseBody
+	Object getGroupUserList(@PathVariable(value = "groupId") Long groupId,
+			Model model) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("groupId", groupId);
+		List<UserDto> dtoList = userService.queryUserList(params);
+		params.put("status", "1");
+		params.put("msg", "已退出");
+		params.put("data", dtoList);
+		return params;
 	}
 }
