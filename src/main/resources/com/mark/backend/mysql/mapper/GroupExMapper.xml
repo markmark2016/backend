@@ -25,11 +25,20 @@
 		FROM
 		t_group tg,
 		t_book tb
+		<if test="associationId != null">
+			,t_association ta,
+			t_association_group tag
+		</if>
 		WHERE
 		tg.book_id_fk = tb.id
 		AND tg. STATUS != 0
 		<if test="groupId != null">
 			AND tg.id = ${groupId}
+		</if>
+		<if test="associationId != null">
+			AND tag.status != 0
+			AND tag.association_id_fk = ta.id
+			AND ta.id = ${associationId}
 		</if>
 
 	</select>

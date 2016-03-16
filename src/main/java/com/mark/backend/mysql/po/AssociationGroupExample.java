@@ -405,73 +405,73 @@ public class AssociationGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatiusIsNull() {
-            addCriterion("statius is null");
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusIsNotNull() {
-            addCriterion("statius is not null");
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusEqualTo(String value) {
-            addCriterion("statius =", value, "statius");
+        public Criteria andStatusEqualTo(String value) {
+            addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusNotEqualTo(String value) {
-            addCriterion("statius <>", value, "statius");
+        public Criteria andStatusNotEqualTo(String value) {
+            addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusGreaterThan(String value) {
-            addCriterion("statius >", value, "statius");
+        public Criteria andStatusGreaterThan(String value) {
+            addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusGreaterThanOrEqualTo(String value) {
-            addCriterion("statius >=", value, "statius");
+        public Criteria andStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusLessThan(String value) {
-            addCriterion("statius <", value, "statius");
+        public Criteria andStatusLessThan(String value) {
+            addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusLessThanOrEqualTo(String value) {
-            addCriterion("statius <=", value, "statius");
+        public Criteria andStatusLessThanOrEqualTo(String value) {
+            addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusLike(String value) {
-            addCriterion("statius like", value, "statius");
+        public Criteria andStatusLike(String value) {
+            addCriterion("status like", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusNotLike(String value) {
-            addCriterion("statius not like", value, "statius");
+        public Criteria andStatusNotLike(String value) {
+            addCriterion("status not like", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusIn(List<String> values) {
-            addCriterion("statius in", values, "statius");
+        public Criteria andStatusIn(List<String> values) {
+            addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusNotIn(List<String> values) {
-            addCriterion("statius not in", values, "statius");
+        public Criteria andStatusNotIn(List<String> values) {
+            addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusBetween(String value1, String value2) {
-            addCriterion("statius between", value1, value2, "statius");
+        public Criteria andStatusBetween(String value1, String value2) {
+            addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatiusNotBetween(String value1, String value2) {
-            addCriterion("statius not between", value1, value2, "statius");
+        public Criteria andStatusNotBetween(String value1, String value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
     }

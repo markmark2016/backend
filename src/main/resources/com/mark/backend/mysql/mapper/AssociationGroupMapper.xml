@@ -7,7 +7,7 @@
     <result column="group_id_fk" property="groupIdFk" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="statius" property="statius" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, association_id_fk, group_id_fk, create_time, update_time, statius
+    id, association_id_fk, group_id_fk, create_time, update_time, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.AssociationGroupExample" >
     select
@@ -103,10 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.mark.backend.mysql.po.AssociationGroup" >
     insert into t_association_group (id, association_id_fk, group_id_fk, 
-      create_time, update_time, statius
+      create_time, update_time, status
       )
     values (#{id,jdbcType=BIGINT}, #{associationIdFk,jdbcType=BIGINT}, #{groupIdFk,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{statius,jdbcType=CHAR}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.AssociationGroup" >
@@ -127,8 +127,8 @@
       <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="statius != null" >
-        statius,
+      <if test="status != null" >
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -147,8 +147,8 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="statius != null" >
-        #{statius,jdbcType=CHAR},
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -176,8 +176,8 @@
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.statius != null" >
-        statius = #{record.statius,jdbcType=CHAR},
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -191,7 +191,7 @@
       group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      statius = #{record.statius,jdbcType=CHAR}
+      status = #{record.status,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,8 +211,8 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="statius != null" >
-        statius = #{statius,jdbcType=CHAR},
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -223,7 +223,7 @@
       group_id_fk = #{groupIdFk,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      statius = #{statius,jdbcType=CHAR}
+      status = #{status,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

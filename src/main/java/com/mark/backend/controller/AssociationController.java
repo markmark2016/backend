@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mark.backend.dto.AssociationDto;
 import com.mark.backend.service.IAssociationService;
-import com.mark.backend.vo.AssociationVO;
 
 @Controller
 @RequestMapping(value = "/associations")
@@ -27,7 +27,8 @@ public class AssociationController {
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(Model model) {
-		List<AssociationVO> voList = associaService.getAssociationList();
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<AssociationDto> voList = associaService.getAssociationList(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
 		map.put("msg", "成功");
@@ -40,11 +41,13 @@ public class AssociationController {
 	public @ResponseBody
 	Object getGroupList(@PathVariable("associationId") Long associationId,
 			Model model) {
-		AssociationVO voList = associaService.getAssociationById(associationId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("associationId", associationId);
+		AssociationDto dto = associaService.getAssociationById(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
 		map.put("msg", "成功");
-		map.put("data", voList);
+		map.put("data", dto);
 		return map;
 	}
 }

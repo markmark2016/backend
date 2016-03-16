@@ -1,8 +1,9 @@
 package com.mark.backend.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.mark.backend.vo.AssociationVO;
+import com.mark.backend.dto.AssociationDto;
 
 /**
  * 社群service
@@ -19,7 +20,7 @@ public interface IAssociationService {
 	 * 
 	 * @return
 	 */
-	List<AssociationVO> getAssociationList();
+	List<AssociationDto> getAssociationList(Map<String, Object> params);
 
 	/**
 	 * 根据社群主键获得社群与小组的信息
@@ -27,5 +28,5 @@ public interface IAssociationService {
 	 * @param id
 	 * @return
 	 */
-	AssociationVO getAssociationById(Long id);
+	AssociationDto getAssociationById(Map<String, Object> params);
 }

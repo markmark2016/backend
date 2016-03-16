@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mark.backend.mysql.mapper.AssociationExMapper">
+	<select id="queryAssociationList" parameterType="java.util.Map"
+		resultType="com.mark.backend.dto.AssociationDto">
+		SELECT
+		ta.id,
+		ta.`name` AS associationName,
+		ta.association_desc AS
+		associationDesc,
+		tp.url AS image
+		FROM
+		t_association ta,
+		t_picture tp
+		WHERE
+		tp.type = 3
+		AND ta.`status` != 0
+		AND ta.id = tp.id_fk
+		<if test="associationId != null">
+			AND ta.id = ${associationId}
+		</if>
+
+	</select>
+</mapper>

@@ -13,7 +13,7 @@ public class AssociationGroup {
 
     private Date updateTime;
 
-    private String statius;
+    private String status;
 
     public Long getId() {
         return id;
@@ -55,11 +55,11 @@ public class AssociationGroup {
         this.updateTime = updateTime;
     }
 
-    public String getStatius() {
-        return statius;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatius(String statius) {
-        this.statius = statius == null ? null : statius.trim();
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }
