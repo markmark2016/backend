@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/16 9:23:00                            */
+/* Created on:     2016/3/16 10:48:11                           */
 /*==============================================================*/
 
 
@@ -256,7 +256,7 @@ create table t_user
    occupation           varchar(20) comment '职业',
    constellation        char(4) comment '星座',
    affective_status     char(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
-   pic_id_fk            bigint(20) comment '头像地址，pic表的外键',
+   head_img_url         varchar(1024) comment '头像地址，pic表的外键',
    primary key (id)
 );
 
