@@ -17,7 +17,7 @@
     <result column="occupation" property="occupation" jdbcType="VARCHAR" />
     <result column="constellation" property="constellation" jdbcType="CHAR" />
     <result column="affective_status" property="affectiveStatus" jdbcType="CHAR" />
-    <result column="pic_id_fk" property="picIdFk" jdbcType="BIGINT" />
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, create_time, update_time, user_id, openid, nickname, gender, interests, intro, 
-    city, province, school, occupation, constellation, affective_status, pic_id_fk
+    city, province, school, occupation, constellation, affective_status, head_img_url
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.UserExample" >
     select
@@ -118,13 +118,13 @@
       gender, interests, intro, 
       city, province, school, 
       occupation, constellation, affective_status, 
-      pic_id_fk)
+      head_img_url)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{userId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{gender,jdbcType=CHAR}, #{interests,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
       #{occupation,jdbcType=VARCHAR}, #{constellation,jdbcType=CHAR}, #{affectiveStatus,jdbcType=CHAR}, 
-      #{picIdFk,jdbcType=BIGINT})
+      #{headImgUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.User" >
     insert into t_user
@@ -174,8 +174,8 @@
       <if test="affectiveStatus != null" >
         affective_status,
       </if>
-      <if test="picIdFk != null" >
-        pic_id_fk,
+      <if test="headImgUrl != null" >
+        head_img_url,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -224,8 +224,8 @@
       <if test="affectiveStatus != null" >
         #{affectiveStatus,jdbcType=CHAR},
       </if>
-      <if test="picIdFk != null" >
-        #{picIdFk,jdbcType=BIGINT},
+      <if test="headImgUrl != null" >
+        #{headImgUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -283,8 +283,8 @@
       <if test="record.affectiveStatus != null" >
         affective_status = #{record.affectiveStatus,jdbcType=CHAR},
       </if>
-      <if test="record.picIdFk != null" >
-        pic_id_fk = #{record.picIdFk,jdbcType=BIGINT},
+      <if test="record.headImgUrl != null" >
+        head_img_url = #{record.headImgUrl,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -308,7 +308,7 @@
       occupation = #{record.occupation,jdbcType=VARCHAR},
       constellation = #{record.constellation,jdbcType=CHAR},
       affective_status = #{record.affectiveStatus,jdbcType=CHAR},
-      pic_id_fk = #{record.picIdFk,jdbcType=BIGINT}
+      head_img_url = #{record.headImgUrl,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -358,8 +358,8 @@
       <if test="affectiveStatus != null" >
         affective_status = #{affectiveStatus,jdbcType=CHAR},
       </if>
-      <if test="picIdFk != null" >
-        pic_id_fk = #{picIdFk,jdbcType=BIGINT},
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -380,7 +380,7 @@
       occupation = #{occupation,jdbcType=VARCHAR},
       constellation = #{constellation,jdbcType=CHAR},
       affective_status = #{affectiveStatus,jdbcType=CHAR},
-      pic_id_fk = #{picIdFk,jdbcType=BIGINT}
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -1115,63 +1115,73 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkIsNull() {
-            addCriterion("pic_id_fk is null");
+        public Criteria andHeadImgUrlIsNull() {
+            addCriterion("head_img_url is null");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkIsNotNull() {
-            addCriterion("pic_id_fk is not null");
+        public Criteria andHeadImgUrlIsNotNull() {
+            addCriterion("head_img_url is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkEqualTo(Long value) {
-            addCriterion("pic_id_fk =", value, "picIdFk");
+        public Criteria andHeadImgUrlEqualTo(String value) {
+            addCriterion("head_img_url =", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkNotEqualTo(Long value) {
-            addCriterion("pic_id_fk <>", value, "picIdFk");
+        public Criteria andHeadImgUrlNotEqualTo(String value) {
+            addCriterion("head_img_url <>", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkGreaterThan(Long value) {
-            addCriterion("pic_id_fk >", value, "picIdFk");
+        public Criteria andHeadImgUrlGreaterThan(String value) {
+            addCriterion("head_img_url >", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkGreaterThanOrEqualTo(Long value) {
-            addCriterion("pic_id_fk >=", value, "picIdFk");
+        public Criteria andHeadImgUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("head_img_url >=", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkLessThan(Long value) {
-            addCriterion("pic_id_fk <", value, "picIdFk");
+        public Criteria andHeadImgUrlLessThan(String value) {
+            addCriterion("head_img_url <", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkLessThanOrEqualTo(Long value) {
-            addCriterion("pic_id_fk <=", value, "picIdFk");
+        public Criteria andHeadImgUrlLessThanOrEqualTo(String value) {
+            addCriterion("head_img_url <=", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkIn(List<Long> values) {
-            addCriterion("pic_id_fk in", values, "picIdFk");
+        public Criteria andHeadImgUrlLike(String value) {
+            addCriterion("head_img_url like", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkNotIn(List<Long> values) {
-            addCriterion("pic_id_fk not in", values, "picIdFk");
+        public Criteria andHeadImgUrlNotLike(String value) {
+            addCriterion("head_img_url not like", value, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkBetween(Long value1, Long value2) {
-            addCriterion("pic_id_fk between", value1, value2, "picIdFk");
+        public Criteria andHeadImgUrlIn(List<String> values) {
+            addCriterion("head_img_url in", values, "headImgUrl");
             return (Criteria) this;
         }
 
-        public Criteria andPicIdFkNotBetween(Long value1, Long value2) {
-            addCriterion("pic_id_fk not between", value1, value2, "picIdFk");
+        public Criteria andHeadImgUrlNotIn(List<String> values) {
+            addCriterion("head_img_url not in", values, "headImgUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadImgUrlBetween(String value1, String value2) {
+            addCriterion("head_img_url between", value1, value2, "headImgUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadImgUrlNotBetween(String value1, String value2) {
+            addCriterion("head_img_url not between", value1, value2, "headImgUrl");
             return (Criteria) this;
         }
     }

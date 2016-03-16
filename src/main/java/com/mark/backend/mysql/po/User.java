@@ -33,7 +33,7 @@ public class User {
 
     private String affectiveStatus;
 
-    private Long picIdFk;
+    private String headImgUrl;
 
     public Long getId() {
         return id;
@@ -155,11 +155,11 @@ public class User {
         this.affectiveStatus = affectiveStatus == null ? null : affectiveStatus.trim();
     }
 
-    public Long getPicIdFk() {
-        return picIdFk;
+    public String getHeadImgUrl() {
+        return headImgUrl;
     }
 
-    public void setPicIdFk(Long picIdFk) {
-        this.picIdFk = picIdFk;
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl == null ? null : headImgUrl.trim();
     }
 }
