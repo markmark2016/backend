@@ -1,5 +1,8 @@
 package com.mark.backend.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IUserService;
 
@@ -27,10 +31,11 @@ public class UserController {
 	@RequestMapping(value = "/{openId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getUserInfo(@PathVariable("openId") String openId, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByOpenId(openId);
-		model.addAttribute("status", "0");
-		model.addAttribute("data", user);
-		return model;
+		map.put("status", 1);
+		map.put("data", user);
+		return map;
 	}
 
 	/**
