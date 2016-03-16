@@ -1,8 +1,11 @@
 package com.mark.backend.utils;
 
 import java.security.MessageDigest;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.util.StringUtils;
 
@@ -36,7 +39,7 @@ public class MarkUtils {
 	 */
 	public static String validateWechatInfo(CheckModel tokenModel) {
 		String wxToken = wxTokenStr;
- 		String signature = tokenModel.getSignature();
+		String signature = tokenModel.getSignature();
 		Long timestamp = tokenModel.getTimestamp();
 		Long nonce = tokenModel.getNonce();
 		String echoStr = tokenModel.getEchostr();
@@ -45,11 +48,19 @@ public class MarkUtils {
 				|| StringUtils.isEmpty(nonce.toString())) {
 			return "error";
 		} else {
-			String[] str = { wxToken, timestamp + "", nonce + "" };
-			Arrays.sort(str); // 字典序排序
-			String bigStr = str[0] + str[1] + str[2];
+			List<String> params = new ArrayList<String>();
+			params.add(wxToken);
+			params.add(timestamp.toString());
+			params.add(nonce.toString());
+			Collections.sort(params, new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return o1.compareTo(o2);
+				}
+			});
+			String bigStr = params.get(0) + params.get(1) + params.get(2);
 			// SHA1加密
-			String digest = MarkUtils.encode("SHA1", bigStr).toLowerCase();
+			String digest = MarkUtils.encode("SHA1", bigStr);
 			// 确认请求来至微信
 			if (digest.equals(signature)) {
 				return echoStr;

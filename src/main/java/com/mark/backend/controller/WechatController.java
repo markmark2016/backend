@@ -24,6 +24,7 @@ public class WechatController {
 	public @ResponseBody
 	String validate(CheckModel checkModel, Model model) {
 		String result = MarkUtils.validateWechatInfo(checkModel);
+		System.out.println(result.equals(checkModel.getEchostr()));
 		return result;
 	}
 
