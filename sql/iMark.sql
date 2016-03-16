@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/14 15:18:31                           */
+/* Created on:     2016/3/16 9:23:00                            */
 /*==============================================================*/
 
 
@@ -41,7 +41,7 @@ create table t_association
    name                 varchar(30) comment '社群名',
    status               char(1) comment '社群状态,0停用，1启用',
    user_id_fk           bigint(20) comment '社群拥有者,t_user主键',
-   association_desc     varchar(200),
+   association_desc     varchar(500),
    slogan               varchar(100),
    primary key (id)
 );
@@ -58,7 +58,7 @@ create table t_association_group
    group_id_fk          bigint(20) comment 't_group主键',
    create_time          datetime,
    update_time          datetime,
-   statius              char(1) comment '社群与小组的关系状态，0不在组内了，1在组内',
+   status               char(1) comment '社群与小组的关系状态，0不在组内了，1在组内',
    primary key (id)
 );
 
@@ -75,6 +75,7 @@ create table t_book
    title                varchar(128) comment '书名',
    author               varchar(256) comment '作者',
    pic_id_fk            varchar(1024) comment '书的图片地址，对应t_pic表的主键',
+   image                varchar(1024),
    status               char(1) comment '书的状态，0为锁定，1为可用',
    origin_title         varchar(128),
    alt_title            varchar(128),
@@ -111,21 +112,21 @@ create table t_group
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   group_name           varchar(40),
    begin_time           datetime comment '小组开始时间',
    end_time             datetime comment '小组结束时间',
+   group_name           varchar(200),
    guarantee            integer comment '保证金',
    frequency            varchar(20) comment '打卡频率',
    latest_time          datetime comment '最晚加入时间',
    book_id_fk           varchar(36) comment '小组所读图书，书籍表外键',
-   book_name            varchar(50),
    book_brief           varchar(200) comment '图书简介',
+   book_name            varchar(50),
    read_slogan          varchar(2014) comment '读书标语',
    group_desc           varchar(144) comment '小组简介',
-   captain_brief        varchar(144) comment '领读人/申请人简介',
-   user_id_fk           bigint(20) comment '领读人/申请人对应在用户表中的主键',
-   captain_email        varchar(100),
-   captain_wecode       varchar(50),
+   captain_brief        varchar(144) comment '领读人简介',
+   user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
+   captain_email        varchar(250),
+   captain_wecode       varchar(100),
    captain_phone        varchar(22),
    group_mode           varchar(50) comment '小组模式',
    status               char(1) comment '小组的状态。0为未审核，1为审核通过，2为未开始,3为进行中,4为已结束',
