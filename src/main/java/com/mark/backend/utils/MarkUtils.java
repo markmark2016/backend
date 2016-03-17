@@ -1,5 +1,6 @@
 package com.mark.backend.utils;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,12 +8,23 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mark.backend.model.AccessToken;
 import com.mark.backend.model.CheckModel;
 
 public class MarkUtils {
-
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(MarkUtils.class);
 	private static final String wxTokenStr = Constans.TOKEN;
 
 	private static final String ALGORITHM = "MD5";
@@ -114,4 +126,38 @@ public class MarkUtils {
 		}
 	}
 
+	public static AccessToken getAccessToken() {
+		String url = Constans.GET_ACCESSTOKEN_URL;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = null;
+
+		try {
+			response = httpClient.execute(get);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				LOGGER.error("response error, status:{}", statusCode);
+				return null;
+			}
+			if (entity != null) {
+				long contentLength = entity.getContentLength();
+				LOGGER.debug("getPage , status code:{}, length:{}", statusCode,
+						contentLength);
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+				System.out.println(content);
+				AccessToken token = JSONObject.parseObject(content,
+						AccessToken.class);
+				return token;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	public static void main(String[] args) {
+		getAccessToken();
+	}
 }
