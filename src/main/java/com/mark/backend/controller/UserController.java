@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IUserService;
+import com.mark.backend.service.impl.WeixinService;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -33,6 +34,8 @@ public class UserController {
 	Object getUserInfo(@PathVariable("openId") String openId, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByOpenId(openId);
+		System.out.println(WeixinService.markInfoMap.get("userIdMap").get(
+				openId));
 		map.put("status", 1);
 		map.put("data", user);
 		return map;
