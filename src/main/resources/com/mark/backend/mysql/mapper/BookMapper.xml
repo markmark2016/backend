@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mark.backend.mysql.mapper.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Book" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="pic_id_fk" property="picIdFk" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="origin_title" property="originTitle" jdbcType="VARCHAR" />
+    <result column="alt_title" property="altTitle" jdbcType="VARCHAR" />
+    <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="alt" property="alt" jdbcType="VARCHAR" />
+    <result column="translator" property="translator" jdbcType="VARCHAR" />
+    <result column="publiser" property="publiser" jdbcType="VARCHAR" />
+    <result column="pubdate" property="pubdate" jdbcType="VARCHAR" />
+    <result column="rating_max" property="ratingMax" jdbcType="VARCHAR" />
+    <result column="rating_average" property="ratingAverage" jdbcType="VARCHAR" />
+    <result column="rating_numRaters" property="ratingNumraters" jdbcType="VARCHAR" />
+    <result column="rating_min" property="ratingMin" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="binding" property="binding" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="series" property="series" jdbcType="VARCHAR" />
+    <result column="pages" property="pages" jdbcType="VARCHAR" />
+    <result column="author_intro" property="authorIntro" jdbcType="VARCHAR" />
+    <result column="catalog" property="catalog" jdbcType="VARCHAR" />
+    <result column="ebook_url" property="ebookUrl" jdbcType="VARCHAR" />
+    <result column="ebook_price" property="ebookPrice" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mark.backend.mysql.po.Book" extends="BaseResultMap" >
+    <result column="summary" property="summary" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, title, author, pic_id_fk, image, status, origin_title, 
+    alt_title, subtitle, url, alt, translator, publiser, pubdate, rating_max, rating_average, 
+    rating_numRaters, rating_min, tags, binding, price, series, pages, author_intro, 
+    catalog, ebook_url, ebook_price
+  </sql>
+  <sql id="Blob_Column_List" >
+    summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mark.backend.mysql.po.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.BookExample" >
+    delete from t_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mark.backend.mysql.po.Book" >
+    insert into t_book (id, create_time, update_time, 
+      title, author, pic_id_fk, 
+      image, status, origin_title, 
+      alt_title, subtitle, url, 
+      alt, translator, publiser, 
+      pubdate, rating_max, rating_average, 
+      rating_numRaters, rating_min, tags, 
+      binding, price, series, 
+      pages, author_intro, catalog, 
+      ebook_url, ebook_price, summary
+      )
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{picIdFk,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{originTitle,jdbcType=VARCHAR}, 
+      #{altTitle,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{alt,jdbcType=VARCHAR}, #{translator,jdbcType=VARCHAR}, #{publiser,jdbcType=VARCHAR}, 
+      #{pubdate,jdbcType=VARCHAR}, #{ratingMax,jdbcType=VARCHAR}, #{ratingAverage,jdbcType=VARCHAR}, 
+      #{ratingNumraters,jdbcType=VARCHAR}, #{ratingMin,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
+      #{binding,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{series,jdbcType=VARCHAR}, 
+      #{pages,jdbcType=VARCHAR}, #{authorIntro,jdbcType=VARCHAR}, #{catalog,jdbcType=VARCHAR}, 
+      #{ebookUrl,jdbcType=VARCHAR}, #{ebookPrice,jdbcType=VARCHAR}, #{summary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Book" >
+    insert into t_book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="picIdFk != null" >
+        pic_id_fk,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="originTitle != null" >
+        origin_title,
+      </if>
+      <if test="altTitle != null" >
+        alt_title,
+      </if>
+      <if test="subtitle != null" >
+        subtitle,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="alt != null" >
+        alt,
+      </if>
+      <if test="translator != null" >
+        translator,
+      </if>
+      <if test="publiser != null" >
+        publiser,
+      </if>
+      <if test="pubdate != null" >
+        pubdate,
+      </if>
+      <if test="ratingMax != null" >
+        rating_max,
+      </if>
+      <if test="ratingAverage != null" >
+        rating_average,
+      </if>
+      <if test="ratingNumraters != null" >
+        rating_numRaters,
+      </if>
+      <if test="ratingMin != null" >
+        rating_min,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="binding != null" >
+        binding,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="series != null" >
+        series,
+      </if>
+      <if test="pages != null" >
+        pages,
+      </if>
+      <if test="authorIntro != null" >
+        author_intro,
+      </if>
+      <if test="catalog != null" >
+        catalog,
+      </if>
+      <if test="ebookUrl != null" >
+        ebook_url,
+      </if>
+      <if test="ebookPrice != null" >
+        ebook_price,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="picIdFk != null" >
+        #{picIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="originTitle != null" >
+        #{originTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="altTitle != null" >
+        #{altTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="alt != null" >
+        #{alt,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="publiser != null" >
+        #{publiser,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        #{pubdate,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingMax != null" >
+        #{ratingMax,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingAverage != null" >
+        #{ratingAverage,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingNumraters != null" >
+        #{ratingNumraters,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingMin != null" >
+        #{ratingMin,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="binding != null" >
+        #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null" >
+        #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        #{pages,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIntro != null" >
+        #{authorIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog != null" >
+        #{catalog,jdbcType=VARCHAR},
+      </if>
+      <if test="ebookUrl != null" >
+        #{ebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ebookPrice != null" >
+        #{ebookPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mark.backend.mysql.po.BookExample" resultType="java.lang.Integer" >
+    select count(*) from t_book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_book
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picIdFk != null" >
+        pic_id_fk = #{record.picIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.originTitle != null" >
+        origin_title = #{record.originTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.altTitle != null" >
+        alt_title = #{record.altTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subtitle != null" >
+        subtitle = #{record.subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alt != null" >
+        alt = #{record.alt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.translator != null" >
+        translator = #{record.translator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publiser != null" >
+        publiser = #{record.publiser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pubdate != null" >
+        pubdate = #{record.pubdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ratingMax != null" >
+        rating_max = #{record.ratingMax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ratingAverage != null" >
+        rating_average = #{record.ratingAverage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ratingNumraters != null" >
+        rating_numRaters = #{record.ratingNumraters,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ratingMin != null" >
+        rating_min = #{record.ratingMin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.binding != null" >
+        binding = #{record.binding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=VARCHAR},
+      </if>
+      <if test="record.series != null" >
+        series = #{record.series,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pages != null" >
+        pages = #{record.pages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorIntro != null" >
+        author_intro = #{record.authorIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.catalog != null" >
+        catalog = #{record.catalog,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ebookUrl != null" >
+        ebook_url = #{record.ebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ebookPrice != null" >
+        ebook_price = #{record.ebookPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.summary != null" >
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_book
+    set id = #{record.id,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      pic_id_fk = #{record.picIdFk,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR},
+      origin_title = #{record.originTitle,jdbcType=VARCHAR},
+      alt_title = #{record.altTitle,jdbcType=VARCHAR},
+      subtitle = #{record.subtitle,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      alt = #{record.alt,jdbcType=VARCHAR},
+      translator = #{record.translator,jdbcType=VARCHAR},
+      publiser = #{record.publiser,jdbcType=VARCHAR},
+      pubdate = #{record.pubdate,jdbcType=VARCHAR},
+      rating_max = #{record.ratingMax,jdbcType=VARCHAR},
+      rating_average = #{record.ratingAverage,jdbcType=VARCHAR},
+      rating_numRaters = #{record.ratingNumraters,jdbcType=VARCHAR},
+      rating_min = #{record.ratingMin,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      binding = #{record.binding,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=VARCHAR},
+      series = #{record.series,jdbcType=VARCHAR},
+      pages = #{record.pages,jdbcType=VARCHAR},
+      author_intro = #{record.authorIntro,jdbcType=VARCHAR},
+      catalog = #{record.catalog,jdbcType=VARCHAR},
+      ebook_url = #{record.ebookUrl,jdbcType=VARCHAR},
+      ebook_price = #{record.ebookPrice,jdbcType=VARCHAR},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_book
+    set id = #{record.id,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      pic_id_fk = #{record.picIdFk,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR},
+      origin_title = #{record.originTitle,jdbcType=VARCHAR},
+      alt_title = #{record.altTitle,jdbcType=VARCHAR},
+      subtitle = #{record.subtitle,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      alt = #{record.alt,jdbcType=VARCHAR},
+      translator = #{record.translator,jdbcType=VARCHAR},
+      publiser = #{record.publiser,jdbcType=VARCHAR},
+      pubdate = #{record.pubdate,jdbcType=VARCHAR},
+      rating_max = #{record.ratingMax,jdbcType=VARCHAR},
+      rating_average = #{record.ratingAverage,jdbcType=VARCHAR},
+      rating_numRaters = #{record.ratingNumraters,jdbcType=VARCHAR},
+      rating_min = #{record.ratingMin,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      binding = #{record.binding,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=VARCHAR},
+      series = #{record.series,jdbcType=VARCHAR},
+      pages = #{record.pages,jdbcType=VARCHAR},
+      author_intro = #{record.authorIntro,jdbcType=VARCHAR},
+      catalog = #{record.catalog,jdbcType=VARCHAR},
+      ebook_url = #{record.ebookUrl,jdbcType=VARCHAR},
+      ebook_price = #{record.ebookPrice,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Book" >
+    update t_book
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="picIdFk != null" >
+        pic_id_fk = #{picIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="originTitle != null" >
+        origin_title = #{originTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="altTitle != null" >
+        alt_title = #{altTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="alt != null" >
+        alt = #{alt,jdbcType=VARCHAR},
+      </if>
+      <if test="translator != null" >
+        translator = #{translator,jdbcType=VARCHAR},
+      </if>
+      <if test="publiser != null" >
+        publiser = #{publiser,jdbcType=VARCHAR},
+      </if>
+      <if test="pubdate != null" >
+        pubdate = #{pubdate,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingMax != null" >
+        rating_max = #{ratingMax,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingAverage != null" >
+        rating_average = #{ratingAverage,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingNumraters != null" >
+        rating_numRaters = #{ratingNumraters,jdbcType=VARCHAR},
+      </if>
+      <if test="ratingMin != null" >
+        rating_min = #{ratingMin,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="binding != null" >
+        binding = #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null" >
+        series = #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        pages = #{pages,jdbcType=VARCHAR},
+      </if>
+      <if test="authorIntro != null" >
+        author_intro = #{authorIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog != null" >
+        catalog = #{catalog,jdbcType=VARCHAR},
+      </if>
+      <if test="ebookUrl != null" >
+        ebook_url = #{ebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ebookPrice != null" >
+        ebook_price = #{ebookPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mark.backend.mysql.po.Book" >
+    update t_book
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      pic_id_fk = #{picIdFk,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      origin_title = #{originTitle,jdbcType=VARCHAR},
+      alt_title = #{altTitle,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      alt = #{alt,jdbcType=VARCHAR},
+      translator = #{translator,jdbcType=VARCHAR},
+      publiser = #{publiser,jdbcType=VARCHAR},
+      pubdate = #{pubdate,jdbcType=VARCHAR},
+      rating_max = #{ratingMax,jdbcType=VARCHAR},
+      rating_average = #{ratingAverage,jdbcType=VARCHAR},
+      rating_numRaters = #{ratingNumraters,jdbcType=VARCHAR},
+      rating_min = #{ratingMin,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      binding = #{binding,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      series = #{series,jdbcType=VARCHAR},
+      pages = #{pages,jdbcType=VARCHAR},
+      author_intro = #{authorIntro,jdbcType=VARCHAR},
+      catalog = #{catalog,jdbcType=VARCHAR},
+      ebook_url = #{ebookUrl,jdbcType=VARCHAR},
+      ebook_price = #{ebookPrice,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Book" >
+    update t_book
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      pic_id_fk = #{picIdFk,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      origin_title = #{originTitle,jdbcType=VARCHAR},
+      alt_title = #{altTitle,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      alt = #{alt,jdbcType=VARCHAR},
+      translator = #{translator,jdbcType=VARCHAR},
+      publiser = #{publiser,jdbcType=VARCHAR},
+      pubdate = #{pubdate,jdbcType=VARCHAR},
+      rating_max = #{ratingMax,jdbcType=VARCHAR},
+      rating_average = #{ratingAverage,jdbcType=VARCHAR},
+      rating_numRaters = #{ratingNumraters,jdbcType=VARCHAR},
+      rating_min = #{ratingMin,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      binding = #{binding,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      series = #{series,jdbcType=VARCHAR},
+      pages = #{pages,jdbcType=VARCHAR},
+      author_intro = #{authorIntro,jdbcType=VARCHAR},
+      catalog = #{catalog,jdbcType=VARCHAR},
+      ebook_url = #{ebookUrl,jdbcType=VARCHAR},
+      ebook_price = #{ebookPrice,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
