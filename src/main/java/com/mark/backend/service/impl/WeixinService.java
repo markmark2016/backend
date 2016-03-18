@@ -1,5 +1,6 @@
 package com.mark.backend.service.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,18 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.mark.backend.model.ErrorCodeModel;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
@@ -81,5 +92,38 @@ public class WeixinService {
 				access_token = MarkUtils.getAccessToken().getAccess_token();
 			}
 		}
+	}
+
+	public String createMenu(String jsonStr) {
+		String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="
+				+ access_token;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpPost post = new HttpPost(url);
+		post.setEntity(new StringEntity(jsonStr, "UTF-8"));
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(post);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				return "失败！";
+			}
+			if (entity != null) {
+				ErrorCodeModel ecm = new ErrorCodeModel();
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+				JSONObject.parseObject(content, ErrorCodeModel.class);
+				if (ecm.getErrcode() != "0") {
+					return "失败！";
+				} else {
+					return "成功";
+				}
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "失败！";
 	}
 }
