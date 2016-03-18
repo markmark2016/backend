@@ -6,17 +6,25 @@
 		SELECT
 		tu.id,
 		tu.nickname AS nickName,
-		tu.head_img_url AS headImage,
-		CASE tgu.user_class
-		WHEN '1' THEN
-		TRUE
-		ELSE
-		FALSE
-		END AS isLeader
+		tu.head_img_url AS headImage
+		<if test="groupId != null">
+			,
+			CASE
+			tgu.user_class
+			WHEN '1' THEN
+			TRUE
+			ELSE
+			FALSE
+			END AS
+			isLeader
+		</if>
 		FROM
-		t_user tu,
-		t_group_user tgu
-		WHERE
-		tu.id = tgu.user_id_fk
+		t_user tu
+		<if test="groupId != null">
+			,
+			t_group_user tgu
+			WHERE
+			tu.id = tgu.user_id_fk
+		</if>
 	</select>
 </mapper>
