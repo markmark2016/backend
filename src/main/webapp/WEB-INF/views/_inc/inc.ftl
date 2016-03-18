@@ -1,0 +1,5 @@
+[#ftl]
+[#assign ctxPath = request.contextPath]
+[#if ctxPath="/"]
+	[#assign ctxPath = ""]
+[/#if]
