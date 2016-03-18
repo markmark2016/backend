@@ -40,4 +40,11 @@ public class UserServiceImpl implements IUserService {
 		List<UserDto> dtoList = uexMapper.queryUserList(params);
 		return dtoList;
 	}
+
+	@Override
+	public List<User> getUserList() {
+		UserExample ue = new UserExample();
+		List<User> userList = userMapper.selectByExample(ue);
+		return userList;
+	}
 }

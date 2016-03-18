@@ -12,4 +12,6 @@ public interface IUserService {
 	int insertUser(User user);
 
 	List<UserDto> queryUserList(Map<String, Object> params);
+	
+	List<User> getUserList();
 }

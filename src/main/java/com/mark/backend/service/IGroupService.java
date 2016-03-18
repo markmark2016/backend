@@ -71,4 +71,6 @@ public interface IGroupService {
 	 * @return
 	 */
 	List<GroupDto> getGroupList(Map<String, Object> params);
+
+	List<GroupVO> getApplyGroup();
 }

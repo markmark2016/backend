@@ -121,4 +121,22 @@ public class GroupServiceImpl implements IGroupService {
 		List<GroupDto> resultList = groupExMapper.queryGroupList(params);
 		return resultList;
 	}
+
+	@Override
+	public List<GroupVO> getApplyGroup() {
+		GroupExample ex = new GroupExample();
+		ex.createCriteria().andStatusEqualTo("0");
+		List<Group> groupList = groupMapper.selectByExample(ex);
+		List<GroupVO> voList = new ArrayList<GroupVO>();
+		for (Group po : groupList) {
+			GroupVO vo = new GroupVO();
+			try {
+				BeanUtils.copyProperties(po, vo);
+			} catch (Exception e) {
+				LOGGER.error("po转vo出错", e);
+			}
+			voList.add(vo);
+		}
+		return voList;
+	}
 }
