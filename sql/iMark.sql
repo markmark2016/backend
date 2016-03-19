@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/16 10:48:11                           */
+/* Created on:     2016/3/19 22:07:10                           */
 /*==============================================================*/
 
 
@@ -267,7 +267,7 @@ alter table t_user comment '存储用户的个人信息';
 /*==============================================================*/
 create table t_user_like
 (
-   id                   bigint(20) not null,
+   id                   bigint(20) not null auto_increment,
    user_id_fk           bigint(20) comment '用户表主键',
    book_id_fk           bigint(20) comment '书籍表主键',
    create_time          datetime,
