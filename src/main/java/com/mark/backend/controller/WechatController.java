@@ -1,17 +1,27 @@
 package com.mark.backend.controller;
 
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.model.CheckModel;
+import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.MarkUtils;
 
 @Controller
 @RequestMapping(value = "/wechat")
 public class WechatController {
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(WechatController.class);
+	@Resource
+	private WeixinService wxService;
 
 	/**
 	 * 微信验证
@@ -26,6 +36,13 @@ public class WechatController {
 		String result = MarkUtils.validateWechatInfo(checkModel);
 		System.out.println(result.equals(checkModel.getEchostr()));
 		return result;
+	}
+
+	@RequestMapping(value = "/authorize", method = RequestMethod.GET)
+	public String authorize(@RequestParam(required = true) String code,
+			@RequestParam(required = false) String status) {
+		wxService.getUserInfo(code, status);
+		return null;
 	}
 
 }
