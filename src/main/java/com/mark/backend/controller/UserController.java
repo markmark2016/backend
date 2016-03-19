@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IUserService;
 import com.mark.backend.service.impl.WeixinService;
@@ -24,7 +25,7 @@ public class UserController {
 	private IUserService userService;
 
 	/**
-	 * 获得用户
+	 * 获得用户信息
 	 * 
 	 * @param openId
 	 * @return
@@ -32,6 +33,25 @@ public class UserController {
 	@RequestMapping(value = "/{openId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getUserInfo(@PathVariable("openId") String openId, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId",
+				WeixinService.markInfoMap.get("userIdMap").get(openId));
+		UserDto userDto = userService.queryUserPageInfo(params);
+		map.put("status", 1);
+		map.put("data", userDto);
+		return map;
+	}
+
+	/**
+	 * 获得用户信息
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/profile/{openId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object getUserProfile(@PathVariable("openId") String openId, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getUserByOpenId(openId);
 		System.out.println(WeixinService.markInfoMap.get("userIdMap").get(
