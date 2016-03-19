@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -41,13 +42,19 @@ import com.mark.backend.utils.MarkUtils;
 public class WeixinService {
 	public static String access_token = null;
 
-	public static Map<String, Map<String, String>> markInfoMap = new HashMap<String, Map<String, String>>();
+	public static String auth_access_token = null;
+
+	public static String refresh_auth_access_token = null;
+
+	public static Map<String, Map<String, Object>> markInfoMap = new HashMap<String, Map<String, Object>>();
 
 	@Resource
 	private UserMapper userMapper;
 
 	ScheduledExecutorService executor = Executors
 			.newSingleThreadScheduledExecutor();
+
+	ExecutorService multiExecutor = Executors.newFixedThreadPool(5);
 
 	@PostConstruct
 	private void init() {
@@ -64,7 +71,7 @@ public class WeixinService {
 	}
 
 	public void markLoad() {
-		Map<String, String> userIdMap = getUserIdMap();
+		Map<String, Object> userIdMap = getUserIdMap();
 		markInfoMap.put("userIdMap", userIdMap);
 	}
 
@@ -73,13 +80,13 @@ public class WeixinService {
 	 * 
 	 * @return
 	 */
-	private Map<String, String> getUserIdMap() {
+	private Map<String, Object> getUserIdMap() {
 		UserExample ex = new UserExample();
 		ex.createCriteria();
 		List<User> userList = userMapper.selectByExample(ex);
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		for (User user : userList) {
-			map.put(user.getOpenid(), user.getId().toString());
+			map.put(user.getOpenid(), user.getId());
 		}
 		return map;
 	}
@@ -125,5 +132,40 @@ public class WeixinService {
 			e.printStackTrace();
 		}
 		return "失败！";
+	}
+
+	public Object getUserInfo(String code, String status) {
+		/**
+		 * 根据获得的code去得到用户的openid
+		 */
+		final String openId = MarkUtils.getAuthJsonobject(code);
+		if (openId == null) {
+			return null;
+		}
+		/**
+		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行
+		 */
+		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
+			multiExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
+							openId);
+					User user = new User();
+					user.setCity(userInfo.getString("city"));
+					user.setProvince(userInfo.getString("province"));
+					user.setNickname(userInfo.getString("nickname"));
+					user.setGender(userInfo.getString("sex"));
+					user.setHeadImgUrl(userInfo.getString("headimgurl"));
+					user.setOpenid(userInfo.getString("openid"));
+					int i = userMapper.insert(user);
+					if (i > 0) {
+						markInfoMap.get("userIdMap").put(openId, user.getId());
+					}
+				}
+			});
+		}
+
+		return openId;
 	}
 }
