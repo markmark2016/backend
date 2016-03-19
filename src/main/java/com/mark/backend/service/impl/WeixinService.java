@@ -143,7 +143,7 @@ public class WeixinService {
 			return null;
 		}
 		/**
-		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行
+		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行,若存在，更新用户除了openid的所有信息
 		 */
 		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
 			multiExecutor.execute(new Runnable() {
@@ -152,6 +152,8 @@ public class WeixinService {
 					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
 							openId);
 					User user = new User();
+					user.setCreateTime(MarkUtils.getCurrentTime());
+					user.setUpdateTime(user.getCreateTime());
 					user.setCity(userInfo.getString("city"));
 					user.setProvince(userInfo.getString("province"));
 					user.setNickname(userInfo.getString("nickname"));
@@ -164,8 +166,26 @@ public class WeixinService {
 					}
 				}
 			});
+		} else {
+			multiExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
+							openId);
+					User user = new User();
+					user.setUpdateTime(MarkUtils.getCurrentTime());
+					user.setCity(userInfo.getString("city"));
+					user.setProvince(userInfo.getString("province"));
+					user.setNickname(userInfo.getString("nickname"));
+					user.setGender(userInfo.getString("sex"));
+					user.setHeadImgUrl(userInfo.getString("headimgurl"));
+					user.setOpenid(userInfo.getString("openid"));
+					UserExample ex = new UserExample();
+					ex.createCriteria().andOpenidEqualTo(openId);
+					userMapper.updateByExampleSelective(user, ex);
+				}
+			});
 		}
-
 		return openId;
 	}
 }
