@@ -158,6 +158,58 @@ public class MarkUtils {
 		return null;
 	}
 
+	public static String getAuthJsonobject(String code) {
+		String url = Constans.GET_ACUTH_ACCESSTOKEN_URL + code;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = null;
+
+		try {
+			response = httpClient.execute(get);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				LOGGER.error("response error, status:{}", statusCode);
+				return null;
+			}
+			if (entity != null) {
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+				JSONObject json = JSONObject.parseObject(content);
+				String openId = json.getString("openid");
+				return openId;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static JSONObject getUserInfo(String accessToken, String openId) {
+		String url = Constans.GET_USERINFO + accessToken + "&openid=" + openId;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(get);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				LOGGER.error("response error, status:{}", statusCode);
+				return null;
+			}
+			if (entity != null) {
+				// 响应内容
+				String content = EntityUtils.toString(entity, "UTF-8");
+				JSONObject json = JSONObject.parseObject(content);
+				return json;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void main(String[] args) {
 		getAccessToken();
 	}
