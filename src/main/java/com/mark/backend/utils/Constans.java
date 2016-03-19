@@ -14,6 +14,13 @@ public class Constans {
 	 */
 	public static String GET_ACCESSTOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
 			+ APPID + "&secret=" + SECRET;
+	public static String GET_ACUTH_ACCESSTOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+			+ APPID
+			+ "&secret="
+			+ SECRET
+			+ "&grant_type=authorization_code&code=";
+
+	public static String GET_USERINFO = "https://api.weixin.qq.com/cgi-bin/user/info?lang=zh_CN&access_token=";
 	/**
 	 * ACCESS_TOKEN有效时间(单位：ms)
 	 */
