@@ -13,6 +13,11 @@ public class UserDto {
 	private Long id;
 	private String nickName;
 	private String headImage;
+	private String intro;
+	private String totalGroup;
+	private Integer totalRemark;
+	private Integer totalRead;
+	private Integer punch;
 	private boolean isLeader;
 
 	public Long getId() {
@@ -37,6 +42,46 @@ public class UserDto {
 
 	public void setHeadImage(String headImage) {
 		this.headImage = headImage;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public String getTotalGroup() {
+		return totalGroup;
+	}
+
+	public void setTotalGroup(String totalGroup) {
+		this.totalGroup = totalGroup;
+	}
+
+	public Integer getTotalRemark() {
+		return totalRemark;
+	}
+
+	public void setTotalRemark(Integer totalRemark) {
+		this.totalRemark = totalRemark;
+	}
+
+	public Integer getTotalRead() {
+		return totalRead;
+	}
+
+	public void setTotalRead(Integer totalRead) {
+		this.totalRead = totalRead;
+	}
+
+	public Integer getPunch() {
+		return punch;
+	}
+
+	public void setPunch(Integer punch) {
+		this.punch = punch;
 	}
 
 	public boolean isLeader() {
