@@ -13,4 +13,12 @@ public interface UserExMapper {
 	 * @return
 	 */
 	public List<UserDto> queryUserList(Map<String, Object> params);
+
+	/**
+	 * 点击用户页返回的信息
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public UserDto queryUserPageInfo(Map<String, Object> params);
 }

@@ -47,4 +47,10 @@ public class UserServiceImpl implements IUserService {
 		List<User> userList = userMapper.selectByExample(ue);
 		return userList;
 	}
+
+	@Override
+	public UserDto queryUserPageInfo(Map<String, Object> params) {
+		UserDto dto = uexMapper.queryUserPageInfo(params);
+		return dto;
+	}
 }

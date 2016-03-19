@@ -38,10 +38,8 @@
 		<if test="associationId != null">
 			AND tag.status != 0
 			AND tag.association_id_fk = ta.id
-			AND ta.id = ${associationId}
+			AND
+			ta.id = ${associationId}
 		</if>
-
 	</select>
-
-
 </mapper>
