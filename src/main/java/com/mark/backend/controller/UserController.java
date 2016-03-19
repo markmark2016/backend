@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
+import com.mark.backend.service.IBookService;
 import com.mark.backend.service.IUserService;
 import com.mark.backend.service.impl.WeixinService;
 
@@ -23,6 +24,8 @@ import com.mark.backend.service.impl.WeixinService;
 public class UserController {
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IBookService bookService;
 
 	/**
 	 * 获得用户信息
@@ -49,15 +52,20 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/profile/{openId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/details/{openId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object getUserProfile(@PathVariable("openId") String openId, Model model) {
+	Object getUserDetails(@PathVariable("openId") String openId, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId",
+				WeixinService.markInfoMap.get("userIdMap").get(openId));
+		params.clear();
+		Map<String, Object> bookMap = bookService.getUserBookList(params);
 		User user = userService.getUserByOpenId(openId);
-		System.out.println(WeixinService.markInfoMap.get("userIdMap").get(
-				openId));
+		params.put("user", user);
+		params.put("bookList", bookMap);
 		map.put("status", 1);
-		map.put("data", user);
+		map.put("data", params);
 		return map;
 	}
 
