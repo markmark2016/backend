@@ -1,485 +1,482 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mark.backend.mysql.mapper.GroupMapper">
-	<resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Group">
-		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
-		<result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
-		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
-		<result column="frequency" property="frequency" jdbcType="VARCHAR" />
-		<result column="latest_time" property="latestTime" jdbcType="TIMESTAMP" />
-		<result column="book_id_fk" property="bookIdFk" jdbcType="VARCHAR" />
-		<result column="book_name" property="bookName" jdbcType="VARCHAR" />
-		<result column="book_brief" property="bookBrief" jdbcType="VARCHAR" />
-		<result column="read_slogan" property="readSlogan" jdbcType="VARCHAR" />
-		<result column="group_desc" property="groupDesc" jdbcType="VARCHAR" />
-		<result column="captain_brief" property="captainBrief"
-			jdbcType="VARCHAR" />
-		<result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
-		<result column="captain_email" property="captainEmail"
-			jdbcType="VARCHAR" />
-		<result column="captain_wecode" property="captainWecode"
-			jdbcType="VARCHAR" />
-		<result column="captain_phone" property="captainPhone"
-			jdbcType="VARCHAR" />
-		<result column="group_mode" property="groupMode" jdbcType="VARCHAR" />
-		<result column="status" property="status" jdbcType="CHAR" />
-	</resultMap>
-	<sql id="Example_Where_Clause">
-		<where>
-			<foreach collection="oredCriteria" item="criteria" separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
-									#{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Update_By_Example_Where_Clause">
-		<where>
-			<foreach collection="example.oredCriteria" item="criteria"
-				separator="or">
-				<if test="criteria.valid">
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<foreach collection="criteria.criteria" item="criterion">
-							<choose>
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
-									#{criterion.secondValue}
-								</when>
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-	<sql id="Base_Column_List">
-		id, create_time, update_time, group_name, begin_time, end_time,
-		guarantee, frequency,
-		latest_time, book_id_fk, book_name, book_brief, read_slogan, group_desc,
-		captain_brief,
-		user_id_fk, captain_email, captain_wecode, captain_phone, group_mode, status
-	</sql>
-	<select id="selectByExample" resultMap="BaseResultMap"
-		parameterType="com.mark.backend.mysql.po.GroupExample">
-		select
-		<if test="distinct">
-			distinct
-		</if>
-		'true' as QUERYID,
-		<include refid="Base_Column_List" />
-		from t_group
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-		<include refid="Base_Column_List" />
-		from t_group
-		where id = #{id,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from t_group
-		where id = #{id,jdbcType=BIGINT}
-	</delete>
-	<delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.GroupExample">
-		delete from t_group
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</delete>
-	<insert id="insert" parameterType="com.mark.backend.mysql.po.Group"
-		useGeneratedKeys="true" keyProperty="id">
-		insert into t_group (id, create_time, update_time,
-		group_name, begin_time, end_time,
-		guarantee, frequency, latest_time,
-		book_id_fk, book_name, book_brief,
-		read_slogan, group_desc, captain_brief,
-		user_id_fk, captain_email, captain_wecode,
-		captain_phone, group_mode, status
-		)
-		values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-		#{updateTime,jdbcType=TIMESTAMP},
-		#{groupName,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
-		#{guarantee,jdbcType=INTEGER}, #{frequency,jdbcType=VARCHAR},
-		#{latestTime,jdbcType=TIMESTAMP},
-		#{bookIdFk,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}, #{bookBrief,jdbcType=VARCHAR},
-		#{readSlogan,jdbcType=VARCHAR}, #{groupDesc,jdbcType=VARCHAR},
-		#{captainBrief,jdbcType=VARCHAR},
-		#{userIdFk,jdbcType=BIGINT}, #{captainEmail,jdbcType=VARCHAR}, #{captainWecode,jdbcType=VARCHAR},
-		#{captainPhone,jdbcType=VARCHAR}, #{groupMode,jdbcType=VARCHAR},
-		#{status,jdbcType=CHAR}
-		)
-	</insert>
-	<insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Group">
-		insert into t_group
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="createTime != null">
-				create_time,
-			</if>
-			<if test="updateTime != null">
-				update_time,
-			</if>
-			<if test="groupName != null">
-				group_name,
-			</if>
-			<if test="beginTime != null">
-				begin_time,
-			</if>
-			<if test="endTime != null">
-				end_time,
-			</if>
-			<if test="guarantee != null">
-				guarantee,
-			</if>
-			<if test="frequency != null">
-				frequency,
-			</if>
-			<if test="latestTime != null">
-				latest_time,
-			</if>
-			<if test="bookIdFk != null">
-				book_id_fk,
-			</if>
-			<if test="bookName != null">
-				book_name,
-			</if>
-			<if test="bookBrief != null">
-				book_brief,
-			</if>
-			<if test="readSlogan != null">
-				read_slogan,
-			</if>
-			<if test="groupDesc != null">
-				group_desc,
-			</if>
-			<if test="captainBrief != null">
-				captain_brief,
-			</if>
-			<if test="userIdFk != null">
-				user_id_fk,
-			</if>
-			<if test="captainEmail != null">
-				captain_email,
-			</if>
-			<if test="captainWecode != null">
-				captain_wecode,
-			</if>
-			<if test="captainPhone != null">
-				captain_phone,
-			</if>
-			<if test="groupMode != null">
-				group_mode,
-			</if>
-			<if test="status != null">
-				status,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=BIGINT},
-			</if>
-			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateTime != null">
-				#{updateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="groupName != null">
-				#{groupName,jdbcType=VARCHAR},
-			</if>
-			<if test="beginTime != null">
-				#{beginTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="endTime != null">
-				#{endTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="guarantee != null">
-				#{guarantee,jdbcType=INTEGER},
-			</if>
-			<if test="frequency != null">
-				#{frequency,jdbcType=VARCHAR},
-			</if>
-			<if test="latestTime != null">
-				#{latestTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="bookIdFk != null">
-				#{bookIdFk,jdbcType=VARCHAR},
-			</if>
-			<if test="bookName != null">
-				#{bookName,jdbcType=VARCHAR},
-			</if>
-			<if test="bookBrief != null">
-				#{bookBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="readSlogan != null">
-				#{readSlogan,jdbcType=VARCHAR},
-			</if>
-			<if test="groupDesc != null">
-				#{groupDesc,jdbcType=VARCHAR},
-			</if>
-			<if test="captainBrief != null">
-				#{captainBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="userIdFk != null">
-				#{userIdFk,jdbcType=BIGINT},
-			</if>
-			<if test="captainEmail != null">
-				#{captainEmail,jdbcType=VARCHAR},
-			</if>
-			<if test="captainWecode != null">
-				#{captainWecode,jdbcType=VARCHAR},
-			</if>
-			<if test="captainPhone != null">
-				#{captainPhone,jdbcType=VARCHAR},
-			</if>
-			<if test="groupMode != null">
-				#{groupMode,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				#{status,jdbcType=CHAR},
-			</if>
-		</trim>
-	</insert>
-	<select id="countByExample" parameterType="com.mark.backend.mysql.po.GroupExample"
-		resultType="java.lang.Integer">
-		select count(*) from t_group
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</select>
-	<update id="updateByExampleSelective" parameterType="map">
-		update t_group
-		<set>
-			<if test="record.id != null">
-				id = #{record.id,jdbcType=BIGINT},
-			</if>
-			<if test="record.createTime != null">
-				create_time = #{record.createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.updateTime != null">
-				update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.groupName != null">
-				group_name = #{record.groupName,jdbcType=VARCHAR},
-			</if>
-			<if test="record.beginTime != null">
-				begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.endTime != null">
-				end_time = #{record.endTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.guarantee != null">
-				guarantee = #{record.guarantee,jdbcType=INTEGER},
-			</if>
-			<if test="record.frequency != null">
-				frequency = #{record.frequency,jdbcType=VARCHAR},
-			</if>
-			<if test="record.latestTime != null">
-				latest_time = #{record.latestTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.bookIdFk != null">
-				book_id_fk = #{record.bookIdFk,jdbcType=VARCHAR},
-			</if>
-			<if test="record.bookName != null">
-				book_name = #{record.bookName,jdbcType=VARCHAR},
-			</if>
-			<if test="record.bookBrief != null">
-				book_brief = #{record.bookBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="record.readSlogan != null">
-				read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
-			</if>
-			<if test="record.groupDesc != null">
-				group_desc = #{record.groupDesc,jdbcType=VARCHAR},
-			</if>
-			<if test="record.captainBrief != null">
-				captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="record.userIdFk != null">
-				user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-			</if>
-			<if test="record.captainEmail != null">
-				captain_email = #{record.captainEmail,jdbcType=VARCHAR},
-			</if>
-			<if test="record.captainWecode != null">
-				captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
-			</if>
-			<if test="record.captainPhone != null">
-				captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
-			</if>
-			<if test="record.groupMode != null">
-				group_mode = #{record.groupMode,jdbcType=VARCHAR},
-			</if>
-			<if test="record.status != null">
-				status = #{record.status,jdbcType=CHAR},
-			</if>
-		</set>
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByExample" parameterType="map">
-		update t_group
-		set id = #{record.id,jdbcType=BIGINT},
-		create_time = #{record.createTime,jdbcType=TIMESTAMP},
-		update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-		group_name = #{record.groupName,jdbcType=VARCHAR},
-		begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-		end_time = #{record.endTime,jdbcType=TIMESTAMP},
-		guarantee = #{record.guarantee,jdbcType=INTEGER},
-		frequency = #{record.frequency,jdbcType=VARCHAR},
-		latest_time = #{record.latestTime,jdbcType=TIMESTAMP},
-		book_id_fk = #{record.bookIdFk,jdbcType=VARCHAR},
-		book_name = #{record.bookName,jdbcType=VARCHAR},
-		book_brief = #{record.bookBrief,jdbcType=VARCHAR},
-		read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
-		group_desc = #{record.groupDesc,jdbcType=VARCHAR},
-		captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
-		user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-		captain_email = #{record.captainEmail,jdbcType=VARCHAR},
-		captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
-		captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
-		group_mode = #{record.groupMode,jdbcType=VARCHAR},
-		status = #{record.status,jdbcType=CHAR}
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-	<update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Group">
-		update t_group
-		<set>
-			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updateTime != null">
-				update_time = #{updateTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="groupName != null">
-				group_name = #{groupName,jdbcType=VARCHAR},
-			</if>
-			<if test="beginTime != null">
-				begin_time = #{beginTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="endTime != null">
-				end_time = #{endTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="guarantee != null">
-				guarantee = #{guarantee,jdbcType=INTEGER},
-			</if>
-			<if test="frequency != null">
-				frequency = #{frequency,jdbcType=VARCHAR},
-			</if>
-			<if test="latestTime != null">
-				latest_time = #{latestTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="bookIdFk != null">
-				book_id_fk = #{bookIdFk,jdbcType=VARCHAR},
-			</if>
-			<if test="bookName != null">
-				book_name = #{bookName,jdbcType=VARCHAR},
-			</if>
-			<if test="bookBrief != null">
-				book_brief = #{bookBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="readSlogan != null">
-				read_slogan = #{readSlogan,jdbcType=VARCHAR},
-			</if>
-			<if test="groupDesc != null">
-				group_desc = #{groupDesc,jdbcType=VARCHAR},
-			</if>
-			<if test="captainBrief != null">
-				captain_brief = #{captainBrief,jdbcType=VARCHAR},
-			</if>
-			<if test="userIdFk != null">
-				user_id_fk = #{userIdFk,jdbcType=BIGINT},
-			</if>
-			<if test="captainEmail != null">
-				captain_email = #{captainEmail,jdbcType=VARCHAR},
-			</if>
-			<if test="captainWecode != null">
-				captain_wecode = #{captainWecode,jdbcType=VARCHAR},
-			</if>
-			<if test="captainPhone != null">
-				captain_phone = #{captainPhone,jdbcType=VARCHAR},
-			</if>
-			<if test="groupMode != null">
-				group_mode = #{groupMode,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=CHAR},
-			</if>
-		</set>
-		where id = #{id,jdbcType=BIGINT}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Group">
-		update t_group
-		set create_time = #{createTime,jdbcType=TIMESTAMP},
-		update_time = #{updateTime,jdbcType=TIMESTAMP},
-		group_name = #{groupName,jdbcType=VARCHAR},
-		begin_time = #{beginTime,jdbcType=TIMESTAMP},
-		end_time = #{endTime,jdbcType=TIMESTAMP},
-		guarantee = #{guarantee,jdbcType=INTEGER},
-		frequency = #{frequency,jdbcType=VARCHAR},
-		latest_time = #{latestTime,jdbcType=TIMESTAMP},
-		book_id_fk = #{bookIdFk,jdbcType=VARCHAR},
-		book_name = #{bookName,jdbcType=VARCHAR},
-		book_brief = #{bookBrief,jdbcType=VARCHAR},
-		read_slogan = #{readSlogan,jdbcType=VARCHAR},
-		group_desc = #{groupDesc,jdbcType=VARCHAR},
-		captain_brief = #{captainBrief,jdbcType=VARCHAR},
-		user_id_fk = #{userIdFk,jdbcType=BIGINT},
-		captain_email = #{captainEmail,jdbcType=VARCHAR},
-		captain_wecode = #{captainWecode,jdbcType=VARCHAR},
-		captain_phone = #{captainPhone,jdbcType=VARCHAR},
-		group_mode = #{groupMode,jdbcType=VARCHAR},
-		status = #{status,jdbcType=CHAR}
-		where id = #{id,jdbcType=BIGINT}
-	</update>
+<mapper namespace="com.mark.backend.mysql.mapper.GroupMapper" >
+  <resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Group" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="guarantee" property="guarantee" jdbcType="INTEGER" />
+    <result column="frequency" property="frequency" jdbcType="VARCHAR" />
+    <result column="latest_time" property="latestTime" jdbcType="TIMESTAMP" />
+    <result column="book_id_fk" property="bookIdFk" jdbcType="VARCHAR" />
+    <result column="book_brief" property="bookBrief" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="read_slogan" property="readSlogan" jdbcType="VARCHAR" />
+    <result column="group_desc" property="groupDesc" jdbcType="VARCHAR" />
+    <result column="captain_brief" property="captainBrief" jdbcType="VARCHAR" />
+    <result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
+    <result column="captain_name" property="captainName" jdbcType="VARCHAR" />
+    <result column="captain_email" property="captainEmail" jdbcType="VARCHAR" />
+    <result column="captain_wecode" property="captainWecode" jdbcType="VARCHAR" />
+    <result column="captain_phone" property="captainPhone" jdbcType="VARCHAR" />
+    <result column="group_mode" property="groupMode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, begin_time, end_time, group_name, guarantee, frequency, 
+    latest_time, book_id_fk, book_brief, book_name, read_slogan, group_desc, captain_brief, 
+    user_id_fk, captain_name, captain_email, captain_wecode, captain_phone, group_mode, 
+    status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.GroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_group
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_group
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.GroupExample" >
+    delete from t_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mark.backend.mysql.po.Group" >
+    insert into t_group (id, create_time, update_time, 
+      begin_time, end_time, group_name, 
+      guarantee, frequency, latest_time, 
+      book_id_fk, book_brief, book_name, 
+      read_slogan, group_desc, captain_brief, 
+      user_id_fk, captain_name, captain_email, 
+      captain_wecode, captain_phone, group_mode, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{groupName,jdbcType=VARCHAR}, 
+      #{guarantee,jdbcType=INTEGER}, #{frequency,jdbcType=VARCHAR}, #{latestTime,jdbcType=TIMESTAMP}, 
+      #{bookIdFk,jdbcType=VARCHAR}, #{bookBrief,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}, 
+      #{readSlogan,jdbcType=VARCHAR}, #{groupDesc,jdbcType=VARCHAR}, #{captainBrief,jdbcType=VARCHAR}, 
+      #{userIdFk,jdbcType=BIGINT}, #{captainName,jdbcType=VARCHAR}, #{captainEmail,jdbcType=VARCHAR}, 
+      #{captainWecode,jdbcType=VARCHAR}, #{captainPhone,jdbcType=VARCHAR}, #{groupMode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Group" >
+    insert into t_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="beginTime != null" >
+        begin_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="guarantee != null" >
+        guarantee,
+      </if>
+      <if test="frequency != null" >
+        frequency,
+      </if>
+      <if test="latestTime != null" >
+        latest_time,
+      </if>
+      <if test="bookIdFk != null" >
+        book_id_fk,
+      </if>
+      <if test="bookBrief != null" >
+        book_brief,
+      </if>
+      <if test="bookName != null" >
+        book_name,
+      </if>
+      <if test="readSlogan != null" >
+        read_slogan,
+      </if>
+      <if test="groupDesc != null" >
+        group_desc,
+      </if>
+      <if test="captainBrief != null" >
+        captain_brief,
+      </if>
+      <if test="userIdFk != null" >
+        user_id_fk,
+      </if>
+      <if test="captainName != null" >
+        captain_name,
+      </if>
+      <if test="captainEmail != null" >
+        captain_email,
+      </if>
+      <if test="captainWecode != null" >
+        captain_wecode,
+      </if>
+      <if test="captainPhone != null" >
+        captain_phone,
+      </if>
+      <if test="groupMode != null" >
+        group_mode,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="guarantee != null" >
+        #{guarantee,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="latestTime != null" >
+        #{latestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookIdFk != null" >
+        #{bookIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="bookBrief != null" >
+        #{bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="readSlogan != null" >
+        #{readSlogan,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="captainBrief != null" >
+        #{captainBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdFk != null" >
+        #{userIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="captainName != null" >
+        #{captainName,jdbcType=VARCHAR},
+      </if>
+      <if test="captainEmail != null" >
+        #{captainEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="captainWecode != null" >
+        #{captainWecode,jdbcType=VARCHAR},
+      </if>
+      <if test="captainPhone != null" >
+        #{captainPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMode != null" >
+        #{groupMode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mark.backend.mysql.po.GroupExample" resultType="java.lang.Integer" >
+    select count(*) from t_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_group
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.beginTime != null" >
+        begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.groupName != null" >
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.guarantee != null" >
+        guarantee = #{record.guarantee,jdbcType=INTEGER},
+      </if>
+      <if test="record.frequency != null" >
+        frequency = #{record.frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latestTime != null" >
+        latest_time = #{record.latestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bookIdFk != null" >
+        book_id_fk = #{record.bookIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookBrief != null" >
+        book_brief = #{record.bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookName != null" >
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readSlogan != null" >
+        read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupDesc != null" >
+        group_desc = #{record.groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captainBrief != null" >
+        captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIdFk != null" >
+        user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="record.captainName != null" >
+        captain_name = #{record.captainName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captainEmail != null" >
+        captain_email = #{record.captainEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captainWecode != null" >
+        captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captainPhone != null" >
+        captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupMode != null" >
+        group_mode = #{record.groupMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_group
+    set id = #{record.id,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      guarantee = #{record.guarantee,jdbcType=INTEGER},
+      frequency = #{record.frequency,jdbcType=VARCHAR},
+      latest_time = #{record.latestTime,jdbcType=TIMESTAMP},
+      book_id_fk = #{record.bookIdFk,jdbcType=VARCHAR},
+      book_brief = #{record.bookBrief,jdbcType=VARCHAR},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
+      group_desc = #{record.groupDesc,jdbcType=VARCHAR},
+      captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
+      user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+      captain_name = #{record.captainName,jdbcType=VARCHAR},
+      captain_email = #{record.captainEmail,jdbcType=VARCHAR},
+      captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
+      captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
+      group_mode = #{record.groupMode,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Group" >
+    update t_group
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="guarantee != null" >
+        guarantee = #{guarantee,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null" >
+        frequency = #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="latestTime != null" >
+        latest_time = #{latestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookIdFk != null" >
+        book_id_fk = #{bookIdFk,jdbcType=VARCHAR},
+      </if>
+      <if test="bookBrief != null" >
+        book_brief = #{bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="readSlogan != null" >
+        read_slogan = #{readSlogan,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        group_desc = #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="captainBrief != null" >
+        captain_brief = #{captainBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdFk != null" >
+        user_id_fk = #{userIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="captainName != null" >
+        captain_name = #{captainName,jdbcType=VARCHAR},
+      </if>
+      <if test="captainEmail != null" >
+        captain_email = #{captainEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="captainWecode != null" >
+        captain_wecode = #{captainWecode,jdbcType=VARCHAR},
+      </if>
+      <if test="captainPhone != null" >
+        captain_phone = #{captainPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMode != null" >
+        group_mode = #{groupMode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Group" >
+    update t_group
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      guarantee = #{guarantee,jdbcType=INTEGER},
+      frequency = #{frequency,jdbcType=VARCHAR},
+      latest_time = #{latestTime,jdbcType=TIMESTAMP},
+      book_id_fk = #{bookIdFk,jdbcType=VARCHAR},
+      book_brief = #{bookBrief,jdbcType=VARCHAR},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      read_slogan = #{readSlogan,jdbcType=VARCHAR},
+      group_desc = #{groupDesc,jdbcType=VARCHAR},
+      captain_brief = #{captainBrief,jdbcType=VARCHAR},
+      user_id_fk = #{userIdFk,jdbcType=BIGINT},
+      captain_name = #{captainName,jdbcType=VARCHAR},
+      captain_email = #{captainEmail,jdbcType=VARCHAR},
+      captain_wecode = #{captainWecode,jdbcType=VARCHAR},
+      captain_phone = #{captainPhone,jdbcType=VARCHAR},
+      group_mode = #{groupMode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

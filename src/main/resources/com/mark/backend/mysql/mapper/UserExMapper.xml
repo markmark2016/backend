@@ -24,7 +24,8 @@
 			,
 			t_group_user tgu
 			WHERE
-			tu.id = tgu.user_id_fk
+			tu.id = tgu.user_id_fk AND
+			tgu.group_id_fk = ${groupId}
 		</if>
 	</select>
 	<select id="queryUserPageInfo" parameterType="java.util.Map"

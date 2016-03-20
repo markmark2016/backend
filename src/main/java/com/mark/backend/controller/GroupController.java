@@ -131,7 +131,7 @@ public class GroupController {
 		params.put("groupId", groupId);
 		List<UserDto> dtoList = userService.queryUserList(params);
 		params.put("status", "1");
-		params.put("msg", "已退出");
+		params.put("msg", "sucess");
 		params.put("data", dtoList);
 		return params;
 	}

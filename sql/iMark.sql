@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/19 22:07:10                           */
+/* Created on:     2016/3/20 11:57:04                           */
 /*==============================================================*/
 
 
@@ -123,6 +123,7 @@ create table t_group
    book_name            varchar(50),
    read_slogan          varchar(2014) comment '读书标语',
    group_desc           varchar(144) comment '小组简介',
+   captain_name         varchar(200),
    captain_brief        varchar(144) comment '领读人简介',
    user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
    captain_email        varchar(250),
