@@ -10,6 +10,7 @@ package com.mark.backend.dto;
  * 
  */
 public class UserDto {
+	private Integer num;
 	private Long id;
 	private String nickName;
 	private String headImage;
@@ -19,6 +20,15 @@ public class UserDto {
 	private Integer totalRead;
 	private Integer punch;
 	private boolean isLeader;
+	private Integer score;
+
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 
 	public Long getId() {
 		return id;
@@ -90,6 +100,14 @@ public class UserDto {
 
 	public void setLeader(boolean isLeader) {
 		this.isLeader = isLeader;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
 }

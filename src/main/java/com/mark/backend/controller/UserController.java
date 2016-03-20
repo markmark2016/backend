@@ -119,13 +119,12 @@ public class UserController {
 	public @ResponseBody
 	Object usersRank(@PathVariable("openId") String openId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (true) {
-			map.put("status", 1);
-			map.put("msg", "更新成功");
-		} else {
-			map.put("status", 1);
-			map.put("msg", "更新失败");
-		}
+		Map<String, Object> rankMap = userService
+				.getRankInfo((Long) WeixinService.markInfoMap.get("userIdMap")
+						.get(openId));
+		map.put("status", 1);
+		map.put("msg", "sucess");
+		map.put("data", rankMap);
 		return map;
 	}
 

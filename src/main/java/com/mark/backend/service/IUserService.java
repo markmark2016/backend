@@ -70,4 +70,20 @@ public interface IUserService {
 	 * @return
 	 */
 	List<GroupDto> getUserReadedList(Long userId);
+
+	/**
+	 * 获得用户全站排名
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Integer getUserRank(Long userId);
+
+	/**
+	 * 排名信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Map<String, Object> getRankInfo(Long userId);
 }

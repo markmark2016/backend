@@ -14,6 +14,7 @@ import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.mapper.ScoreExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
@@ -32,6 +33,8 @@ public class UserServiceImpl implements IUserService {
 	private GroupExMapper gexMapper;
 	@Resource
 	private AssociationExMapper aexMapper;
+	@Resource
+	private ScoreExMapper sexMapper;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -116,5 +119,21 @@ public class UserServiceImpl implements IUserService {
 			}
 		}
 		return finalgdtoList;
+	}
+
+	@Override
+	public Integer getUserRank(Long userId) {
+		int rank = sexMapper.getUserRank(userId);
+		return rank;
+	}
+
+	@Override
+	public Map<String, Object> getRankInfo(Long userId) {
+		int rank = this.getUserRank(userId);
+		List<UserDto> rankList = sexMapper.getAllScoreList();
+		Map<String, Object> rankMap = new HashMap<String, Object>();
+		rankMap.put("rank", rank);
+		rankMap.put("ranklist", rankList);
+		return rankMap;
 	}
 }
