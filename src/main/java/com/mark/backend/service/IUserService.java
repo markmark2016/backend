@@ -3,6 +3,7 @@ package com.mark.backend.service;
 import java.util.List;
 import java.util.Map;
 
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 
@@ -61,4 +62,12 @@ public interface IUserService {
 	 * @return
 	 */
 	Map<String, Object> getUserGroupDetail(Long userId);
+
+	/**
+	 * 获取用户已读列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<GroupDto> getUserReadedList(Long userId);
 }

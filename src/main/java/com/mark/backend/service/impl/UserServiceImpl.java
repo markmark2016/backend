@@ -105,4 +105,16 @@ public class UserServiceImpl implements IUserService {
 		params.put("associationList", assdtoList);
 		return params;
 	}
+
+	@Override
+	public List<GroupDto> getUserReadedList(Long userId) {
+		List<GroupDto> gdtoList = gexMapper.getUserGroupList(userId);
+		List<GroupDto> finalgdtoList = new ArrayList<GroupDto>();
+		for (GroupDto groupDto : gdtoList) {
+			if ("2".equals(groupDto.getUserStatus())) {
+				finalgdtoList.add(groupDto);
+			}
+		}
+		return finalgdtoList;
+	}
 }

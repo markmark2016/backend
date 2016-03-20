@@ -175,16 +175,23 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/book", method = RequestMethod.GET)
+	@RequestMapping(value = "/{openId}/readed", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersTotalRead(@PathVariable("openId") String openId) {
+	Object usersReaded(@PathVariable("openId") String openId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (true) {
+		Map<String, Object> dtoMap = new HashMap<String, Object>();
+		List<GroupDto> dtoList = userService
+				.getUserReadedList((Long) WeixinService.markInfoMap.get(
+						"userIdMap").get(openId));
+		dtoMap.put("groupList", dtoList);
+		dtoMap.put("totalRead", dtoList.size());
+		if (dtoList.size() > 0) {
 			map.put("status", 1);
-			map.put("msg", "更新成功");
+			map.put("msg", "success");
+			map.put("data", dtoMap);
 		} else {
-			map.put("status", 1);
-			map.put("msg", "更新失败");
+			map.put("status", 0);
+			map.put("msg", "无已读书籍");
 		}
 		return map;
 	}
