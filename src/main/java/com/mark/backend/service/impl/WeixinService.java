@@ -143,7 +143,7 @@ public class WeixinService {
 			return null;
 		}
 		/**
-		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行,若存在，更新用户除了openid的所有信息
+		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行,若存在，更新用户的昵称和头像信息
 		 */
 		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
 			multiExecutor.execute(new Runnable() {
@@ -174,12 +174,12 @@ public class WeixinService {
 							openId);
 					User user = new User();
 					user.setUpdateTime(MarkUtils.getCurrentTime());
-					user.setCity(userInfo.getString("city"));
-					user.setProvince(userInfo.getString("province"));
+					// user.setCity(userInfo.getString("city"));
+					// user.setProvince(userInfo.getString("province"));
 					user.setNickname(userInfo.getString("nickname"));
-					user.setGender(userInfo.getString("sex"));
+					// user.setGender(userInfo.getString("sex"));
 					user.setHeadImgUrl(userInfo.getString("headimgurl"));
-					user.setOpenid(userInfo.getString("openid"));
+					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
 					ex.createCriteria().andOpenidEqualTo(openId);
 					userMapper.updateByExampleSelective(user, ex);

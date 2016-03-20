@@ -45,4 +45,12 @@ public interface IUserService {
 	 * @return
 	 */
 	UserDto queryUserPageInfo(Map<String, Object> params);
+
+	/**
+	 * 更新用户详细信息
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	Integer updateUserDetailInfo(String openId, User user);
 }

@@ -13,6 +13,7 @@ import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
 import com.mark.backend.service.IUserService;
+import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -52,5 +53,14 @@ public class UserServiceImpl implements IUserService {
 	public UserDto queryUserPageInfo(Map<String, Object> params) {
 		UserDto dto = uexMapper.queryUserPageInfo(params);
 		return dto;
+	}
+
+	@Override
+	public Integer updateUserDetailInfo(String openId, User user) {
+		UserExample ex = new UserExample();
+		ex.createCriteria().andOpenidEqualTo(openId);
+		user.setUpdateTime(MarkUtils.getCurrentTime());
+		int i = userMapper.updateByExampleSelective(user, ex);
+		return i;
 	}
 }
