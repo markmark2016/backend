@@ -2,6 +2,7 @@ package com.mark.backend.mysql.mapper;
 
 import java.util.List;
 
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
 
 public interface ScoreExMapper {
@@ -19,4 +20,12 @@ public interface ScoreExMapper {
 	 * @return
 	 */
 	public Integer getUserRank(Long userId);
+
+	/**
+	 * 获得用户各个小组的积分
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<GroupDto> getUserGroupScore(Long userId);
 }

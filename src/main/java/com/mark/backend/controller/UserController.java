@@ -138,13 +138,12 @@ public class UserController {
 	public @ResponseBody
 	Object usersScore(@PathVariable("openId") String openId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (true) {
-			map.put("status", 1);
-			map.put("msg", "更新成功");
-		} else {
-			map.put("status", 1);
-			map.put("msg", "更新失败");
-		}
+		Map<String, Object> scoreMap = userService
+				.getUserGroupScoreInfo((Long) WeixinService.markInfoMap.get(
+						"userIdMap").get(openId));
+		map.put("status", 1);
+		map.put("msg", "success");
+		map.put("data", scoreMap);
 		return map;
 	}
 

@@ -80,10 +80,20 @@ public interface IUserService {
 	Integer getUserRank(Long userId);
 
 	/**
-	 * 排名信息
+	 * 全站排名信息
 	 * 
 	 * @param userId
 	 * @return
 	 */
 	Map<String, Object> getRankInfo(Long userId);
+
+	/**
+	 * 用户在小组的积分信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+
+	Map<String, Object> getUserGroupScoreInfo(Long userId);
+
 }

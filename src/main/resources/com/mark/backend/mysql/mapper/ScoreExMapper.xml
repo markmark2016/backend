@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mark.backend.mysql.mapper.ScoreExMapper">
+	<select id="getAllScoreList" resultType="com.mark.backend.dto.UserDto">
+		SELECT
+		(@rowNO := @rowNo
+		+ 1) AS num,
+		a.*
+		FROM
+		(
+		SELECT
+		tu.id,
+		head_img_url AS headImg,
+		tu.nickname,
+		sum(score) AS score
+		FROM
+		t_score ts,
+		t_user tu
+		WHERE
+		ts.user_id_fk = tu.id
+		GROUP BY
+		tu.id
+		ORDER BY
+		score DESC
+		) a,
+		(SELECT @rowNO
+		:= 0) b
+	</select>
+	<select id="getUserRank" resultType="int" parameterType="Long">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		(@rowNO := @rowNo + 1) AS num,
+		a.*
+		FROM
+		(
+		SELECT
+		tu.id,
+		head_img_url AS headImg,
+		tu.nickname,
+		sum(score) AS score
+		FROM
+		t_score ts,
+		t_user tu
+		WHERE
+		ts.user_id_fk = tu.id
+		GROUP BY
+		tu.id
+		ORDER BY
+		score DESC
+		) a,
+		(SELECT @rowNO := 0) b
+		) t
+		WHERE
+		t.id = #{userId}
+	</select>
+	<select id="getUserGroupScore" resultType="com.mark.backend.dto.GroupDto"
+		parameterType="Long">
+		SELECT
+		tg.id,
+		tg.group_name AS groupName,
+		tb.image AS
+		groupImage,
+		SUM(ts.score) AS score
+		FROM
+		t_score ts,
+		t_group tg,
+		t_book tb
+		WHERE
+		tg.id = ts.group_id_fk
+		AND tg.book_id_fk = tb.id
+		AND ts.user_id_fk
+		= #{userId}
+		GROUP BY
+		ts.group_id_fk
+		ORDER BY
+		score DESC
+	</select>
+</mapper>

@@ -136,4 +136,17 @@ public class UserServiceImpl implements IUserService {
 		rankMap.put("ranklist", rankList);
 		return rankMap;
 	}
+
+	@Override
+	public Map<String, Object> getUserGroupScoreInfo(Long userId) {
+		List<GroupDto> list = sexMapper.getUserGroupScore(userId);
+		int totalScore = 0;
+		for (GroupDto dto : list) {
+			totalScore += dto.getScore();
+		}
+		Map<String, Object> scoreMap = new HashMap<String, Object>();
+		scoreMap.put("totalScore", totalScore);
+		scoreMap.put("scorelist", list);
+		return scoreMap;
+	}
 }

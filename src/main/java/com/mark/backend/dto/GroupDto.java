@@ -70,6 +70,10 @@ public class GroupDto {
 	 * 用户咋小组的状态
 	 */
 	private String userStatus;
+	/**
+	 * 用户在该小组的积分
+	 */
+	private Integer score;
 
 	/**
 	 * 图书简介
@@ -194,6 +198,14 @@ public class GroupDto {
 
 	public void setUserStatus(String userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
 	public String getBookSummary() {
