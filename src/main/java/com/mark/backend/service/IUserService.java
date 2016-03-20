@@ -96,6 +96,21 @@ public interface IUserService {
 
 	Map<String, Object> getUserGroupScoreInfo(Long userId);
 
+	/**
+	 * 获得用户咋小组排名
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	Map<String, Object> getUserGroupRankInfo(Long userId);
+
+	/**
+	 * 获得用户咋小组排名详细信息
+	 * 
+	 * @param userId
+	 * @param groupId
+	 * @return
+	 */
+	Map<String, Object> getUserGroupRankInfoDetail(Long userId, Long groupId);
 
 }

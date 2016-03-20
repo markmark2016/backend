@@ -70,4 +70,13 @@
 		AND tgu.user_id_fk
 		= #{userId}
 	</select>
+	<select id="getTotalReader" parameterType="Long" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		t_group_user tgu
+		WHERE
+		tgu.user_status != 0
+		AND tgu.group_id_fk = 1
+	</select>
 </mapper>

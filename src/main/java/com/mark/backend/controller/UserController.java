@@ -129,6 +129,26 @@ public class UserController {
 	}
 
 	/**
+	 * 用户在小组内的具体排名
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/rank/{groupId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersRankInGroup(@PathVariable("openId") String openId,
+			@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> rankMap = userService.getUserGroupRankInfoDetail(
+				(Long) WeixinService.markInfoMap.get("userIdMap").get(openId),
+				groupId);
+		map.put("status", 1);
+		map.put("msg", "sucess");
+		map.put("data", rankMap);
+		return map;
+	}
+
+	/**
 	 * 用户的积分
 	 * 
 	 * @param openId

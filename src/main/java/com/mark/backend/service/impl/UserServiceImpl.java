@@ -176,4 +176,19 @@ public class UserServiceImpl implements IUserService {
 		rankMap.put("groupranklist", finalList);
 		return rankMap;
 	}
+
+	@Override
+	public Map<String, Object> getUserGroupRankInfoDetail(Long userId,
+			Long groupId) {
+		Integer totalReader = gexMapper.getTotalReader(groupId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("groupId", groupId);
+		GroupDto dto = gexMapper.queryGroupList(params).get(0);
+		dto.setTotoalReader(totalReader.toString());
+		List<UserDto> userList = sexMapper.getGroupUserScoreList(groupId);
+		params.clear();
+		params.put("groupinfo", dto);
+		params.put("userlist", userList);
+		return params;
+	}
 }

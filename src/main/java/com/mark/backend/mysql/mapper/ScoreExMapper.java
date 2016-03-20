@@ -44,4 +44,12 @@ public interface ScoreExMapper {
 	 * @return
 	 */
 	public List<GroupDto> getUserGroupRank(Long groupId);
+
+	/**
+	 * 获得小组内的用户积分榜
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public List<UserDto> getGroupUserScoreList(Long groupId);
 }

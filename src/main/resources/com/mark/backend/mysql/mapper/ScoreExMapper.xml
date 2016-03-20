@@ -111,4 +111,30 @@
 		ts.user_id_fk =
 		#{userId}
 	</select>
+	<select id="getGroupUserScoreList" resultType="com.mark.backend.dto.UserDto"
+		parameterType="Long">
+		SELECT
+		(@rowNO := @rowNo + 1) AS num,
+		a.*
+		FROM
+		(
+		SELECT
+		tu.id,
+		head_img_url AS headImg,
+		tu.nickname,
+		sum(score) AS score
+		FROM
+		t_score ts,
+		t_user tu
+		WHERE
+		ts.user_id_fk = tu.id
+		AND ts.group_id_fk =
+		#{groupId}
+		GROUP BY
+		tu.id
+		ORDER BY
+		score DESC
+		) a,
+		(SELECT @rowNO := 0) b
+	</select>
 </mapper>
