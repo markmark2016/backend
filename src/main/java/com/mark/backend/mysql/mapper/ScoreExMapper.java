@@ -28,4 +28,20 @@ public interface ScoreExMapper {
 	 * @return
 	 */
 	public List<GroupDto> getUserGroupScore(Long userId);
+
+	/**
+	 * 获得用户参与的小组的id列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Long> getUserGroupIdList(Long userId);
+
+	/**
+	 * 获得用户的小组排名
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public List<GroupDto> getUserGroupRank(Long groupId);
 }

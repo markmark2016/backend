@@ -74,6 +74,23 @@ public class GroupDto {
 	 * 用户在该小组的积分
 	 */
 	private Integer score;
+	/**
+	 * 小组的用户id
+	 */
+	private Long userId;
+
+	/**
+	 * 用户小组内排名
+	 */
+	private String groupRank;
+	/**
+	 * 在读书友
+	 */
+	private String totoalReader;
+	/**
+	 * 用户小组内的排名
+	 */
+	private Integer num;
 
 	/**
 	 * 图书简介
@@ -208,12 +225,44 @@ public class GroupDto {
 		this.score = score;
 	}
 
+	public String getGroupRank() {
+		return groupRank;
+	}
+
+	public void setGroupRank(String groupRank) {
+		this.groupRank = groupRank;
+	}
+
+	public String getTotoalReader() {
+		return totoalReader;
+	}
+
+	public void setTotoalReader(String totoalReader) {
+		this.totoalReader = totoalReader;
+	}
+
 	public String getBookSummary() {
 		return bookSummary;
 	}
 
 	public void setBookSummary(String bookSummary) {
 		this.bookSummary = bookSummary;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
 	}
 
 }

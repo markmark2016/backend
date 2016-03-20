@@ -96,4 +96,6 @@ public interface IUserService {
 
 	Map<String, Object> getUserGroupScoreInfo(Long userId);
 
+	Map<String, Object> getUserGroupRankInfo(Long userId);
+
 }

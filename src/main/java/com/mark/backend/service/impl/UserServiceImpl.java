@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.mark.backend.dto.AssociationDto;
@@ -15,8 +16,11 @@ import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.ScoreExMapper;
+import com.mark.backend.mysql.mapper.ScoreMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
+import com.mark.backend.mysql.po.Score;
+import com.mark.backend.mysql.po.ScoreExample;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
 import com.mark.backend.service.IUserService;
@@ -131,9 +135,9 @@ public class UserServiceImpl implements IUserService {
 	public Map<String, Object> getRankInfo(Long userId) {
 		int rank = this.getUserRank(userId);
 		List<UserDto> rankList = sexMapper.getAllScoreList();
-		Map<String, Object> rankMap = new HashMap<String, Object>();
+		Map<String, Object> rankMap = this.getUserGroupRankInfo(userId);
 		rankMap.put("rank", rank);
-		rankMap.put("ranklist", rankList);
+		rankMap.put("totalranklist", rankList);
 		return rankMap;
 	}
 
@@ -148,5 +152,28 @@ public class UserServiceImpl implements IUserService {
 		scoreMap.put("totalScore", totalScore);
 		scoreMap.put("scorelist", list);
 		return scoreMap;
+	}
+
+	@Override
+	public Map<String, Object> getUserGroupRankInfo(Long userId) {
+		Map<String, Object> rankMap = new HashMap<String, Object>();
+		List<Long> groupIdList = sexMapper.getUserGroupIdList(userId);
+		Integer total = groupIdList.size();
+		List<GroupDto> finalList = new ArrayList<GroupDto>();
+		for (Long id : groupIdList) {
+			List<GroupDto> tmpDto = sexMapper.getUserGroupRank(id);
+			for (GroupDto groupDto : tmpDto) {
+				if (groupDto.getUserId() == userId) {
+					GroupDto finalDto = new GroupDto();
+					BeanUtils.copyProperties(groupDto, finalDto);
+					finalDto.setId(id);
+					finalDto.setGroupRank(groupDto.getNum().toString() + "/"
+							+ total.toString());
+					finalList.add(finalDto);
+				}
+			}
+		}
+		rankMap.put("groupranklist", finalList);
+		return rankMap;
 	}
 }
