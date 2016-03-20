@@ -58,6 +58,18 @@ public class GroupDto {
 	 * 最晚加入时间
 	 */
 	private Date latestDate;
+	/**
+	 * 小组所属社群id
+	 */
+	private Long associationId;
+	/**
+	 * 用户在小组的等级
+	 */
+	private String userClass;
+	/**
+	 * 用户咋小组的状态
+	 */
+	private String userStatus;
 
 	/**
 	 * 图书简介
@@ -158,6 +170,30 @@ public class GroupDto {
 
 	public void setLatestDate(Date latestDate) {
 		this.latestDate = latestDate;
+	}
+
+	public Long getAssociationId() {
+		return associationId;
+	}
+
+	public void setAssociationId(Long associationId) {
+		this.associationId = associationId;
+	}
+
+	public String getUserClass() {
+		return userClass;
+	}
+
+	public void setUserClass(String userClass) {
+		this.userClass = userClass;
+	}
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
 	public String getBookSummary() {

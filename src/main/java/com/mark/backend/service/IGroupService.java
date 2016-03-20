@@ -58,13 +58,6 @@ public interface IGroupService {
 	Integer quitGroup(Long groupId, Long userId);
 
 	/**
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	List<GroupVO> getUserGroup(Long userId);
-
-	/**
 	 * 根据参数查询小组
 	 * 
 	 * @param params
@@ -73,4 +66,6 @@ public interface IGroupService {
 	List<GroupDto> getGroupList(Map<String, Object> params);
 
 	List<GroupVO> getApplyGroup();
+
+	List<GroupDto> getUserGroupList(Long userId);
 }

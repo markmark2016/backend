@@ -1,5 +1,7 @@
 package com.mark.backend.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +9,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.mark.backend.dto.AssociationDto;
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
+import com.mark.backend.mysql.mapper.AssociationExMapper;
+import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
@@ -22,6 +28,10 @@ public class UserServiceImpl implements IUserService {
 	private UserMapper userMapper;
 	@Resource
 	private UserExMapper uexMapper;
+	@Resource
+	private GroupExMapper gexMapper;
+	@Resource
+	private AssociationExMapper aexMapper;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -62,5 +72,37 @@ public class UserServiceImpl implements IUserService {
 		user.setUpdateTime(MarkUtils.getCurrentTime());
 		int i = userMapper.updateByExampleSelective(user, ex);
 		return i;
+	}
+
+	@Override
+	public Map<String, Object> getUserGroupDetail(Long userId) {
+		List<GroupDto> gdtoList = gexMapper.getUserGroupList(userId);
+		List<GroupDto> finalgdtoList = new ArrayList<GroupDto>();
+		List<AssociationDto> assdtoList = new ArrayList<AssociationDto>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		for (GroupDto dto : gdtoList) {
+			if (dto.getAssociationId() != null) {
+				params.put("associationId", dto.getAssociationId());
+				AssociationDto adto = aexMapper.queryAssociationList(params)
+						.get(0);
+				assdtoList.add(adto);
+			}
+		}
+		for (AssociationDto dto : assdtoList) {
+			for (GroupDto groupDto : gdtoList) {
+				if (groupDto.getAssociationId() == dto.getId()) {
+					dto.getGroupList().add(groupDto);
+				}
+			}
+		}
+		for (GroupDto groupDto : gdtoList) {
+			if (groupDto.getAssociationId() == null) {
+				finalgdtoList.add(groupDto);
+			}
+		}
+		params.clear();
+		params.put("groupList", finalgdtoList);
+		params.put("associationList", assdtoList);
+		return params;
 	}
 }

@@ -1,5 +1,6 @@
 package com.mark.backend.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssociationDto {
@@ -7,7 +8,7 @@ public class AssociationDto {
 	private String associationName;
 	private String associationDesc;
 	private String image;
-	private List<GroupDto> groupList;
+	private List<GroupDto> groupList = new ArrayList<GroupDto>();
 
 	public Long getId() {
 		return id;

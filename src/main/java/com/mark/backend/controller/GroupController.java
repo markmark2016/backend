@@ -116,10 +116,10 @@ public class GroupController {
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(@PathVariable(value = "userId") Long userId, Model model) {
-		List<GroupVO> voList = groupService.getUserGroup(userId);
-		model.addAttribute("status", "0");
-		model.addAttribute("data", voList);
-		return model;
+		// List<GroupVO> voList = groupService.getUserGroup(userId);
+		// model.addAttribute("status", "0");
+		// model.addAttribute("data", voList);
+		return null;
 	}
 
 	// 小组内成员

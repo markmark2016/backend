@@ -111,12 +111,6 @@ public class GroupServiceImpl implements IGroupService {
 	}
 
 	@Override
-	public List<GroupVO> getUserGroup(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<GroupDto> getGroupList(Map<String, Object> params) {
 		List<GroupDto> resultList = groupExMapper.queryGroupList(params);
 		return resultList;
@@ -138,5 +132,11 @@ public class GroupServiceImpl implements IGroupService {
 			voList.add(vo);
 		}
 		return voList;
+	}
+
+	@Override
+	public List<GroupDto> getUserGroupList(Long userId) {
+		List<GroupDto> userGroupList = groupExMapper.getUserGroupList(userId);
+		return userGroupList;
 	}
 }

@@ -42,4 +42,32 @@
 			ta.id = ${associationId}
 		</if>
 	</select>
+
+	<select id="getUserGroupList" parameterType="Long"
+		resultType="com.mark.backend.dto.GroupDto">
+		SELECT
+		tg.id,
+		tg.group_name AS groupName,
+		tg.group_desc AS
+		groupDesc,
+		tb.image AS groupImage,
+		tag.association_id_fk AS
+		associationId,
+		tgu.user_class AS userClass,
+		tgu.user_status AS
+		userStatus
+		FROM
+		t_group tg
+		LEFT JOIN t_association_group tag ON
+		tag.group_id_fk = tg.id,
+		t_book tb,
+		t_group_user tgu
+		WHERE
+		tg.book_id_fk =
+		tb.id
+		AND tg. STATUS != 0
+		AND tgu.group_id_fk = tg.id
+		AND tgu.user_id_fk
+		= #{userId}
+	</select>
 </mapper>

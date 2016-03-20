@@ -6,5 +6,7 @@ import java.util.Map;
 import com.mark.backend.dto.GroupDto;
 
 public interface GroupExMapper {
-	public List<GroupDto> queryGroupList(Map<String, Object> queryParam);
+	public List<GroupDto> queryGroupList(Map<String, Object> params);
+
+	public List<GroupDto> getUserGroupList(Long userId);
 }

@@ -53,4 +53,12 @@ public interface IUserService {
 	 * @return
 	 */
 	Integer updateUserDetailInfo(String openId, User user);
+
+	/**
+	 * “我”中，点击小组
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	Map<String, Object> getUserGroupDetail(Long userId);
 }

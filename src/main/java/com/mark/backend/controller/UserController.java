@@ -1,6 +1,7 @@
 package com.mark.backend.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IBookService;
@@ -79,6 +81,125 @@ public class UserController {
 		int flag = userService.updateUserDetailInfo(openId, user);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (flag > 0) {
+			map.put("status", 1);
+			map.put("msg", "更新成功");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "更新失败");
+		}
+		return map;
+	}
+
+	/**
+	 * 用户加入的小组
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/group", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersGroup(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> ugMap = userService
+				.getUserGroupDetail((Long) WeixinService.markInfoMap.get(
+						"userIdMap").get(openId));
+		map.put("status", 1);
+		map.put("msg", "success");
+		map.put("data", ugMap);
+		return map;
+	}
+
+	/**
+	 * 用户的排名
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/rank", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersRank(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (true) {
+			map.put("status", 1);
+			map.put("msg", "更新成功");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "更新失败");
+		}
+		return map;
+	}
+
+	/**
+	 * 用户的积分
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/score", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersScore(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (true) {
+			map.put("status", 1);
+			map.put("msg", "更新成功");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "更新失败");
+		}
+		return map;
+	}
+
+	/**
+	 * 用户的打卡
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/punch", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersPunch(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (true) {
+			map.put("status", 1);
+			map.put("msg", "更新成功");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "更新失败");
+		}
+		return map;
+	}
+
+	/**
+	 * 用户的累计读书
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/book", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersTotalRead(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (true) {
+			map.put("status", 1);
+			map.put("msg", "更新成功");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "更新失败");
+		}
+		return map;
+	}
+
+	/**
+	 * 用户的累计书评
+	 * 
+	 * @param openId
+	 * @return
+	 */
+	@RequestMapping(value = "/{openId}/remark", method = RequestMethod.GET)
+	public @ResponseBody
+	Object usersTotalRemark(@PathVariable("openId") String openId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (true) {
 			map.put("status", 1);
 			map.put("msg", "更新成功");
 		} else {
