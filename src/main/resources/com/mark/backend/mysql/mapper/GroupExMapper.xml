@@ -51,6 +51,7 @@
 		tg.group_desc AS
 		groupDesc,
 		tb.image AS groupImage,
+		tb.title AS bookName,
 		tag.association_id_fk AS
 		associationId,
 		tgu.user_class AS userClass,
@@ -58,7 +59,8 @@
 		userStatus
 		FROM
 		t_group tg
-		LEFT JOIN t_association_group tag ON
+		LEFT JOIN
+		t_association_group tag ON
 		tag.group_id_fk = tg.id,
 		t_book tb,
 		t_group_user tgu
@@ -66,7 +68,8 @@
 		tg.book_id_fk =
 		tb.id
 		AND tg. STATUS != 0
-		AND tgu.group_id_fk = tg.id
+		AND
+		tgu.group_id_fk = tg.id
 		AND tgu.user_id_fk
 		= #{userId}
 	</select>
@@ -77,6 +80,7 @@
 		t_group_user tgu
 		WHERE
 		tgu.user_status != 0
-		AND tgu.group_id_fk = 1
+		AND
+		tgu.group_id_fk = 1
 	</select>
 </mapper>

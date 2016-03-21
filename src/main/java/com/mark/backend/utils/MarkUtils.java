@@ -3,6 +3,7 @@ package com.mark.backend.utils;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -40,6 +41,16 @@ public class MarkUtils {
 	public static Date getCurrentTime() {
 		return new Date();
 
+	}
+
+	public static Date getZeroTime() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getCurrentTime());
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
 	}
 
 	/**
