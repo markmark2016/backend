@@ -29,6 +29,6 @@ public interface IRemarkService {
 	 * @param groupId
 	 * @return
 	 */
-	public Map<String, Object> getTodayRemark(Long userId, Long groupId);
+	public Map<String, Object> getUserInGroupTodayRemark(Long userId, Long groupId);
 
 }

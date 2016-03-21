@@ -76,8 +76,15 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Map<String, Object> getTodayRemark(Long userId, Long groupId) {
-		// TODO Auto-generated method stub
+	public Map<String, Object> getUserInGroupTodayRemark(Long userId,
+			Long groupId) {
+		RemarkExample rex = new RemarkExample();
+		rex.createCriteria().andUserIdFkEqualTo(userId)
+				.andGroupIdFkEqualTo(groupId)
+				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
+		RemarkWithBLOBs remark = remarkMapper.selectByExampleWithBLOBs(rex)
+				.get(0);
+		
 		return null;
 	}
 }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.RemarkDto;
-import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IRemarkService;
@@ -37,9 +36,8 @@ public class RemarkController {
 	public @ResponseBody
 	Object punchIndex(@PathVariable("openId") String openId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<RemarkDto> list = remarkService
-				.getPunchList((Long) WeixinService.markInfoMap.get("userIdMap")
-						.get(openId));
+		List<RemarkDto> list = remarkService.getPunchList(WeixinService.userMap
+				.get(openId).getId());
 		if (list.size() > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -59,12 +57,12 @@ public class RemarkController {
 	 */
 	@RequestMapping(value = "/create/{groupId}/{openId}", method = RequestMethod.POST)
 	public @ResponseBody
-	Object createRemark(RemarkWithBLOBs remark, @PathVariable("openId") String openId,
+	Object createRemark(RemarkWithBLOBs remark,
+			@PathVariable("openId") String openId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
-		remark.setUserIdFk((Long) WeixinService.markInfoMap.get("userIdMap")
-				.get(openId));
+		remark.setUserIdFk(WeixinService.userMap.get(openId).getId());
 		Long remarkId = remarkService.createRemark(remark);
 		if (remarkId > 0) {
 			map.put("status", 1);
@@ -84,16 +82,15 @@ public class RemarkController {
 	 */
 	@RequestMapping(value = "/complete/{groupId}/{openId}", method = RequestMethod.POST)
 	public @ResponseBody
-	Object completeBook(RemarkWithBLOBs remark, @PathVariable("openId") String openId,
+	Object completeBook(RemarkWithBLOBs remark,
+			@PathVariable("openId") String openId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
-		remark.setUserIdFk((Long) WeixinService.markInfoMap.get("userIdMap")
-				.get(openId));
+		remark.setUserIdFk(WeixinService.userMap.get(openId).getId());
 		Long remarkId = remarkService.createRemark(remark);
 		Integer updateFlag = groupService.updateGroupUserStatus(groupId,
-				(Long) WeixinService.markInfoMap.get("userIdMap").get(openId),
-				"2");
+				WeixinService.userMap.get(openId).getId(), "2");
 		if (remarkId > 0 && updateFlag > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
