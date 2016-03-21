@@ -1,9 +1,10 @@
 package com.mark.backend.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mark.backend.dto.RemarkDto;
-import com.mark.backend.mysql.po.Remark;
+import com.mark.backend.mysql.po.RemarkWithBLOBs;
 
 public interface IRemarkService {
 	/**
@@ -20,6 +21,14 @@ public interface IRemarkService {
 	 * @param remark
 	 * @return
 	 */
-	public Long createRemark(Remark remark);
+	public Long createRemark(RemarkWithBLOBs remark);
+
+	/**
+	 * 
+	 * @param userId
+	 * @param groupId
+	 * @return
+	 */
+	public Map<String, Object> getTodayRemark(Long userId, Long groupId);
 
 }

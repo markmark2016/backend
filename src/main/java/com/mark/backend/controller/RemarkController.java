@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.po.Remark;
+import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.impl.WeixinService;
@@ -58,7 +59,7 @@ public class RemarkController {
 	 */
 	@RequestMapping(value = "/create/{groupId}/{openId}", method = RequestMethod.POST)
 	public @ResponseBody
-	Object createRemark(Remark remark, @PathVariable("openId") String openId,
+	Object createRemark(RemarkWithBLOBs remark, @PathVariable("openId") String openId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
@@ -83,7 +84,7 @@ public class RemarkController {
 	 */
 	@RequestMapping(value = "/complete/{groupId}/{openId}", method = RequestMethod.POST)
 	public @ResponseBody
-	Object completeBook(Remark remark, @PathVariable("openId") String openId,
+	Object completeBook(RemarkWithBLOBs remark, @PathVariable("openId") String openId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
@@ -101,5 +102,18 @@ public class RemarkController {
 			map.put("msg", "fail");
 		}
 		return map;
+	}
+
+	/**
+	 * 查看今日书评
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/today/{groupId}/{openId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object checkTodayRemark(@PathVariable("openId") String openId,
+			@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return null;
 	}
 }

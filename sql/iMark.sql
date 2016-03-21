@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/20 11:57:04                           */
+/* Created on:     2016/3/21 16:42:01                           */
 /*==============================================================*/
 
 
@@ -122,7 +122,7 @@ create table t_group
    book_brief           varchar(200) comment '图书简介',
    book_name            varchar(50),
    read_slogan          varchar(2014) comment '读书标语',
-   group_desc           varchar(144) comment '小组简介',
+   group_desc           text comment '小组简介',
    captain_name         varchar(200),
    captain_brief        varchar(144) comment '领读人简介',
    user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
@@ -198,6 +198,7 @@ create table t_remark
    start_page           integer comment '本次打卡/书评开始页码',
    end_page             integer comment '本次打卡/书评结束页码',
    comment              Text comment '本次打卡/书评 具体内容',
+   title                Text,
    primary key (id)
 );
 
@@ -246,7 +247,7 @@ create table t_user
    update_time          datetime,
    user_id              bigint(20) comment '不走微信渠道时候可用',
    openid               varchar(50) comment '微信openid',
-   nickname             varchar(20) comment '昵称',
+   nickname             varchar(2014) comment '昵称',
    gender               char(1) comment '1代表男2代表女',
    interests            varchar(24) comment '兴趣领域',
    intro                varchar(144) comment '描述

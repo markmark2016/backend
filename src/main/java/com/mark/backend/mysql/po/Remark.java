@@ -19,8 +19,6 @@ public class Remark {
 
     private Integer endPage;
 
-    private String comment;
-
     public Long getId() {
         return id;
     }
@@ -83,13 +81,5 @@ public class Remark {
 
     public void setEndPage(Integer endPage) {
         this.endPage = endPage;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
     }
 }

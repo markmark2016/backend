@@ -2,6 +2,7 @@ package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.RemarkMapper;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.RemarkExample;
+import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -61,7 +63,7 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Long createRemark(Remark remark) {
+	public Long createRemark(RemarkWithBLOBs remark) {
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
 		Integer returnId = remarkMapper.insert(remark);
@@ -71,5 +73,11 @@ public class RemarkServiceImpl implements IRemarkService {
 			return -1L;
 		}
 
+	}
+
+	@Override
+	public Map<String, Object> getTodayRemark(Long userId, Long groupId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
