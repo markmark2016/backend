@@ -1,6 +1,7 @@
 package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.mark.backend.mysql.mapper.RemarkMapper;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.RemarkExample;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
+import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -76,15 +78,18 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Map<String, Object> getUserInGroupTodayRemark(Long userId,
+	public Map<String, Object> getUserInGroupTodayRemark(String openId,
 			Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = WeixinService.userMap.get(openId);
 		RemarkExample rex = new RemarkExample();
-		rex.createCriteria().andUserIdFkEqualTo(userId)
+		rex.createCriteria().andUserIdFkEqualTo(user.getId())
 				.andGroupIdFkEqualTo(groupId)
 				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
 		RemarkWithBLOBs remark = remarkMapper.selectByExampleWithBLOBs(rex)
 				.get(0);
-		
-		return null;
+		map.put("user", user);
+		map.put("remark", remark);
+		return map;
 	}
 }
