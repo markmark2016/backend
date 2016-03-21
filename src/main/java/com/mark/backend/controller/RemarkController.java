@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.RemarkDto;
+import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.impl.WeixinService;
 
@@ -45,4 +46,30 @@ public class RemarkController {
 		}
 		return map;
 	}
+
+	/**
+	 * 提交书评
+	 * 
+	 * @param remark
+	 * @return
+	 */
+	@RequestMapping(value = "/create/{groupId}/{openId}", method = RequestMethod.POST)
+	public @ResponseBody
+	Object createRemark(Remark remark, @PathVariable("openId") String openId,
+			@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		remark.setGroupIdFk(groupId);
+		remark.setUserIdFk((Long) WeixinService.markInfoMap.get("userIdMap")
+				.get(openId));
+		Integer remarkId = remarkService.createRemark(remark);
+		if (remarkId > 0) {
+			map.put("status", 1);
+			map.put("msg", "sucess");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "fail");
+		}
+		return map;
+	}
+
 }

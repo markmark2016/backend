@@ -52,4 +52,12 @@ public class RemarkServiceImpl implements IRemarkService {
 		}
 		return finalList;
 	}
+
+	@Override
+	public Integer createRemark(Remark remark) {
+		remark.setCreateTime(MarkUtils.getCurrentTime());
+		remark.setUpdateTime(remark.getCreateTime());
+		Integer returnId = remarkMapper.insert(remark);
+		return returnId;
+	}
 }
