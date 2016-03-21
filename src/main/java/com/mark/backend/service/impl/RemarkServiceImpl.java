@@ -41,6 +41,7 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setBookName(groupDto.getBookName());
 			rdto.setImage(groupDto.getGroupImage());
 			rdto.setUserId(userId);
+			rdto.setReadCompleteDate(groupDto.getReadCompleteDate());
 			rdto.setIsComplete("2".equals(groupDto.getUserStatus()));
 			// 今日是否打卡了
 			RemarkExample rex = new RemarkExample();

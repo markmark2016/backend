@@ -56,7 +56,8 @@
 		associationId,
 		tgu.user_class AS userClass,
 		tgu.user_status AS
-		userStatus
+		userStatus,
+		tgu.update_time AS readCompleteDate
 		FROM
 		t_group tg
 		LEFT JOIN

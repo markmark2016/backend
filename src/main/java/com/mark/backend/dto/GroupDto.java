@@ -97,6 +97,8 @@ public class GroupDto {
 	 */
 	private String bookSummary;
 
+	private Date readCompleteDate;
+
 	public Long getId() {
 		return id;
 	}
@@ -263,6 +265,14 @@ public class GroupDto {
 
 	public void setNum(Integer num) {
 		this.num = num;
+	}
+
+	public Date getReadCompleteDate() {
+		return readCompleteDate;
+	}
+
+	public void setReadCompleteDate(Date readCompleteDate) {
+		this.readCompleteDate = readCompleteDate;
 	}
 
 }
