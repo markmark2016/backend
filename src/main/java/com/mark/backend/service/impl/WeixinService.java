@@ -47,6 +47,10 @@ public class WeixinService {
 	public static String refresh_auth_access_token = null;
 
 	public static Map<String, Map<String, Object>> markInfoMap = new HashMap<String, Map<String, Object>>();
+	/**
+	 * openId---user 对象map
+	 */
+	public static Map<String, User> userMap = new HashMap<String, User>();
 
 	@Resource
 	private UserMapper userMapper;
@@ -86,6 +90,7 @@ public class WeixinService {
 		List<User> userList = userMapper.selectByExample(ex);
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (User user : userList) {
+			userMap.put(user.getOpenid(), user);
 			map.put(user.getOpenid(), user.getId());
 		}
 		return map;
@@ -163,6 +168,7 @@ public class WeixinService {
 					int i = userMapper.insert(user);
 					if (i > 0) {
 						markInfoMap.get("userIdMap").put(openId, user.getId());
+						userMap.put(openId, user);
 					}
 				}
 			});
@@ -182,7 +188,11 @@ public class WeixinService {
 					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
 					ex.createCriteria().andOpenidEqualTo(openId);
-					userMapper.updateByExampleSelective(user, ex);
+					int i = userMapper.updateByExampleSelective(user, ex);
+					if (i > 0) {
+						markInfoMap.get("userIdMap").put(openId, user.getId());
+						userMap.put(openId, user);
+					}
 				}
 			});
 		}
