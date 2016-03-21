@@ -124,13 +124,13 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public Integer getUserRank(Long userId) {
-		int rank = sexMapper.getUserRank(userId);
+		Integer rank = sexMapper.getUserRank(userId);
 		return rank;
 	}
 
 	@Override
 	public Map<String, Object> getRankInfo(Long userId) {
-		int rank = this.getUserRank(userId);
+		Integer rank = this.getUserRank(userId);
 		List<UserDto> rankList = sexMapper.getAllScoreList();
 		Map<String, Object> rankMap = this.getUserGroupRankInfo(userId);
 		rankMap.put("rank", rank);
