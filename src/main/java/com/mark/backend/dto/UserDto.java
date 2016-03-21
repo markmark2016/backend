@@ -10,16 +10,49 @@ package com.mark.backend.dto;
  * 
  */
 public class UserDto {
+	/**
+	 * 排名
+	 */
 	private Integer num;
+	/**
+	 * 用户id
+	 */
 	private Long id;
+	/**
+	 * 昵称
+	 */
 	private String nickName;
+	/**
+	 * 头像地址
+	 */
 	private String headImage;
+	/**
+	 * 简介
+	 */
 	private String intro;
+	/**
+	 * 加入小组数
+	 */
 	private String totalGroup;
+	/**
+	 * 全部书评数
+	 */
 	private Integer totalRemark;
+	/**
+	 * 累计读书数
+	 */
 	private Integer totalRead;
-	private Integer punch;
+	/**
+	 * 
+	 */
+	private Integer totalPunch;
+	/**
+	 * 是否是领读人
+	 */
 	private boolean isLeader;
+	/**
+	 * 积分
+	 */
 	private Integer score;
 
 	public Integer getNum() {
@@ -86,12 +119,12 @@ public class UserDto {
 		this.totalRead = totalRead;
 	}
 
-	public Integer getPunch() {
-		return punch;
+	public Integer getTotalPunch() {
+		return totalPunch;
 	}
 
-	public void setPunch(Integer punch) {
-		this.punch = punch;
+	public void setTotalPunch(Integer totalPunch) {
+		this.totalPunch = totalPunch;
 	}
 
 	public boolean isLeader() {
