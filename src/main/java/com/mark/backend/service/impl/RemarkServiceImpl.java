@@ -10,9 +10,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.dto.InteractDto;
 import com.mark.backend.dto.RemarkDto;
+import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
+import com.mark.backend.mysql.mapper.InteractExMapper;
 import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.RemarkMapper;
 import com.mark.backend.mysql.po.Remark;
@@ -33,6 +36,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	private GroupExMapper gexMapper;
 	@Resource
 	private GroupUserMapper guMapper;
+	@Resource
+	private InteractExMapper iexMapper;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -68,7 +73,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	public Long createRemark(RemarkWithBLOBs remark) {
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
-		Integer returnId = remarkMapper.insert(remark);
+		remarkMapper.insert(remark);
+		Long returnId = remark.getId();
 		if (returnId > 0) {
 			return remark.getId();
 		} else {
@@ -81,13 +87,22 @@ public class RemarkServiceImpl implements IRemarkService {
 	public Map<String, Object> getUserInGroupTodayRemark(String openId,
 			Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		// 用户信息
 		User user = WeixinService.userMap.get(openId);
+		// 主体信息
 		RemarkExample rex = new RemarkExample();
 		rex.createCriteria().andUserIdFkEqualTo(user.getId())
 				.andGroupIdFkEqualTo(groupId)
 				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
 		RemarkWithBLOBs remark = remarkMapper.selectByExampleWithBLOBs(rex)
 				.get(0);
+		// 点赞列表
+		List<UserDto> likeList = iexMapper.getLikeList(remark.getId());
+		// 回复列表
+		List<InteractDto> replyList = iexMapper.getReplyList(remark.getId());
+		map.put("totalLike", likeList.size());
+		map.put("likelist", likeList);
+		map.put("replylist", replyList);
 		map.put("user", user);
 		map.put("remark", remark);
 		return map;

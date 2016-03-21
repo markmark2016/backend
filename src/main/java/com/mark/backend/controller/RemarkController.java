@@ -111,6 +111,11 @@ public class RemarkController {
 	Object checkTodayRemark(@PathVariable("openId") String openId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		return null;
+		Map<String, Object> remarkMap = remarkService
+				.getUserInGroupTodayRemark(openId, groupId);
+		map.put("status", 1);
+		map.put("msg", "sucess");
+		map.put("data", remarkMap);
+		return map;
 	}
 }

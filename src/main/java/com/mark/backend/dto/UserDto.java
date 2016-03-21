@@ -19,6 +19,10 @@ public class UserDto {
 	 */
 	private Long id;
 	/**
+	 * 微信openId
+	 */
+	private String openid;
+	/**
 	 * 昵称
 	 */
 	private String nickName;
@@ -69,6 +73,14 @@ public class UserDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 
 	public String getNickName() {
