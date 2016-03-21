@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.po.Remark;
+import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.impl.WeixinService;
 
@@ -23,6 +24,8 @@ public class RemarkController {
 
 	@Resource
 	private IRemarkService remarkService;
+	@Resource
+	private IGroupService groupService;
 
 	/**
 	 * 打卡页列表
@@ -61,7 +64,7 @@ public class RemarkController {
 		remark.setGroupIdFk(groupId);
 		remark.setUserIdFk((Long) WeixinService.markInfoMap.get("userIdMap")
 				.get(openId));
-		Integer remarkId = remarkService.createRemark(remark);
+		Long remarkId = remarkService.createRemark(remark);
 		if (remarkId > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -72,4 +75,31 @@ public class RemarkController {
 		return map;
 	}
 
+	/**
+	 * 读完一本书
+	 * 
+	 * @param remark
+	 * @return
+	 */
+	@RequestMapping(value = "/complete/{groupId}/{openId}", method = RequestMethod.POST)
+	public @ResponseBody
+	Object completeBook(Remark remark, @PathVariable("openId") String openId,
+			@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		remark.setGroupIdFk(groupId);
+		remark.setUserIdFk((Long) WeixinService.markInfoMap.get("userIdMap")
+				.get(openId));
+		Long remarkId = remarkService.createRemark(remark);
+		Integer updateFlag = groupService.updateGroupUserStatus(groupId,
+				(Long) WeixinService.markInfoMap.get("userIdMap").get(openId),
+				"2");
+		if (remarkId > 0 && updateFlag > 0) {
+			map.put("status", 1);
+			map.put("msg", "sucess");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "fail");
+		}
+		return map;
+	}
 }

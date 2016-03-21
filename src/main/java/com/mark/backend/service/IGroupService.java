@@ -68,4 +68,11 @@ public interface IGroupService {
 	List<GroupVO> getApplyGroup();
 
 	List<GroupDto> getUserGroupList(Long userId);
+
+	/**
+	 * 更新用户在小组中的状态
+	 * 
+	 * @return
+	 */
+	Integer updateGroupUserStatus(Long groupId, Long userId, String status);
 }

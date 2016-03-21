@@ -20,5 +20,6 @@ public interface IRemarkService {
 	 * @param remark
 	 * @return
 	 */
-	public Integer createRemark(Remark remark);
+	public Long createRemark(Remark remark);
+
 }

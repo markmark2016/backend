@@ -100,13 +100,7 @@ public class GroupServiceImpl implements IGroupService {
 
 	@Override
 	public Integer quitGroup(Long groupId, Long userId) {
-		GroupUser po = new GroupUser();
-		po.setUserStatus("0");
-		po.setUpdateTime(MarkUtils.getCurrentTime());
-		GroupUserExample ex = new GroupUserExample();
-		ex.createCriteria().andGroupIdFkEqualTo(groupId)
-				.andUserIdFkEqualTo(userId);
-		Integer updateFlag = groupUserMapper.updateByExampleSelective(po, ex);
+		Integer updateFlag = this.updateGroupUserStatus(groupId, userId, "0");
 		return updateFlag;
 	}
 
@@ -138,5 +132,18 @@ public class GroupServiceImpl implements IGroupService {
 	public List<GroupDto> getUserGroupList(Long userId) {
 		List<GroupDto> userGroupList = groupExMapper.getUserGroupList(userId);
 		return userGroupList;
+	}
+
+	@Override
+	public Integer updateGroupUserStatus(Long groupId, Long userId,
+			String status) {
+		GroupUser po = new GroupUser();
+		po.setUserStatus(status);
+		po.setUpdateTime(MarkUtils.getCurrentTime());
+		GroupUserExample ex = new GroupUserExample();
+		ex.createCriteria().andGroupIdFkEqualTo(groupId)
+				.andUserIdFkEqualTo(userId);
+		Integer updateFlag = groupUserMapper.updateByExampleSelective(po, ex);
+		return updateFlag;
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.mapper.GroupUserMapper;
 import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.RemarkMapper;
 import com.mark.backend.mysql.po.Remark;
@@ -26,6 +27,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	private RemarkExMapper rexMapper;
 	@Resource
 	private GroupExMapper gexMapper;
+	@Resource
+	private GroupUserMapper guMapper;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -54,10 +57,10 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Integer createRemark(Remark remark) {
+	public Long createRemark(Remark remark) {
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
 		Integer returnId = remarkMapper.insert(remark);
-		return returnId;
+		return remark.getId();
 	}
 }

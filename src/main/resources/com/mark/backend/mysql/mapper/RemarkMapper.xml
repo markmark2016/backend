@@ -1,325 +1,339 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mark.backend.mysql.mapper.RemarkMapper" >
-  <resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Remark" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="group_id_fk" property="groupIdFk" jdbcType="BIGINT" />
-    <result column="book_id_fk" property="bookIdFk" jdbcType="BIGINT" />
-    <result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
-    <result column="start_page" property="startPage" jdbcType="INTEGER" />
-    <result column="end_page" property="endPage" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.mark.backend.mysql.po.Remark" extends="BaseResultMap" >
-    <result column="comment" property="comment" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, create_time, update_time, group_id_fk, book_id_fk, user_id_fk, start_page, end_page
-  </sql>
-  <sql id="Blob_Column_List" >
-    comment
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mark.backend.mysql.po.RemarkExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_remark
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.RemarkExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from t_remark
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_remark
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_remark
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.RemarkExample" >
-    delete from t_remark
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.mark.backend.mysql.po.Remark" >
-    insert into t_remark (id, create_time, update_time, 
-      group_id_fk, book_id_fk, user_id_fk, 
-      start_page, end_page, comment
-      )
-    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{groupIdFk,jdbcType=BIGINT}, #{bookIdFk,jdbcType=BIGINT}, #{userIdFk,jdbcType=BIGINT}, 
-      #{startPage,jdbcType=INTEGER}, #{endPage,jdbcType=INTEGER}, #{comment,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Remark" >
-    insert into t_remark
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="groupIdFk != null" >
-        group_id_fk,
-      </if>
-      <if test="bookIdFk != null" >
-        book_id_fk,
-      </if>
-      <if test="userIdFk != null" >
-        user_id_fk,
-      </if>
-      <if test="startPage != null" >
-        start_page,
-      </if>
-      <if test="endPage != null" >
-        end_page,
-      </if>
-      <if test="comment != null" >
-        comment,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="groupIdFk != null" >
-        #{groupIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="bookIdFk != null" >
-        #{bookIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="userIdFk != null" >
-        #{userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="startPage != null" >
-        #{startPage,jdbcType=INTEGER},
-      </if>
-      <if test="endPage != null" >
-        #{endPage,jdbcType=INTEGER},
-      </if>
-      <if test="comment != null" >
-        #{comment,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.mark.backend.mysql.po.RemarkExample" resultType="java.lang.Integer" >
-    select count(*) from t_remark
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_remark
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.groupIdFk != null" >
-        group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="record.bookIdFk != null" >
-        book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="record.userIdFk != null" >
-        user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="record.startPage != null" >
-        start_page = #{record.startPage,jdbcType=INTEGER},
-      </if>
-      <if test="record.endPage != null" >
-        end_page = #{record.endPage,jdbcType=INTEGER},
-      </if>
-      <if test="record.comment != null" >
-        comment = #{record.comment,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update t_remark
-    set id = #{record.id,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
-      book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
-      user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-      start_page = #{record.startPage,jdbcType=INTEGER},
-      end_page = #{record.endPage,jdbcType=INTEGER},
-      comment = #{record.comment,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_remark
-    set id = #{record.id,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
-      book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
-      user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
-      start_page = #{record.startPage,jdbcType=INTEGER},
-      end_page = #{record.endPage,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Remark" >
-    update t_remark
-    <set >
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="groupIdFk != null" >
-        group_id_fk = #{groupIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="bookIdFk != null" >
-        book_id_fk = #{bookIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="userIdFk != null" >
-        user_id_fk = #{userIdFk,jdbcType=BIGINT},
-      </if>
-      <if test="startPage != null" >
-        start_page = #{startPage,jdbcType=INTEGER},
-      </if>
-      <if test="endPage != null" >
-        end_page = #{endPage,jdbcType=INTEGER},
-      </if>
-      <if test="comment != null" >
-        comment = #{comment,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mark.backend.mysql.po.Remark" >
-    update t_remark
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      group_id_fk = #{groupIdFk,jdbcType=BIGINT},
-      book_id_fk = #{bookIdFk,jdbcType=BIGINT},
-      user_id_fk = #{userIdFk,jdbcType=BIGINT},
-      start_page = #{startPage,jdbcType=INTEGER},
-      end_page = #{endPage,jdbcType=INTEGER},
-      comment = #{comment,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Remark" >
-    update t_remark
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      group_id_fk = #{groupIdFk,jdbcType=BIGINT},
-      book_id_fk = #{bookIdFk,jdbcType=BIGINT},
-      user_id_fk = #{userIdFk,jdbcType=BIGINT},
-      start_page = #{startPage,jdbcType=INTEGER},
-      end_page = #{endPage,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+<mapper namespace="com.mark.backend.mysql.mapper.RemarkMapper">
+	<resultMap id="BaseResultMap" type="com.mark.backend.mysql.po.Remark">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="group_id_fk" property="groupIdFk" jdbcType="BIGINT" />
+		<result column="book_id_fk" property="bookIdFk" jdbcType="BIGINT" />
+		<result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
+		<result column="start_page" property="startPage" jdbcType="INTEGER" />
+		<result column="end_page" property="endPage" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.mark.backend.mysql.po.Remark"
+		extends="BaseResultMap">
+		<result column="comment" property="comment" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, create_time, update_time, group_id_fk, book_id_fk, user_id_fk,
+		start_page, end_page
+	</sql>
+	<sql id="Blob_Column_List">
+		comment
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.mark.backend.mysql.po.RemarkExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_remark
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.mark.backend.mysql.po.RemarkExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from t_remark
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_remark
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_remark
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.mark.backend.mysql.po.RemarkExample">
+		delete from t_remark
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.mark.backend.mysql.po.Remark"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_remark (id, create_time, update_time,
+		group_id_fk, book_id_fk, user_id_fk,
+		start_page, end_page, comment
+		)
+		values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{groupIdFk,jdbcType=BIGINT}, #{bookIdFk,jdbcType=BIGINT}, #{userIdFk,jdbcType=BIGINT},
+		#{startPage,jdbcType=INTEGER}, #{endPage,jdbcType=INTEGER},
+		#{comment,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Remark">
+		insert into t_remark
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="groupIdFk != null">
+				group_id_fk,
+			</if>
+			<if test="bookIdFk != null">
+				book_id_fk,
+			</if>
+			<if test="userIdFk != null">
+				user_id_fk,
+			</if>
+			<if test="startPage != null">
+				start_page,
+			</if>
+			<if test="endPage != null">
+				end_page,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="groupIdFk != null">
+				#{groupIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="bookIdFk != null">
+				#{bookIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="userIdFk != null">
+				#{userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="startPage != null">
+				#{startPage,jdbcType=INTEGER},
+			</if>
+			<if test="endPage != null">
+				#{endPage,jdbcType=INTEGER},
+			</if>
+			<if test="comment != null">
+				#{comment,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.mark.backend.mysql.po.RemarkExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_remark
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_remark
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=BIGINT},
+			</if>
+			<if test="record.createTime != null">
+				create_time = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateTime != null">
+				update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.groupIdFk != null">
+				group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="record.bookIdFk != null">
+				book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="record.userIdFk != null">
+				user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="record.startPage != null">
+				start_page = #{record.startPage,jdbcType=INTEGER},
+			</if>
+			<if test="record.endPage != null">
+				end_page = #{record.endPage,jdbcType=INTEGER},
+			</if>
+			<if test="record.comment != null">
+				comment = #{record.comment,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update t_remark
+		set id = #{record.id,jdbcType=BIGINT},
+		create_time = #{record.createTime,jdbcType=TIMESTAMP},
+		update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+		group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
+		book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
+		user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+		start_page = #{record.startPage,jdbcType=INTEGER},
+		end_page = #{record.endPage,jdbcType=INTEGER},
+		comment = #{record.comment,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_remark
+		set id = #{record.id,jdbcType=BIGINT},
+		create_time = #{record.createTime,jdbcType=TIMESTAMP},
+		update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+		group_id_fk = #{record.groupIdFk,jdbcType=BIGINT},
+		book_id_fk = #{record.bookIdFk,jdbcType=BIGINT},
+		user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+		start_page = #{record.startPage,jdbcType=INTEGER},
+		end_page = #{record.endPage,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mark.backend.mysql.po.Remark">
+		update t_remark
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="groupIdFk != null">
+				group_id_fk = #{groupIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="bookIdFk != null">
+				book_id_fk = #{bookIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="userIdFk != null">
+				user_id_fk = #{userIdFk,jdbcType=BIGINT},
+			</if>
+			<if test="startPage != null">
+				start_page = #{startPage,jdbcType=INTEGER},
+			</if>
+			<if test="endPage != null">
+				end_page = #{endPage,jdbcType=INTEGER},
+			</if>
+			<if test="comment != null">
+				comment = #{comment,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mark.backend.mysql.po.Remark">
+		update t_remark
+		set create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		group_id_fk = #{groupIdFk,jdbcType=BIGINT},
+		book_id_fk = #{bookIdFk,jdbcType=BIGINT},
+		user_id_fk = #{userIdFk,jdbcType=BIGINT},
+		start_page = #{startPage,jdbcType=INTEGER},
+		end_page = #{endPage,jdbcType=INTEGER},
+		comment = #{comment,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Remark">
+		update t_remark
+		set create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		group_id_fk = #{groupIdFk,jdbcType=BIGINT},
+		book_id_fk = #{bookIdFk,jdbcType=BIGINT},
+		user_id_fk = #{userIdFk,jdbcType=BIGINT},
+		start_page = #{startPage,jdbcType=INTEGER},
+		end_page = #{endPage,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
 </mapper>
