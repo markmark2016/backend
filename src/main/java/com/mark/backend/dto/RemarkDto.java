@@ -44,6 +44,10 @@ public class RemarkDto {
 	 */
 	private Integer groupTotalRemark;
 	/**
+	 * 是否完成阅读
+	 */
+	private Boolean isComplete;
+	/**
 	 * user完成阅读日期
 	 */
 	private Date readCompleteDate;
@@ -146,6 +150,14 @@ public class RemarkDto {
 
 	public void setIsPunch(Boolean isPunch) {
 		this.isPunch = isPunch;
+	}
+
+	public Boolean getIsComplete() {
+		return isComplete;
+	}
+
+	public void setIsComplete(Boolean isComplete) {
+		this.isComplete = isComplete;
 	}
 
 }

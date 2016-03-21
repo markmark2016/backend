@@ -41,6 +41,8 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setBookName(groupDto.getBookName());
 			rdto.setImage(groupDto.getGroupImage());
 			rdto.setUserId(userId);
+			rdto.setIsComplete("2".equals(groupDto.getUserStatus()));
+			// 今日是否打卡了
 			RemarkExample rex = new RemarkExample();
 			rex.createCriteria().andGroupIdFkEqualTo(groupDto.getId())
 					.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
@@ -50,6 +52,7 @@ public class RemarkServiceImpl implements IRemarkService {
 					rdto.setIsPunch(true);
 				}
 			}
+			// 今日该小组打卡人数
 			rdto.setTodayPunch(remarkList.size());
 			finalList.add(rdto);
 		}
@@ -61,6 +64,11 @@ public class RemarkServiceImpl implements IRemarkService {
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
 		Integer returnId = remarkMapper.insert(remark);
-		return remark.getId();
+		if (returnId > 0) {
+			return remark.getId();
+		} else {
+			return -1L;
+		}
+
 	}
 }
