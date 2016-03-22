@@ -115,7 +115,12 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.put("groupId", groupId);
 		// 热门的list
 		List<RemarkDto> beginList = rexMapper.getGroupRemarkHotList(groupId);
-		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
+		// 按时间排序list
+		List<RemarkDto> timeOrderList = rexMapper
+				.getGroupRemarkListRecentlyList(groupId);
+		// 丰富后的热门列表
+		List<RemarkDto> finalHotList = new ArrayList<RemarkDto>();
+		List<RemarkDto> finalTimeOrderList = new ArrayList<RemarkDto>();
 		// 回复数id-count列表
 		map.put("type", 1);
 		List<RemarkDto> replyCountList = rexMapper
@@ -138,10 +143,27 @@ public class RemarkServiceImpl implements IRemarkService {
 					hotDto.setTotalLike(likeDto.getTotalLike());
 				}
 			}
-			finalList.add(hotDto);
+			finalHotList.add(hotDto);
+		}
+		for (RemarkDto timeOrderDto : timeOrderList) {
+			User user = WeixinService.userMap.get(timeOrderDto.getUserId());
+			timeOrderDto.setUserName(user.getNickname());
+			timeOrderDto.setHeadImage(user.getHeadImgUrl());
+			for (RemarkDto replyDto : replyCountList) {
+				if (replyDto.getRemarkId() == timeOrderDto.getRemarkId()) {
+					timeOrderDto.setTotalReply(replyDto.getTotalReply());
+				}
+			}
+			for (RemarkDto likeDto : likeCountList) {
+				if (likeDto.getRemarkId() == timeOrderDto.getRemarkId()) {
+					timeOrderDto.setTotalLike(likeDto.getTotalLike());
+				}
+			}
+			finalTimeOrderList.add(timeOrderDto);
 		}
 		map.clear();
-		map.put("hotlist", finalList);
+		map.put("hotlist", finalHotList);
+		map.put("timeorderlist", finalTimeOrderList);
 		return map;
 	}
 }

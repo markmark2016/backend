@@ -66,15 +66,19 @@ public class RemarkDto {
 	/**
 	 * 点赞数
 	 */
-	private Integer totalLike;
+	private Integer totalLike = 0;
 	/**
 	 * 回复数
 	 */
-	private Integer totalReply;
+	private Integer totalReply = 0;
 	/**
 	 * 发表日期
 	 */
 	private Date createTime;
+	/**
+	 * 评论标题
+	 */
+	private String title;
 	/**
 	 * 评论内容
 	 */
@@ -222,6 +226,14 @@ public class RemarkDto {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getComment() {

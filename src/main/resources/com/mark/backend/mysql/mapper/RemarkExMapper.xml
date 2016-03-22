@@ -4,16 +4,27 @@
 <mapper namespace="com.mark.backend.mysql.mapper.RemarkExMapper">
 	<select id="getGroupRemarkListRecentlyList" parameterType="long"
 		resultType="com.mark.backend.dto.RemarkDto">
-
-
+		SELECT
+		tr.id AS remarkId,
+		tr.user_id_fk AS userId,
+		tr.create_time AS createTime,
+		tr.title,
+		tr.`comment`
+		FROM
+		t_remark tr
+		WHERE
+		tr.group_id_fk = #{groupId}
+		ORDER BY
+		tr.create_time DESC
 	</select>
 	<select id="getGroupRemarkHotList" parameterType="long"
 		resultType="com.mark.backend.dto.RemarkDto">
 		SELECT
 		tr.user_id_fk AS userId,
-		tr.id ASremarkId,
+		tr.id AS remarkId,
 		tr.create_time AS
 		createTime,tr.`comment`,
+		tr.title,
 		COUNT(tri.remark_id_fk) AS
 		counts
 		FROM
