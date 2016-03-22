@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.mark.backend.dto.GroupDto;
-import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 
@@ -121,4 +120,13 @@ public interface IUserService {
 	 * @return
 	 */
 	Map<String, Object> getRemarkInGroupkByUserId(Long userId);
+
+	/**
+	 * 获得用户在指定小组的书评
+	 * 
+	 * @param userId
+	 * @param groupid
+	 * @return
+	 */
+	Map<String, Object> getUserRemarkInGroup(Long userId, Long groupId);
 }

@@ -45,4 +45,13 @@ public interface RemarkExMapper {
 	 * @return
 	 */
 	public List<RemarkDto> getRemarkInGroupkByUserId(Long userId);
+
+	/**
+	 * 获得用户在该小组的所有书评信息
+	 * 
+	 * @param userId
+	 * @param groupId
+	 * @return
+	 */
+	public List<RemarkDto> getUserInGroupRemarkList(Map<String, Object> params);
 }

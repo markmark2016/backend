@@ -205,4 +205,52 @@ public class UserServiceImpl implements IUserService {
 		map.put("totalRemark", totalRemark);
 		return map;
 	}
+
+	@Override
+	public Map<String, Object> getUserRemarkInGroup(Long userId, Long groupId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		User user = WeixinService.userMap.get(userId);
+		// 获得groupdto，不要在这里加入userId
+		params.put("allInfo", "1");
+		params.put("groupId", groupId);
+		GroupDto group = gexMapper.queryGroupList(params).get(0);
+		params.remove("allInfo");
+		params.put("userId", userId);
+		// 获得用户的书评列表
+		List<RemarkDto> remarkList = rexMapper.getUserInGroupRemarkList(params);
+		// 获得该小组下所有id-评论数列表
+		params.remove("userId");
+		params.put("type", "1");
+		List<RemarkDto> replyList = rexMapper
+				.getGroupRemarkInteractList(params);
+		// 获得该小组下所有的id-点赞数列表
+		params.remove("userId");
+		params.put("type", "2");
+		List<RemarkDto> likeList = rexMapper.getGroupRemarkInteractList(params);
+		// 最终丰富的列表
+		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
+		// 丰富最终列表的内容
+		for (RemarkDto remarkDto : remarkList) {
+			remarkDto.setUserId(userId);
+			remarkDto.setHeadImage(user.getHeadImgUrl());
+			remarkDto.setUserName(user.getNickname());
+			for (RemarkDto replyDto : replyList) {
+				if (replyDto.getRemarkId() == remarkDto.getRemarkId()) {
+					remarkDto.setTotalReply(replyDto.getTotalReply());
+				}
+			}
+			for (RemarkDto likeDto : likeList) {
+				if (likeDto.getRemarkId() == remarkDto.getRemarkId()) {
+					remarkDto.setTotalLike(likeDto.getTotalLike());
+				}
+			}
+			finalList.add(remarkDto);
+		}
+		params.clear();
+		params.put("groupInfo", group);
+		params.put("remarklist", finalList);
+		// 该用户信息
+		// params.put("user", WeixinService.userMap.get(userId));
+		return params;
+	}
 }

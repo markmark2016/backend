@@ -96,4 +96,22 @@
 		ORDER BY
 		groupTotalRemark DESC
 	</select>
+	<select id="getUserInGroupRemarkList" parameterType="long"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT
+		tr.id AS remarkId,
+		tr.title,
+		tr.comment,
+		tr.create_time
+		AS createTime
+		FROM
+		t_remark tr
+		WHERE
+		tr.user_id_fk =
+		${userId}
+		AND
+		tr.group_id_fk = ${groupId}
+		ORDER BY
+		create_time DESC
+	</select>
 </mapper>

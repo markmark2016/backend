@@ -223,4 +223,22 @@ public class UserController {
 		return map;
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/{userId}/remark/{groupId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object userRemarkInGroup(@PathVariable("userId") Long userId,
+			@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> data = userService.getUserRemarkInGroup(userId,
+				groupId);
+		map.put("status", 1);
+		map.put("msg", "更新成功");
+		map.put("date", data);
+		return map;
+	}
+
 }
