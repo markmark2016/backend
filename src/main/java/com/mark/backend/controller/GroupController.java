@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.GroupDto;
@@ -44,7 +45,8 @@ public class GroupController {
 	// 查看指定小组
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object getGroupById(@PathVariable("groupId") Long groupId, Model model) {
+	Object getGroupById(@PathVariable("groupId") Long groupId,
+			@RequestParam(required = true) Long userId, Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		params.put("allInfo", "true");

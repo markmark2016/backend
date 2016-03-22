@@ -29,7 +29,7 @@ public interface IRemarkService {
 	 * @param groupId
 	 * @return
 	 */
-	public Map<String, Object> getUserInGroupTodayRemark(String openId,
+	public Map<String, Object> getUserInGroupTodayRemark(Long userId,
 			Long groupId);
 
 }

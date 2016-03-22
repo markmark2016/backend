@@ -70,9 +70,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public Integer updateUserDetailInfo(String openId, User user) {
+	public Integer updateUserDetailInfo(Long userId, User user) {
 		UserExample ex = new UserExample();
-		ex.createCriteria().andOpenidEqualTo(openId);
+		ex.createCriteria().andIdEqualTo(userId);
 		user.setUpdateTime(MarkUtils.getCurrentTime());
 		int i = userMapper.updateByExampleSelective(user, ex);
 		return i;

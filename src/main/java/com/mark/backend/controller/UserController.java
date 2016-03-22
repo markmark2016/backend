@@ -34,12 +34,12 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object getUserInfo(@PathVariable("openId") String openId, Model model) {
+	Object getUserInfo(@PathVariable("userId") Long userId, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("openId", WeixinService.userMap.get(openId).getOpenid());
+		params.put("userId", userId);
 		UserDto userDto = userService.queryUserPageInfo(params);
 		map.put("status", 1);
 		map.put("data", userDto);
@@ -52,15 +52,15 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/details/{openId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/details/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object getUserDetails(@PathVariable("openId") String openId, Model model) {
+	Object getUserDetails(@PathVariable("userId") Long userId, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("openId", WeixinService.userMap.get(openId).getOpenid());
+		params.put("userId", userId);
 		params.clear();
 		Map<String, Object> bookMap = bookService.getUserBookList(params);
-		User user = userService.getUserByOpenId(openId);
+		User user = WeixinService.userMap.get(userId);
 		params.put("user", user);
 		params.put("bookList", bookMap);
 		map.put("status", 1);
@@ -73,10 +73,10 @@ public class UserController {
 	 * @param 更新用户信息
 	 * @return
 	 */
-	@RequestMapping(value = "/details/{openId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/details/{userId}", method = RequestMethod.PUT)
 	public @ResponseBody
-	Object updateUserInfo(@PathVariable("openId") String openId, User user) {
-		int flag = userService.updateUserDetailInfo(openId, user);
+	Object updateUserInfo(@PathVariable("userId") Long userId, User user) {
+		int flag = userService.updateUserDetailInfo(userId, user);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (flag > 0) {
 			map.put("status", 1);
@@ -94,12 +94,11 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/group", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/group", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersGroup(@PathVariable("openId") String openId) {
+	Object usersGroup(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> ugMap = userService
-				.getUserGroupDetail(WeixinService.userMap.get(openId).getId());
+		Map<String, Object> ugMap = userService.getUserGroupDetail(userId);
 		map.put("status", 1);
 		map.put("msg", "success");
 		map.put("data", ugMap);
@@ -112,12 +111,11 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/rank", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/rank", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersRank(@PathVariable("openId") String openId) {
+	Object usersRank(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> rankMap = userService
-				.getRankInfo(WeixinService.userMap.get(openId).getId());
+		Map<String, Object> rankMap = userService.getRankInfo(userId);
 		map.put("status", 1);
 		map.put("msg", "sucess");
 		map.put("data", rankMap);
@@ -130,13 +128,13 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/rank/{groupId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/rank/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersRankInGroup(@PathVariable("openId") String openId,
+	Object usersRankInGroup(@PathVariable("userId") Long userId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> rankMap = userService.getUserGroupRankInfoDetail(
-				WeixinService.userMap.get(openId).getId(), groupId);
+				userId, groupId);
 		map.put("status", 1);
 		map.put("msg", "sucess");
 		map.put("data", rankMap);
@@ -149,13 +147,12 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/score", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/score", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersScore(@PathVariable("openId") String openId) {
+	Object usersScore(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> scoreMap = userService
-				.getUserGroupScoreInfo(WeixinService.userMap.get(openId)
-						.getId());
+				.getUserGroupScoreInfo(userId);
 		map.put("status", 1);
 		map.put("msg", "success");
 		map.put("data", scoreMap);
@@ -168,9 +165,9 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/punch", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/punch", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersPunch(@PathVariable("openId") String openId) {
+	Object usersPunch(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (true) {
 			map.put("status", 1);
@@ -188,13 +185,12 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/readed", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/readed", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersReaded(@PathVariable("openId") String openId) {
+	Object usersReaded(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> dtoMap = new HashMap<String, Object>();
-		List<GroupDto> dtoList = userService
-				.getUserReadedList(WeixinService.userMap.get(openId).getId());
+		List<GroupDto> dtoList = userService.getUserReadedList(userId);
 		dtoMap.put("groupList", dtoList);
 		dtoMap.put("totalRead", dtoList.size());
 		if (dtoList.size() > 0) {
@@ -214,9 +210,9 @@ public class UserController {
 	 * @param openId
 	 * @return
 	 */
-	@RequestMapping(value = "/{openId}/remark", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}/remark", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersTotalRemark(@PathVariable("openId") String openId) {
+	Object usersTotalRemark(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (true) {
 			map.put("status", 1);

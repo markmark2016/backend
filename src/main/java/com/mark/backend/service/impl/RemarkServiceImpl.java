@@ -84,14 +84,14 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Map<String, Object> getUserInGroupTodayRemark(String openId,
+	public Map<String, Object> getUserInGroupTodayRemark(Long userId,
 			Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 用户信息
-		User user = WeixinService.userMap.get(openId);
+		User user = WeixinService.userMap.get(userId);
 		// 主体信息
 		RemarkExample rex = new RemarkExample();
-		rex.createCriteria().andUserIdFkEqualTo(user.getId())
+		rex.createCriteria().andUserIdFkEqualTo(userId)
 				.andGroupIdFkEqualTo(groupId)
 				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
 		RemarkWithBLOBs remark = remarkMapper.selectByExampleWithBLOBs(rex)

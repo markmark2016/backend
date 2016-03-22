@@ -48,9 +48,9 @@ public class WeixinService {
 
 	public static Map<String, Map<String, Object>> markInfoMap = new HashMap<String, Map<String, Object>>();
 	/**
-	 * openId---user 对象map
+	 * Id---user 对象map
 	 */
-	public static Map<String, User> userMap = new HashMap<String, User>();
+	public static Map<Long, User> userMap = new HashMap<Long, User>();
 
 	@Resource
 	private UserMapper userMapper;
@@ -90,7 +90,7 @@ public class WeixinService {
 		List<User> userList = userMapper.selectByExample(ex);
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (User user : userList) {
-			userMap.put(user.getOpenid(), user);
+			userMap.put(user.getId(), user);
 			map.put(user.getOpenid(), user.getId());
 		}
 		return map;
@@ -148,37 +148,31 @@ public class WeixinService {
 			return null;
 		}
 		/**
-		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取部分数据,异步执行,若存在，更新用户的昵称和头像信息
+		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取用户部分信息数据 阻塞执行。若存在，更新用户的昵称和头像信息，异步执行
 		 */
 		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
-			multiExecutor.execute(new Runnable() {
-				@Override
-				public void run() {
-					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
-							openId);
-					User user = new User();
-					user.setCreateTime(MarkUtils.getCurrentTime());
-					user.setUpdateTime(user.getCreateTime());
-					user.setCity(userInfo.getString("city"));
-					user.setProvince(userInfo.getString("province"));
-					user.setNickname(userInfo.getString("nickname"));
-					user.setGender(userInfo.getString("sex"));
-					user.setHeadImgUrl(userInfo.getString("headimgurl"));
-					user.setOpenid(userInfo.getString("openid"));
-					int i = userMapper.insert(user);
-					if (i > 0) {
-						markInfoMap.get("userIdMap").put(openId, user.getId());
-						userMap.put(openId, user);
-					}
-				}
-			});
+			JSONObject userInfo = MarkUtils.getUserInfo(access_token, openId);
+			User user = new User();
+			user.setCreateTime(MarkUtils.getCurrentTime());
+			user.setUpdateTime(user.getCreateTime());
+			user.setCity(userInfo.getString("city"));
+			user.setProvince(userInfo.getString("province"));
+			user.setNickname(userInfo.getString("nickname"));
+			user.setGender(userInfo.getString("sex"));
+			user.setHeadImgUrl(userInfo.getString("headimgurl"));
+			user.setOpenid(userInfo.getString("openid"));
+			int i = userMapper.insert(user);
+			if (i > 0) {
+				markInfoMap.get("userIdMap").put(openId, user.getId());
+				userMap.put(user.getId(), user);
+			}
 		} else {
 			multiExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
 					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
 							openId);
-					User user = new User();
+					User user = userMap.get(openId);
 					user.setUpdateTime(MarkUtils.getCurrentTime());
 					// user.setCity(userInfo.getString("city"));
 					// user.setProvince(userInfo.getString("province"));
@@ -188,10 +182,10 @@ public class WeixinService {
 					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
 					ex.createCriteria().andOpenidEqualTo(openId);
-					int i = userMapper.updateByExampleSelective(user, ex);
+					Integer i = userMapper.updateByExampleSelective(user, ex);
 					if (i > 0) {
 						markInfoMap.get("userIdMap").put(openId, user.getId());
-						userMap.put(openId, user);
+						userMap.put(user.getId(), user);
 					}
 				}
 			});

@@ -53,7 +53,7 @@ public interface IUserService {
 	 * @param openId
 	 * @return
 	 */
-	Integer updateUserDetailInfo(String openId, User user);
+	Integer updateUserDetailInfo(Long userId, User user);
 
 	/**
 	 * “我”中，点击小组

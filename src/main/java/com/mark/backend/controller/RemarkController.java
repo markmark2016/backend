@@ -16,7 +16,6 @@ import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IRemarkService;
-import com.mark.backend.service.impl.WeixinService;
 
 @Controller
 @RequestMapping(value = "/remark")
@@ -32,12 +31,11 @@ public class RemarkController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/punch/{openId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/punch/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object punchIndex(@PathVariable("openId") String openId) {
+	Object punchIndex(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<RemarkDto> list = remarkService.getPunchList(WeixinService.userMap
-				.get(openId).getId());
+		List<RemarkDto> list = remarkService.getPunchList(userId);
 		if (list.size() > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -55,14 +53,14 @@ public class RemarkController {
 	 * @param remark
 	 * @return
 	 */
-	@RequestMapping(value = "/create/{groupId}/{openId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/create/{groupId}/{userId}", method = RequestMethod.POST)
 	public @ResponseBody
 	Object createRemark(RemarkWithBLOBs remark,
-			@PathVariable("openId") String openId,
+			@PathVariable("userId") Long userId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
-		remark.setUserIdFk(WeixinService.userMap.get(openId).getId());
+		remark.setUserIdFk(userId);
 		Long remarkId = remarkService.createRemark(remark);
 		if (remarkId > 0) {
 			map.put("status", 1);
@@ -80,17 +78,17 @@ public class RemarkController {
 	 * @param remark
 	 * @return
 	 */
-	@RequestMapping(value = "/complete/{groupId}/{openId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/complete/{groupId}/{userId}", method = RequestMethod.POST)
 	public @ResponseBody
 	Object completeBook(RemarkWithBLOBs remark,
-			@PathVariable("openId") String openId,
+			@PathVariable("userId") Long userId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
-		remark.setUserIdFk(WeixinService.userMap.get(openId).getId());
+		remark.setUserIdFk(userId);
 		Long remarkId = remarkService.createRemark(remark);
 		Integer updateFlag = groupService.updateGroupUserStatus(groupId,
-				WeixinService.userMap.get(openId).getId(), "2");
+				userId, "2");
 		if (remarkId > 0 && updateFlag > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -106,16 +104,33 @@ public class RemarkController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/today/{groupId}/{openId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/today/{groupId}/{userId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object checkTodayRemark(@PathVariable("openId") String openId,
+	Object checkTodayRemark(@PathVariable("userId") Long userId,
 			@PathVariable("groupId") Long groupId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> remarkMap = remarkService
-				.getUserInGroupTodayRemark(openId, groupId);
+				.getUserInGroupTodayRemark(userId, groupId);
 		map.put("status", 1);
 		map.put("msg", "sucess");
 		map.put("data", remarkMap);
+		return map;
+	}
+
+	/**
+	 * 查看今日书评
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/group/{groupId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object checkTodayRemark(@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// Map<String, Object> remarkMap = remarkService
+		// .getUserInGroupTodayRemark(openId, groupId);
+		map.put("status", 1);
+		map.put("msg", "sucess");
+		// map.put("data", remarkMap);
 		return map;
 	}
 }
