@@ -107,4 +107,41 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.put("remark", remark);
 		return map;
 	}
+
+	@Override
+	public Map<String, Object> getGroupRemark(Long groupId) {
+		// 查询map，查点赞数和评论数用
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("groupId", groupId);
+		// 热门的list
+		List<RemarkDto> beginList = rexMapper.getGroupRemarkHotList(groupId);
+		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
+		// 回复数id-count列表
+		map.put("type", 1);
+		List<RemarkDto> replyCountList = rexMapper
+				.getGroupRemarkInteractList(map);
+		// 点赞数id-count列表
+		map.put("type", 2);
+		List<RemarkDto> likeCountList = rexMapper
+				.getGroupRemarkInteractList(map);
+		for (RemarkDto hotDto : beginList) {
+			User user = WeixinService.userMap.get(hotDto.getUserId());
+			hotDto.setUserName(user.getNickname());
+			hotDto.setHeadImage(user.getHeadImgUrl());
+			for (RemarkDto replyDto : replyCountList) {
+				if (replyDto.getRemarkId() == hotDto.getRemarkId()) {
+					hotDto.setTotalReply(replyDto.getTotalReply());
+				}
+			}
+			for (RemarkDto likeDto : likeCountList) {
+				if (likeDto.getRemarkId() == hotDto.getRemarkId()) {
+					hotDto.setTotalLike(likeDto.getTotalLike());
+				}
+			}
+			finalList.add(hotDto);
+		}
+		map.clear();
+		map.put("hotlist", finalList);
+		return map;
+	}
 }

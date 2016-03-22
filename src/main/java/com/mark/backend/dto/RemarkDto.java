@@ -8,13 +8,21 @@ public class RemarkDto {
 	 */
 	private Long userId;
 	/**
+	 * 用户名
+	 */
+	private String userName;
+	/**
+	 * 用户头像地址
+	 */
+	private String headImage;
+	/**
 	 * 小组id
 	 */
 	private Long groupId;
 	/**
 	 * 书评id
 	 */
-	private Long reamarkId;
+	private Long remarkId;
 	/**
 	 * 小组名
 	 */
@@ -55,6 +63,22 @@ public class RemarkDto {
 	 * 今日是否打卡
 	 */
 	private Boolean isPunch = false;
+	/**
+	 * 点赞数
+	 */
+	private Integer totalLike;
+	/**
+	 * 回复数
+	 */
+	private Integer totalReply;
+	/**
+	 * 发表日期
+	 */
+	private Date createTime;
+	/**
+	 * 评论内容
+	 */
+	private String comment;
 
 	public Long getUserId() {
 		return userId;
@@ -62,6 +86,22 @@ public class RemarkDto {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getHeadImage() {
+		return headImage;
+	}
+
+	public void setHeadImage(String headImage) {
+		this.headImage = headImage;
 	}
 
 	public Long getGroupId() {
@@ -72,12 +112,12 @@ public class RemarkDto {
 		this.groupId = groupId;
 	}
 
-	public Long getReamarkId() {
-		return reamarkId;
+	public Long getRemarkId() {
+		return remarkId;
 	}
 
-	public void setReamarkId(Long reamarkId) {
-		this.reamarkId = reamarkId;
+	public void setRemarkId(Long remarkId) {
+		this.remarkId = remarkId;
 	}
 
 	public String getGroupName() {
@@ -136,6 +176,14 @@ public class RemarkDto {
 		this.groupTotalRemark = groupTotalRemark;
 	}
 
+	public Boolean getIsComplete() {
+		return isComplete;
+	}
+
+	public void setIsComplete(Boolean isComplete) {
+		this.isComplete = isComplete;
+	}
+
 	public Date getReadCompleteDate() {
 		return readCompleteDate;
 	}
@@ -152,12 +200,36 @@ public class RemarkDto {
 		this.isPunch = isPunch;
 	}
 
-	public Boolean getIsComplete() {
-		return isComplete;
+	public Integer getTotalLike() {
+		return totalLike;
 	}
 
-	public void setIsComplete(Boolean isComplete) {
-		this.isComplete = isComplete;
+	public void setTotalLike(Integer totalLike) {
+		this.totalLike = totalLike;
+	}
+
+	public Integer getTotalReply() {
+		return totalReply;
+	}
+
+	public void setTotalReply(Integer totalReply) {
+		this.totalReply = totalReply;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

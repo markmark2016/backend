@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.AssociationDto;
@@ -40,7 +41,7 @@ public class AssociationController {
 	@RequestMapping(value = "/{associationId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(@PathVariable("associationId") Long associationId,
-			Model model) {
+			@RequestParam(required = true) Long userId, Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("associationId", associationId);
 		AssociationDto dto = associaService.getAssociationById(params);

@@ -2,9 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.mark.backend.mysql.mapper.RemarkExMapper">
-	<select id="getUserPunchList" parameterType="long"
+	<select id="getGroupRemarkListRecentlyList" parameterType="long"
 		resultType="com.mark.backend.dto.RemarkDto">
 
 
+	</select>
+	<select id="getGroupRemarkHotList" parameterType="long"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT
+		tr.user_id_fk AS userId,
+		tr.id ASremarkId,
+		tr.create_time AS
+		createTime,tr.`comment`,
+		COUNT(tri.remark_id_fk) AS
+		counts
+		FROM
+		t_remark
+		tr
+		LEFT JOIN
+		t_remark_interact tri ON tr.id =
+		tri.remark_id_fk
+		WHERE
+		tr.group_id_fk =
+		#{groupId}
+		GROUP BY
+		tri.remark_id_fk
+		ORDER BY
+		counts DESC
+	</select>
+	<select id="getGroupRemarkInteractList" parameterType="java.util.Map"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT
+		tri.remark_id_fk AS remarkId,
+		<if test="type == 2">
+			COUNT(tri.type) AS totalLike
+		</if>
+		<if test="type == 1">
+			COUNT(tri.type) AS totalReply
+		</if>
+		FROM
+		t_remark_interact tri
+		WHERE
+		<if test="type == 2">
+			tri.type = ${type}
+		</if>
+		<if test="type == 1">
+			tri.type = ${type}
+		</if>
+		AND tri.remark_id_fk IN (
+		SELECT
+		id
+		FROM
+		t_remark tr
+		WHERE
+		<if test="groupId != null">
+			group_id_fk = ${groupId}
+		</if>
+		)
+		GROUP BY
+		tri.remark_id_fk
 	</select>
 </mapper>

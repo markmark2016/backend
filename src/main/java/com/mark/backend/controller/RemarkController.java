@@ -118,13 +118,24 @@ public class RemarkController {
 	}
 
 	/**
-	 * 查看今日书评
+	 * 查看小组内书评
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/group/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
-	Object checkTodayRemark(@PathVariable("groupId") Long groupId) {
+	Object getGroupRemark(@PathVariable("groupId") Long groupId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> remarkMap = remarkService.getGroupRemark(groupId);
+		map.put("status", 1);
+		map.put("msg", "sucess");
+		map.put("data", remarkMap);
+		return map;
+	}
+
+	@RequestMapping(value = "/{remarkId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object getRemark(@PathVariable("remarkId") Long remarkId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// Map<String, Object> remarkMap = remarkService
 		// .getUserInGroupTodayRemark(openId, groupId);

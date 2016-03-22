@@ -86,15 +86,20 @@
 		FROM
 		(
 		SELECT
-		tu.id
-		AS userId,
+		tu.id AS userId,
+		ts.group_id_fk AS id,
+		tg.group_name AS groupName,
+		tb.image AS groupImage,
 		sum(score) AS score
 		FROM
-		t_score ts,
-		t_user tu
+		t_score ts
+		LEFT JOIN t_group tg ON tg.id = ts.group_id_fk,
+		t_user tu,
+		t_book tb
 		WHERE
 		ts.user_id_fk = tu.id
-		AND ts.group_id_fk = #{groupId}
+		AND tb.id = tg.book_id_fk
+		AND ts.group_id_fk =#{groupId}
 		GROUP BY
 		tu.id
 		ORDER BY

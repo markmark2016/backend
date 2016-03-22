@@ -32,4 +32,12 @@ public interface IRemarkService {
 	public Map<String, Object> getUserInGroupTodayRemark(Long userId,
 			Long groupId);
 
+	/**
+	 * 获得小组评论
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public Map<String, Object> getGroupRemark(Long groupId);
+
 }
