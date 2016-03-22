@@ -57,10 +57,12 @@ public class GroupController {
 			resultMap.put("status", 1);
 			resultMap.put("msg", "成功");
 			resultMap.put("data", dtoList.get(0));
+			resultMap.put("userId", userId);
 		} else {
 			resultMap.put("status", 0);
 			resultMap.put("msg", "未查到小组信息");
 			resultMap.put("data", null);
+			resultMap.put("userId", userId);
 		}
 		return resultMap;
 	}

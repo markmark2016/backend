@@ -34,7 +34,6 @@
 			tgu.user_id_fk = ${userId}
 		</if>
 		,t_book tb
-
 		<if test="associationId != null">
 			,t_association ta,
 			t_association_group tag
@@ -48,6 +47,8 @@
 		<if test="associationId != null">
 			AND tag.status != 0
 			AND tag.association_id_fk = ta.id
+			AND
+			tag.group_id_fk = tg.id
 			AND
 			ta.id = ${associationId}
 		</if>

@@ -44,10 +44,12 @@ public class AssociationController {
 			@RequestParam(required = true) Long userId, Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("associationId", associationId);
+		params.put("userId", userId);
 		AssociationDto dto = associaService.getAssociationById(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
 		map.put("msg", "成功");
+		map.put("userId", userId);
 		map.put("data", dto);
 		return map;
 	}
