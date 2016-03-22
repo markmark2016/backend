@@ -54,6 +54,9 @@ public class RemarkServiceImpl implements IRemarkService {
 		List<GroupDto> groupList = gexMapper.getUserGroupList(userId);
 		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
 		for (GroupDto groupDto : groupList) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("groupId", groupDto.getId());
+			params.put("userId", userId);
 			RemarkDto rdto = new RemarkDto();
 			rdto.setGroupId(groupDto.getId());
 			rdto.setGroupName(groupDto.getGroupName());
@@ -62,6 +65,8 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setUserId(userId);
 			rdto.setReadCompleteDate(groupDto.getReadCompleteDate());
 			rdto.setIsComplete("2".equals(groupDto.getUserStatus()));
+			rdto.setContinuePunch((Integer) this.getContinuePunchInfo(params)
+					.get("totalPunch"));
 			// 今日是否打卡了
 			RemarkExample rex = new RemarkExample();
 			rex.createCriteria().andGroupIdFkEqualTo(groupDto.getId())
