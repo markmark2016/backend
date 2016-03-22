@@ -5,6 +5,7 @@
 	<select id="getLikeList" parameterType="long"
 		resultType="com.mark.backend.dto.UserDto">
 		SELECT
+		tu.id AS userId,
 		tu.openid,
 		tu.head_img_url AS headImage,
 		tu.nickname AS
@@ -12,9 +13,11 @@
 		FROM
 		t_interact
 		ti
-		LEFT JOIN t_user tu ON tu.id = ti.user_id_fk
+		LEFT JOIN t_user tu ON tu.id =
+		ti.user_id_fk
 		LEFT JOIN
-		t_remark_interact tri ON tri.interact_id_fk = ti.id
+		t_remark_interact tri ON tri.interact_id_fk =
+		ti.id
 		WHERE
 		tri.type = 2
 		AND tri.remark_id_fk = #{remarkId}

@@ -104,17 +104,23 @@ public class RemarkServiceImpl implements IRemarkService {
 		rex.createCriteria().andUserIdFkEqualTo(userId)
 				.andGroupIdFkEqualTo(groupId)
 				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
-		RemarkWithBLOBs remark = remarkMapper.selectByExampleWithBLOBs(rex)
-				.get(0);
-		// 点赞列表
-		List<UserDto> likeList = iexMapper.getLikeList(remark.getId());
-		// 回复列表
-		List<InteractDto> replyList = iexMapper.getReplyList(remark.getId());
-		map.put("totalLike", likeList.size());
-		map.put("likelist", likeList);
-		map.put("replylist", replyList);
-		map.put("user", user);
-		map.put("remark", remark);
+		
+		List<RemarkWithBLOBs> remarkList = remarkMapper
+				.selectByExampleWithBLOBs(rex);
+		if (remarkList.size() > 0) {
+			RemarkWithBLOBs remark = remarkList.get(0);
+			// 点赞列表
+			List<UserDto> likeList = iexMapper.getLikeList(remark.getId());
+			// 回复列表
+			List<InteractDto> replyList = iexMapper
+					.getReplyList(remark.getId());
+			map.put("totalLike", likeList.size());
+			map.put("likelist", likeList);
+			map.put("replylist", replyList);
+			map.put("user", user);
+			map.put("remark", remark);
+			return map;
+		}
 		return map;
 	}
 

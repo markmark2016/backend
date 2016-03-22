@@ -17,7 +17,7 @@ public class UserDto {
 	/**
 	 * 用户id
 	 */
-	private Long id;
+	private Long userId;
 	/**
 	 * 微信openId
 	 */
@@ -67,12 +67,12 @@ public class UserDto {
 		this.num = num;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getOpenid() {
