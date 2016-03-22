@@ -15,7 +15,6 @@
     <result column="book_brief" property="bookBrief" jdbcType="VARCHAR" />
     <result column="book_name" property="bookName" jdbcType="VARCHAR" />
     <result column="read_slogan" property="readSlogan" jdbcType="VARCHAR" />
-    <result column="group_desc" property="groupDesc" jdbcType="VARCHAR" />
     <result column="captain_brief" property="captainBrief" jdbcType="VARCHAR" />
     <result column="user_id_fk" property="userIdFk" jdbcType="BIGINT" />
     <result column="captain_name" property="captainName" jdbcType="VARCHAR" />
@@ -24,6 +23,10 @@
     <result column="captain_phone" property="captainPhone" jdbcType="VARCHAR" />
     <result column="group_mode" property="groupMode" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
+    <result column="wechat_qrcode" property="wechatQrcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mark.backend.mysql.po.Group" extends="BaseResultMap" >
+    <result column="group_desc" property="groupDesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -85,10 +88,29 @@
   </sql>
   <sql id="Base_Column_List" >
     id, create_time, update_time, begin_time, end_time, group_name, guarantee, frequency, 
-    latest_time, book_id_fk, book_brief, book_name, read_slogan, group_desc, captain_brief, 
-    user_id_fk, captain_name, captain_email, captain_wecode, captain_phone, group_mode, 
-    status
+    latest_time, book_id_fk, book_brief, book_name, read_slogan, captain_brief, user_id_fk, 
+    captain_name, captain_email, captain_wecode, captain_phone, group_mode, status, wechat_qrcode
   </sql>
+  <sql id="Blob_Column_List" >
+    group_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mark.backend.mysql.po.GroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mark.backend.mysql.po.GroupExample" >
     select
     <if test="distinct" >
@@ -104,9 +126,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_group
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -125,18 +149,18 @@
       begin_time, end_time, group_name, 
       guarantee, frequency, latest_time, 
       book_id_fk, book_brief, book_name, 
-      read_slogan, group_desc, captain_brief, 
-      user_id_fk, captain_name, captain_email, 
-      captain_wecode, captain_phone, group_mode, 
-      status)
+      read_slogan, captain_brief, user_id_fk, 
+      captain_name, captain_email, captain_wecode, 
+      captain_phone, group_mode, status, 
+      wechat_qrcode, group_desc)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{groupName,jdbcType=VARCHAR}, 
       #{guarantee,jdbcType=INTEGER}, #{frequency,jdbcType=VARCHAR}, #{latestTime,jdbcType=TIMESTAMP}, 
       #{bookIdFk,jdbcType=VARCHAR}, #{bookBrief,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}, 
-      #{readSlogan,jdbcType=VARCHAR}, #{groupDesc,jdbcType=VARCHAR}, #{captainBrief,jdbcType=VARCHAR}, 
-      #{userIdFk,jdbcType=BIGINT}, #{captainName,jdbcType=VARCHAR}, #{captainEmail,jdbcType=VARCHAR}, 
-      #{captainWecode,jdbcType=VARCHAR}, #{captainPhone,jdbcType=VARCHAR}, #{groupMode,jdbcType=VARCHAR}, 
-      #{status,jdbcType=CHAR})
+      #{readSlogan,jdbcType=VARCHAR}, #{captainBrief,jdbcType=VARCHAR}, #{userIdFk,jdbcType=BIGINT}, 
+      #{captainName,jdbcType=VARCHAR}, #{captainEmail,jdbcType=VARCHAR}, #{captainWecode,jdbcType=VARCHAR}, 
+      #{captainPhone,jdbcType=VARCHAR}, #{groupMode,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{wechatQrcode,jdbcType=VARCHAR}, #{groupDesc,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Group" >
     insert into t_group
@@ -180,9 +204,6 @@
       <if test="readSlogan != null" >
         read_slogan,
       </if>
-      <if test="groupDesc != null" >
-        group_desc,
-      </if>
       <if test="captainBrief != null" >
         captain_brief,
       </if>
@@ -206,6 +227,12 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="wechatQrcode != null" >
+        wechat_qrcode,
+      </if>
+      <if test="groupDesc != null" >
+        group_desc,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -248,9 +275,6 @@
       <if test="readSlogan != null" >
         #{readSlogan,jdbcType=VARCHAR},
       </if>
-      <if test="groupDesc != null" >
-        #{groupDesc,jdbcType=VARCHAR},
-      </if>
       <if test="captainBrief != null" >
         #{captainBrief,jdbcType=VARCHAR},
       </if>
@@ -274,6 +298,12 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=CHAR},
+      </if>
+      <if test="wechatQrcode != null" >
+        #{wechatQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        #{groupDesc,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -325,9 +355,6 @@
       <if test="record.readSlogan != null" >
         read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
       </if>
-      <if test="record.groupDesc != null" >
-        group_desc = #{record.groupDesc,jdbcType=VARCHAR},
-      </if>
       <if test="record.captainBrief != null" >
         captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
       </if>
@@ -352,7 +379,42 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=CHAR},
       </if>
+      <if test="record.wechatQrcode != null" >
+        wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupDesc != null" >
+        group_desc = #{record.groupDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_group
+    set id = #{record.id,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      guarantee = #{record.guarantee,jdbcType=INTEGER},
+      frequency = #{record.frequency,jdbcType=VARCHAR},
+      latest_time = #{record.latestTime,jdbcType=TIMESTAMP},
+      book_id_fk = #{record.bookIdFk,jdbcType=VARCHAR},
+      book_brief = #{record.bookBrief,jdbcType=VARCHAR},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
+      captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
+      user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
+      captain_name = #{record.captainName,jdbcType=VARCHAR},
+      captain_email = #{record.captainEmail,jdbcType=VARCHAR},
+      captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
+      captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
+      group_mode = #{record.groupMode,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR},
+      wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR},
+      group_desc = #{record.groupDesc,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -372,7 +434,6 @@
       book_brief = #{record.bookBrief,jdbcType=VARCHAR},
       book_name = #{record.bookName,jdbcType=VARCHAR},
       read_slogan = #{record.readSlogan,jdbcType=VARCHAR},
-      group_desc = #{record.groupDesc,jdbcType=VARCHAR},
       captain_brief = #{record.captainBrief,jdbcType=VARCHAR},
       user_id_fk = #{record.userIdFk,jdbcType=BIGINT},
       captain_name = #{record.captainName,jdbcType=VARCHAR},
@@ -380,7 +441,8 @@
       captain_wecode = #{record.captainWecode,jdbcType=VARCHAR},
       captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
       group_mode = #{record.groupMode,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=CHAR}
+      status = #{record.status,jdbcType=CHAR},
+      wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -424,9 +486,6 @@
       <if test="readSlogan != null" >
         read_slogan = #{readSlogan,jdbcType=VARCHAR},
       </if>
-      <if test="groupDesc != null" >
-        group_desc = #{groupDesc,jdbcType=VARCHAR},
-      </if>
       <if test="captainBrief != null" >
         captain_brief = #{captainBrief,jdbcType=VARCHAR},
       </if>
@@ -451,7 +510,39 @@
       <if test="status != null" >
         status = #{status,jdbcType=CHAR},
       </if>
+      <if test="wechatQrcode != null" >
+        wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        group_desc = #{groupDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mark.backend.mysql.po.Group" >
+    update t_group
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      guarantee = #{guarantee,jdbcType=INTEGER},
+      frequency = #{frequency,jdbcType=VARCHAR},
+      latest_time = #{latestTime,jdbcType=TIMESTAMP},
+      book_id_fk = #{bookIdFk,jdbcType=VARCHAR},
+      book_brief = #{bookBrief,jdbcType=VARCHAR},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      read_slogan = #{readSlogan,jdbcType=VARCHAR},
+      captain_brief = #{captainBrief,jdbcType=VARCHAR},
+      user_id_fk = #{userIdFk,jdbcType=BIGINT},
+      captain_name = #{captainName,jdbcType=VARCHAR},
+      captain_email = #{captainEmail,jdbcType=VARCHAR},
+      captain_wecode = #{captainWecode,jdbcType=VARCHAR},
+      captain_phone = #{captainPhone,jdbcType=VARCHAR},
+      group_mode = #{groupMode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR},
+      group_desc = #{groupDesc,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.Group" >
@@ -468,7 +559,6 @@
       book_brief = #{bookBrief,jdbcType=VARCHAR},
       book_name = #{bookName,jdbcType=VARCHAR},
       read_slogan = #{readSlogan,jdbcType=VARCHAR},
-      group_desc = #{groupDesc,jdbcType=VARCHAR},
       captain_brief = #{captainBrief,jdbcType=VARCHAR},
       user_id_fk = #{userIdFk,jdbcType=BIGINT},
       captain_name = #{captainName,jdbcType=VARCHAR},
@@ -476,7 +566,8 @@
       captain_wecode = #{captainWecode,jdbcType=VARCHAR},
       captain_phone = #{captainPhone,jdbcType=VARCHAR},
       group_mode = #{groupMode,jdbcType=VARCHAR},
-      status = #{status,jdbcType=CHAR}
+      status = #{status,jdbcType=CHAR},
+      wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

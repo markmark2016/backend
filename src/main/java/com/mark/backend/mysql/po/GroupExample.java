@@ -945,76 +945,6 @@ public class GroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andGroupDescIsNull() {
-            addCriterion("group_desc is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescIsNotNull() {
-            addCriterion("group_desc is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescEqualTo(String value) {
-            addCriterion("group_desc =", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescNotEqualTo(String value) {
-            addCriterion("group_desc <>", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescGreaterThan(String value) {
-            addCriterion("group_desc >", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescGreaterThanOrEqualTo(String value) {
-            addCriterion("group_desc >=", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescLessThan(String value) {
-            addCriterion("group_desc <", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescLessThanOrEqualTo(String value) {
-            addCriterion("group_desc <=", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescLike(String value) {
-            addCriterion("group_desc like", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescNotLike(String value) {
-            addCriterion("group_desc not like", value, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescIn(List<String> values) {
-            addCriterion("group_desc in", values, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescNotIn(List<String> values) {
-            addCriterion("group_desc not in", values, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescBetween(String value1, String value2) {
-            addCriterion("group_desc between", value1, value2, "groupDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andGroupDescNotBetween(String value1, String value2) {
-            addCriterion("group_desc not between", value1, value2, "groupDesc");
-            return (Criteria) this;
-        }
-
         public Criteria andCaptainBriefIsNull() {
             addCriterion("captain_brief is null");
             return (Criteria) this;
@@ -1562,6 +1492,76 @@ public class GroupExample {
 
         public Criteria andStatusNotBetween(String value1, String value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeIsNull() {
+            addCriterion("wechat_qrcode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeIsNotNull() {
+            addCriterion("wechat_qrcode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeEqualTo(String value) {
+            addCriterion("wechat_qrcode =", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeNotEqualTo(String value) {
+            addCriterion("wechat_qrcode <>", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeGreaterThan(String value) {
+            addCriterion("wechat_qrcode >", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeGreaterThanOrEqualTo(String value) {
+            addCriterion("wechat_qrcode >=", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeLessThan(String value) {
+            addCriterion("wechat_qrcode <", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeLessThanOrEqualTo(String value) {
+            addCriterion("wechat_qrcode <=", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeLike(String value) {
+            addCriterion("wechat_qrcode like", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeNotLike(String value) {
+            addCriterion("wechat_qrcode not like", value, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeIn(List<String> values) {
+            addCriterion("wechat_qrcode in", values, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeNotIn(List<String> values) {
+            addCriterion("wechat_qrcode not in", values, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeBetween(String value1, String value2) {
+            addCriterion("wechat_qrcode between", value1, value2, "wechatQrcode");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatQrcodeNotBetween(String value1, String value2) {
+            addCriterion("wechat_qrcode not between", value1, value2, "wechatQrcode");
             return (Criteria) this;
         }
     }

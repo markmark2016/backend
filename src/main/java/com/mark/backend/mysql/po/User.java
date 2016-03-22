@@ -35,6 +35,8 @@ public class User {
 
     private String headImgUrl;
 
+    private String unionid;
+
     public Long getId() {
         return id;
     }
@@ -161,5 +163,13 @@ public class User {
 
     public void setHeadImgUrl(String headImgUrl) {
         this.headImgUrl = headImgUrl == null ? null : headImgUrl.trim();
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid == null ? null : unionid.trim();
     }
 }

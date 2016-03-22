@@ -16,15 +16,21 @@ public interface GroupMapper {
 
     int insertSelective(Group record);
 
+    List<Group> selectByExampleWithBLOBs(GroupExample example);
+
     List<Group> selectByExample(GroupExample example);
 
     Group selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Group record, @Param("example") GroupExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") Group record, @Param("example") GroupExample example);
+
     int updateByExample(@Param("record") Group record, @Param("example") GroupExample example);
 
     int updateByPrimaryKeySelective(Group record);
+
+    int updateByPrimaryKeyWithBLOBs(Group record);
 
     int updateByPrimaryKey(Group record);
 }

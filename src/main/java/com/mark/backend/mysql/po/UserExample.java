@@ -1184,6 +1184,76 @@ public class UserExample {
             addCriterion("head_img_url not between", value1, value2, "headImgUrl");
             return (Criteria) this;
         }
+
+        public Criteria andUnionidIsNull() {
+            addCriterion("unionid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidIsNotNull() {
+            addCriterion("unionid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidEqualTo(String value) {
+            addCriterion("unionid =", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidNotEqualTo(String value) {
+            addCriterion("unionid <>", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidGreaterThan(String value) {
+            addCriterion("unionid >", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidGreaterThanOrEqualTo(String value) {
+            addCriterion("unionid >=", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidLessThan(String value) {
+            addCriterion("unionid <", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidLessThanOrEqualTo(String value) {
+            addCriterion("unionid <=", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidLike(String value) {
+            addCriterion("unionid like", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidNotLike(String value) {
+            addCriterion("unionid not like", value, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidIn(List<String> values) {
+            addCriterion("unionid in", values, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidNotIn(List<String> values) {
+            addCriterion("unionid not in", values, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidBetween(String value1, String value2) {
+            addCriterion("unionid between", value1, value2, "unionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnionidNotBetween(String value1, String value2) {
+            addCriterion("unionid not between", value1, value2, "unionid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

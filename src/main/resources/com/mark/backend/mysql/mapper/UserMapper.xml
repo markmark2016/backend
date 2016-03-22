@@ -20,6 +20,7 @@
 		<result column="affective_status" property="affectiveStatus"
 			jdbcType="CHAR" />
 		<result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
+		<result column="unionid" property="unionid" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -35,7 +36,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -67,7 +69,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -85,10 +88,13 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		id, create_time, update_time, user_id, openid, nickname, gender,
+		id, create_time, update_time, user_id, openid, nickname,
+		gender,
 		interests, intro,
-		city, province, school, occupation, constellation, affective_status,
-		head_img_url
+		city, province, school, occupation,
+		constellation, affective_status,
+		head_img_url,
+		unionid
 	</sql>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.mark.backend.mysql.po.UserExample">
@@ -125,21 +131,29 @@
 	</delete>
 	<insert id="insert" parameterType="com.mark.backend.mysql.po.User"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into t_user (id, create_time, update_time,
+		insert into t_user (id,
+		create_time, update_time,
 		user_id, openid, nickname,
-		gender, interests, intro,
+		gender, interests,
+		intro,
 		city, province, school,
-		occupation, constellation, affective_status,
-		head_img_url)
-		values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+		occupation, constellation,
+		affective_status,
+		head_img_url, unionid)
+		values (#{id,jdbcType=BIGINT},
+		#{createTime,jdbcType=TIMESTAMP},
 		#{updateTime,jdbcType=TIMESTAMP},
-		#{userId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
-		#{gender,jdbcType=CHAR}, #{interests,jdbcType=VARCHAR},
+		#{userId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR},
+		#{nickname,jdbcType=VARCHAR},
+		#{gender,jdbcType=CHAR},
+		#{interests,jdbcType=VARCHAR},
 		#{intro,jdbcType=VARCHAR},
-		#{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR},
-		#{occupation,jdbcType=VARCHAR}, #{constellation,jdbcType=CHAR},
+		#{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+		#{school,jdbcType=VARCHAR},
+		#{occupation,jdbcType=VARCHAR},
+		#{constellation,jdbcType=CHAR},
 		#{affectiveStatus,jdbcType=CHAR},
-		#{headImgUrl,jdbcType=VARCHAR})
+		#{headImgUrl,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.mark.backend.mysql.po.User">
 		insert into t_user
@@ -192,6 +206,9 @@
 			<if test="headImgUrl != null">
 				head_img_url,
 			</if>
+			<if test="unionid != null">
+				unionid,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -241,6 +258,9 @@
 			</if>
 			<if test="headImgUrl != null">
 				#{headImgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="unionid != null">
+				#{unionid,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -297,10 +317,14 @@
 				constellation = #{record.constellation,jdbcType=CHAR},
 			</if>
 			<if test="record.affectiveStatus != null">
-				affective_status = #{record.affectiveStatus,jdbcType=CHAR},
+				affective_status =
+				#{record.affectiveStatus,jdbcType=CHAR},
 			</if>
 			<if test="record.headImgUrl != null">
 				head_img_url = #{record.headImgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.unionid != null">
+				unionid = #{record.unionid,jdbcType=VARCHAR},
 			</if>
 		</set>
 		<if test="_parameter != null">
@@ -310,21 +334,38 @@
 	<update id="updateByExample" parameterType="map">
 		update t_user
 		set id = #{record.id,jdbcType=BIGINT},
-		create_time = #{record.createTime,jdbcType=TIMESTAMP},
-		update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-		user_id = #{record.userId,jdbcType=BIGINT},
-		openid = #{record.openid,jdbcType=VARCHAR},
-		nickname = #{record.nickname,jdbcType=VARCHAR},
-		gender = #{record.gender,jdbcType=CHAR},
-		interests = #{record.interests,jdbcType=VARCHAR},
-		intro = #{record.intro,jdbcType=VARCHAR},
-		city = #{record.city,jdbcType=VARCHAR},
-		province = #{record.province,jdbcType=VARCHAR},
-		school = #{record.school,jdbcType=VARCHAR},
-		occupation = #{record.occupation,jdbcType=VARCHAR},
-		constellation = #{record.constellation,jdbcType=CHAR},
-		affective_status = #{record.affectiveStatus,jdbcType=CHAR},
-		head_img_url = #{record.headImgUrl,jdbcType=VARCHAR}
+		create_time =
+		#{record.createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{record.updateTime,jdbcType=TIMESTAMP},
+		user_id =
+		#{record.userId,jdbcType=BIGINT},
+		openid =
+		#{record.openid,jdbcType=VARCHAR},
+		nickname =
+		#{record.nickname,jdbcType=VARCHAR},
+		gender =
+		#{record.gender,jdbcType=CHAR},
+		interests =
+		#{record.interests,jdbcType=VARCHAR},
+		intro =
+		#{record.intro,jdbcType=VARCHAR},
+		city =
+		#{record.city,jdbcType=VARCHAR},
+		province =
+		#{record.province,jdbcType=VARCHAR},
+		school =
+		#{record.school,jdbcType=VARCHAR},
+		occupation =
+		#{record.occupation,jdbcType=VARCHAR},
+		constellation =
+		#{record.constellation,jdbcType=CHAR},
+		affective_status =
+		#{record.affectiveStatus,jdbcType=CHAR},
+		head_img_url =
+		#{record.headImgUrl,jdbcType=VARCHAR},
+		unionid =
+		#{record.unionid,jdbcType=VARCHAR}
 		<if test="_parameter != null">
 			<include refid="Update_By_Example_Where_Clause" />
 		</if>
@@ -377,26 +418,38 @@
 			<if test="headImgUrl != null">
 				head_img_url = #{headImgUrl,jdbcType=VARCHAR},
 			</if>
+			<if test="unionid != null">
+				unionid = #{unionid,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.mark.backend.mysql.po.User">
 		update t_user
-		set create_time = #{createTime,jdbcType=TIMESTAMP},
-		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		set
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
 		user_id = #{userId,jdbcType=BIGINT},
 		openid = #{openid,jdbcType=VARCHAR},
-		nickname = #{nickname,jdbcType=VARCHAR},
+		nickname =
+		#{nickname,jdbcType=VARCHAR},
 		gender = #{gender,jdbcType=CHAR},
 		interests = #{interests,jdbcType=VARCHAR},
-		intro = #{intro,jdbcType=VARCHAR},
+		intro =
+		#{intro,jdbcType=VARCHAR},
 		city = #{city,jdbcType=VARCHAR},
-		province = #{province,jdbcType=VARCHAR},
+		province =
+		#{province,jdbcType=VARCHAR},
 		school = #{school,jdbcType=VARCHAR},
 		occupation = #{occupation,jdbcType=VARCHAR},
-		constellation = #{constellation,jdbcType=CHAR},
-		affective_status = #{affectiveStatus,jdbcType=CHAR},
-		head_img_url = #{headImgUrl,jdbcType=VARCHAR}
+		constellation =
+		#{constellation,jdbcType=CHAR},
+		affective_status =
+		#{affectiveStatus,jdbcType=CHAR},
+		head_img_url =
+		#{headImgUrl,jdbcType=VARCHAR},
+		unionid = #{unionid,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 </mapper>

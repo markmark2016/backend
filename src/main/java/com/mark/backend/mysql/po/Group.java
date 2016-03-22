@@ -29,8 +29,6 @@ public class Group {
 
     private String readSlogan;
 
-    private String groupDesc;
-
     private String captainBrief;
 
     private Long userIdFk;
@@ -46,6 +44,10 @@ public class Group {
     private String groupMode;
 
     private String status;
+
+    private String wechatQrcode;
+
+    private String groupDesc;
 
     public Long getId() {
         return id;
@@ -151,14 +153,6 @@ public class Group {
         this.readSlogan = readSlogan == null ? null : readSlogan.trim();
     }
 
-    public String getGroupDesc() {
-        return groupDesc;
-    }
-
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc == null ? null : groupDesc.trim();
-    }
-
     public String getCaptainBrief() {
         return captainBrief;
     }
@@ -221,5 +215,21 @@ public class Group {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getWechatQrcode() {
+        return wechatQrcode;
+    }
+
+    public void setWechatQrcode(String wechatQrcode) {
+        this.wechatQrcode = wechatQrcode == null ? null : wechatQrcode.trim();
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc == null ? null : groupDesc.trim();
     }
 }
