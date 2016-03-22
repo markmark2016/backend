@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.mark.backend.dto.AssociationDto;
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.ScoreExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements IUserService {
 	private AssociationExMapper aexMapper;
 	@Resource
 	private ScoreExMapper sexMapper;
+	@Resource
+	private RemarkExMapper rexMapper;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -187,5 +191,18 @@ public class UserServiceImpl implements IUserService {
 		params.put("groupinfo", dto);
 		params.put("userlist", userList);
 		return params;
+	}
+
+	@Override
+	public Map<String, Object> getRemarkInGroupkByUserId(Long userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<RemarkDto> dtoList = rexMapper.getRemarkInGroupkByUserId(userId);
+		Integer totalRemark = 0;
+		for (RemarkDto remarkDto : dtoList) {
+			totalRemark += remarkDto.getGroupTotalRemark();
+		}
+		map.put("remarkList", dtoList);
+		map.put("totalRemark", totalRemark);
+		return map;
 	}
 }

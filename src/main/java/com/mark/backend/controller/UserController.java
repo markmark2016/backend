@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IBookService;
@@ -214,13 +215,11 @@ public class UserController {
 	public @ResponseBody
 	Object usersTotalRemark(@PathVariable("userId") Long userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (true) {
-			map.put("status", 1);
-			map.put("msg", "更新成功");
-		} else {
-			map.put("status", 1);
-			map.put("msg", "更新失败");
-		}
+		Map<String, Object> data = userService
+				.getRemarkInGroupkByUserId(userId);
+		map.put("status", 1);
+		map.put("msg", "更新成功");
+		map.put("date", data);
 		return map;
 	}
 

@@ -73,4 +73,27 @@
 		GROUP BY
 		tri.remark_id_fk
 	</select>
+	<select id="getRemarkInGroupkByUserId" parameterType="long"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT
+		tr.user_id_fk AS userId,
+		tg.id AS groupId,
+		tg.group_name AS groupName,
+		tb.image,
+		COUNT(group_id_fk) AS
+		groupTotalRemark
+		FROM
+		t_remark tr
+		LEFT JOIN t_group tg ON tr.group_id_fk
+		= tg.id,
+		t_book tb
+		WHERE
+		tr.user_id_fk = #{userId}
+		AND tg.book_id_fk =
+		tb.id
+		GROUP BY
+		tr.group_id_fk
+		ORDER BY
+		groupTotalRemark DESC
+	</select>
 </mapper>
