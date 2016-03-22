@@ -51,6 +51,7 @@ public class GroupController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		params.put("allInfo", "true");
 		params.put("groupId", groupId);
+		params.put("userId", userId);
 		List<GroupDto> dtoList = groupService.getGroupList(params);
 		if (dtoList.size() > 0) {
 			resultMap.put("status", 1);

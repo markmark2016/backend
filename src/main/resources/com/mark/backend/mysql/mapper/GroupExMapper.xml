@@ -22,9 +22,19 @@
 			tg.guarantee,
 			tg.frequency
 		</if>
+		<if test="userId != null">
+			,
+			tgu.user_status AS userStatus
+		</if>
 		FROM
-		t_group tg,
-		t_book tb
+		t_group tg
+		<if test="userId != null">
+			LEFT JOIN t_group_user tgu ON tg.id = tgu.group_id_fk
+			AND
+			tgu.user_id_fk = ${userId}
+		</if>
+		,t_book tb
+
 		<if test="associationId != null">
 			,t_association ta,
 			t_association_group tag
