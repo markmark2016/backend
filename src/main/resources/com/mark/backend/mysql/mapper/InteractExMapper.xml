@@ -22,15 +22,19 @@
 	<select id="getReplyList" parameterType="long"
 		resultType="com.mark.backend.dto.InteractDto">
 		SELECT
+		tu.id AS userId,
 		tu.openid,
-		tu.head_img_url AS headImage,
+		tu.head_img_url AS
+		headImage,
+		tu.nickName,
 		ti.content,
 		ti.create_time AS interactDate
 		FROM
 		t_interact ti
 		LEFT JOIN t_user tu ON
 		tu.id = ti.user_id_fk
-		LEFT JOIN t_remark_interact tri ON
+		LEFT JOIN
+		t_remark_interact tri ON
 		tri.interact_id_fk = ti.id
 		WHERE
 		tri.type = 1

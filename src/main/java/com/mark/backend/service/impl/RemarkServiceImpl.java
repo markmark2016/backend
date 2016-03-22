@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.InteractDto;
@@ -16,13 +17,18 @@ import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
 import com.mark.backend.mysql.mapper.InteractExMapper;
+import com.mark.backend.mysql.mapper.InteractMapper;
 import com.mark.backend.mysql.mapper.RemarkExMapper;
+import com.mark.backend.mysql.mapper.RemarkInteractMapper;
 import com.mark.backend.mysql.mapper.RemarkMapper;
+import com.mark.backend.mysql.po.Interact;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.RemarkExample;
+import com.mark.backend.mysql.po.RemarkInteract;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IRemarkService;
+import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
 
 @Service
@@ -38,6 +44,10 @@ public class RemarkServiceImpl implements IRemarkService {
 	private GroupUserMapper guMapper;
 	@Resource
 	private InteractExMapper iexMapper;
+	@Resource
+	private RemarkInteractMapper riMapper;
+	@Resource
+	private InteractMapper interactMapper;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -165,5 +175,53 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.put("hotlist", finalHotList);
 		map.put("timeorderlist", finalTimeOrderList);
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getRemarkById(Long remarkId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		RemarkWithBLOBs remark = remarkMapper.selectByPrimaryKey(remarkId);
+		// 用户信息
+		User user = WeixinService.userMap.get(remark.getUserIdFk());
+		// 点赞列表
+		List<UserDto> likeList = iexMapper.getLikeList(remark.getId());
+		// 回复列表
+		List<InteractDto> replyList = iexMapper.getReplyList(remark.getId());
+		map.put("totalLike", likeList.size());
+		map.put("likelist", likeList);
+		map.put("replylist", replyList);
+		map.put("user", user);
+		map.put("remark", remark);
+		return map;
+	}
+
+	@Override
+	public Integer InteractWithRemark(Long remarkId, Long userId,
+			String content, String type) {
+		// 交互表对象
+		Interact interact = new Interact();
+		interact.setCreateTime(MarkUtils.getCurrentTime());
+		interact.setUpdateTime(interact.getCreateTime());
+		interact.setUserIdFk(userId);
+		// 若有内容，设置回复内容
+		if (!StringUtils.isEmpty(content)) {
+			interact.setContent(content);
+		}
+		Integer insertId = interactMapper.insert(interact);
+		if (insertId > 0) {
+			// 书评交互关系表对象
+			RemarkInteract ri = new RemarkInteract();
+			ri.setCreateTime(interact.getCreateTime());
+			ri.setUpdateTime(ri.getCreateTime());
+			ri.setInteractIdFk(interact.getId());
+			ri.setRemarkIdFk(remarkId);
+			ri.setType(type);
+			ri.setStatus(Constans.NOT_CHECK);
+			Integer insertTrId = riMapper.insert(ri);
+			if (insertTrId > 0) {
+				return insertTrId + insertId;
+			}
+		}
+		return -1;
 	}
 }

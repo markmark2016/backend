@@ -6,21 +6,26 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IRemarkService;
+import com.mark.backend.utils.Constans;
 
 @Controller
 @RequestMapping(value = "/remark")
 public class RemarkController {
-
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(RemarkController.class);
 	@Resource
 	private IRemarkService remarkService;
 	@Resource
@@ -133,15 +138,62 @@ public class RemarkController {
 		return map;
 	}
 
+	/**
+	 * 查看具体书评信息
+	 * 
+	 * @param remarkId
+	 * @return
+	 */
 	@RequestMapping(value = "/{remarkId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getRemark(@PathVariable("remarkId") Long remarkId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// Map<String, Object> remarkMap = remarkService
-		// .getUserInGroupTodayRemark(openId, groupId);
+		Map<String, Object> remarkMap = remarkService.getRemarkById(remarkId);
 		map.put("status", 1);
 		map.put("msg", "sucess");
-		// map.put("data", remarkMap);
+		map.put("data", remarkMap);
+		return map;
+	}
+
+	/**
+	 * 对书评点赞
+	 * 
+	 * @param remarkId
+	 * @param userId
+	 */
+	@RequestMapping(value = "/like", method = RequestMethod.POST)
+	public @ResponseBody
+	Object like(@RequestParam(required = true) Long remarkId,
+			@RequestParam(required = true) Long userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer flag = remarkService.InteractWithRemark(remarkId, userId, null,
+				Constans.LIKE_REMARK);
+		if (flag > 0) {
+			map.put("status", 1);
+			map.put("msg", "sucess");
+			LOGGER.info("点赞插入成功,书评ID:" + remarkId + "用户id+" + userId);
+		}
+		return map;
+	}
+
+	/**
+	 * 回复书评
+	 * 
+	 * @param remarkId
+	 */
+	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	public @ResponseBody
+	Object replyRemark(@RequestParam(required = true) Long remarkId,
+			@RequestParam(required = true) Long userId,
+			@RequestParam(required = true) String content) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer flag = remarkService.InteractWithRemark(remarkId, userId,
+				content, Constans.REPLY_REMARK);
+		if (flag > 0) {
+			map.put("status", 1);
+			map.put("msg", "sucess");
+			LOGGER.info("点赞插入成功,书评ID:" + remarkId + "用户id+" + userId);
+		}
 		return map;
 	}
 }

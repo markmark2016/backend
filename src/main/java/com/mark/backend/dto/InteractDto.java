@@ -3,6 +3,7 @@ package com.mark.backend.dto;
 import java.util.Date;
 
 public class InteractDto {
+	private Long userId;
 	/**
 	 * 微信用户openId
 	 */
@@ -10,7 +11,7 @@ public class InteractDto {
 	/**
 	 * 用户名
 	 */
-	private String userName;
+	private String nickName;
 	/**
 	 * 头像地址
 	 */
@@ -24,6 +25,14 @@ public class InteractDto {
 	 */
 	private String content;
 
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 	public String getOpenid() {
 		return openid;
 	}
@@ -32,12 +41,12 @@ public class InteractDto {
 		this.openid = openid;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getHeadImage() {
