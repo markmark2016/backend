@@ -58,4 +58,12 @@ public interface IRemarkService {
 	public Integer InteractWithRemark(Long remarkId, Long userId,
 			String content, String type);
 
+	/**
+	 * 获得连续打卡信息
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public Map<String, Object> getContinuePunchInfo(Map<String, Object> params);
+
 }

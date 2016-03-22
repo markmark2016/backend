@@ -50,4 +50,6 @@ public class Constans {
 	 */
 	public static String CHECK = "1";
 
+	public static Long DAY = 86400000L;
+
 }

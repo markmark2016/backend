@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mark.backend.dto.RemarkDto;
+import com.mark.backend.mysql.po.Remark;
 
 public interface RemarkExMapper {
 	/**
@@ -54,4 +55,9 @@ public interface RemarkExMapper {
 	 * @return
 	 */
 	public List<RemarkDto> getUserInGroupRemarkList(Map<String, Object> params);
+
+	/**
+	 * 获得连续打卡天数，以及连续打卡列表
+	 */
+	public List<Remark> getContinuePunch(Map<String, Object> params);
 }

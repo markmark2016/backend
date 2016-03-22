@@ -222,6 +222,7 @@ public class MarkUtils {
 	}
 
 	public static void main(String[] args) {
-		getAccessToken();
+//		getAccessToken();
+		System.out.println(getZeroTime().getTime());
 	}
 }

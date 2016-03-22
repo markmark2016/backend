@@ -104,7 +104,7 @@ public class RemarkServiceImpl implements IRemarkService {
 		rex.createCriteria().andUserIdFkEqualTo(userId)
 				.andGroupIdFkEqualTo(groupId)
 				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
-		
+
 		List<RemarkWithBLOBs> remarkList = remarkMapper
 				.selectByExampleWithBLOBs(rex);
 		if (remarkList.size() > 0) {
@@ -229,5 +229,43 @@ public class RemarkServiceImpl implements IRemarkService {
 			}
 		}
 		return -1;
+	}
+
+	@Override
+	public Map<String, Object> getContinuePunchInfo(Map<String, Object> params) {
+		Map<String, Object> punchMap = new HashMap<String, Object>();
+		List<Remark> remarkList = rexMapper.getContinuePunch(params);
+		// 获得今日零点
+		Long baseline = MarkUtils.getZeroTime().getTime();
+		// 连续打卡天数
+		Integer continuePunch = 0;
+		if (remarkList.size() > 0) {
+			if (remarkList.get(0).getCreateTime().getTime() == baseline) {
+				continuePunch += 1;
+				for (int j = 1; j < remarkList.size(); j++) {
+					Long temp = (baseline - remarkList.get(j).getCreateTime()
+							.getTime())
+							- j * Constans.DAY;
+					if (temp == 0) {
+						continuePunch += 1;
+					} else {
+						break;
+					}
+				}
+			} else {
+				for (int j = 0; j < remarkList.size(); j++) {
+					Long temp = (baseline - remarkList.get(j).getCreateTime()
+							.getTime())
+							- (j + 1) * Constans.DAY;
+					if (temp == 0) {
+						continuePunch += 1;
+					} else {
+						break;
+					}
+				}
+			}
+		}
+		punchMap.put("totalPunch", continuePunch);
+		return punchMap;
 	}
 }

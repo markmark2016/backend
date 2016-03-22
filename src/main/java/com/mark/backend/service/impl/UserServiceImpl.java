@@ -22,6 +22,7 @@ import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
+import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.IUserService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -40,6 +41,8 @@ public class UserServiceImpl implements IUserService {
 	private ScoreExMapper sexMapper;
 	@Resource
 	private RemarkExMapper rexMapper;
+	@Resource
+	private IRemarkService remarkService;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -70,6 +73,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserDto queryUserPageInfo(Map<String, Object> params) {
 		UserDto dto = uexMapper.queryUserPageInfo(params);
+		dto.setTotalPunch((Integer) remarkService.getContinuePunchInfo(params)
+				.get("totalPunch"));
 		return dto;
 	}
 
