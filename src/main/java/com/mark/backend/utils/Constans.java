@@ -33,4 +33,21 @@ public class Constans {
 	 * 微信接入token ，用于验证微信接口
 	 */
 	public static String TOKEN = "iMark";
+	/**
+	 * 回复书评
+	 */
+	public static String REPLY_REMARK = "1";
+	/**
+	 * 赞 书评
+	 */
+	public static String LIKE_REMARK = "2";
+	/**
+	 * 未读
+	 */
+	public static String NOT_CHECK = "0";
+	/**
+	 * 已读
+	 */
+	public static String CHECK = "1";
+
 }
