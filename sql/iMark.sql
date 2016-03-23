@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/21 16:42:01                           */
+/* Created on:     2016/3/23 15:01:05                           */
 /*==============================================================*/
 
 
@@ -131,6 +131,7 @@ create table t_group
    captain_phone        varchar(22),
    group_mode           varchar(50) comment '小组模式',
    status               char(1) comment '小组的状态。0为未审核，1为审核通过，2为未开始,3为进行中,4为已结束',
+   wechat_qrcode        varchar(512),
    primary key (id)
 );
 
@@ -161,7 +162,7 @@ create table t_interact
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   content              varchar(1024) comment '若该项类型为 赞 则这里为空',
+   content              Text comment '若该项类型为 赞 则这里为空',
    user_id_fk           bigint(20) comment 't_user主键',
    primary key (id)
 );
@@ -173,7 +174,7 @@ alter table t_interact comment '书评具体的互动信息，若为赞，则评论内容为空';
 /*==============================================================*/
 create table t_picture
 (
-   id                   int not null auto_increment,
+   id                   bigint(20) not null auto_increment,
    url                  varchar(1024),
    create_time          datetime,
    update_time          datetime,
@@ -259,6 +260,7 @@ create table t_user
    constellation        char(4) comment '星座',
    affective_status     char(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
    head_img_url         varchar(1024) comment '头像地址，pic表的外键',
+   unionid              varchar(32),
    primary key (id)
 );
 
@@ -290,6 +292,8 @@ create table t_user_message
    user_id_fk           bigint(20) comment '推送到的用户，t_user主键',
    content              varchar(2014) comment '推送具体内容',
    url                  varchar(2014) comment '地址',
+   interact_id_fk       bigint(20) comment '若type为1或者2，则有该外键',
+   type                 char(1) comment '1 评论信息，2点赞信息 ，3 系统信息',
    is_check             char(1) comment '是否被查看',
    create_time          datetime,
    update_time          datetime,
