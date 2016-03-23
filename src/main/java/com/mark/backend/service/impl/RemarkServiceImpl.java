@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
@@ -34,7 +36,7 @@ import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class RemarkServiceImpl implements IRemarkService {
-
+	ExecutorService executor = Executors.newSingleThreadExecutor();
 	@Resource
 	private RemarkMapper remarkMapper;
 	@Resource
@@ -49,6 +51,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	private RemarkInteractMapper riMapper;
 	@Resource
 	private InteractMapper interactMapper;
+	@Resource
+	private MessageService msgService;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -210,6 +214,7 @@ public class RemarkServiceImpl implements IRemarkService {
 	@Override
 	public Integer InteractWithRemark(Long remarkId, Long userId,
 			Long authorId, String content, String type) {
+
 		// 交互表对象
 		Interact interact = new Interact();
 		interact.setCreateTime(MarkUtils.getCurrentTime());
@@ -230,6 +235,30 @@ public class RemarkServiceImpl implements IRemarkService {
 			ri.setType(type);
 			ri.setStatus(Constans.NOT_CHECK);
 			Integer insertTrId = riMapper.insert(ri);
+
+			/*---------------------分割线---------------------------*/
+			// 输入user message表
+			// 书评标题
+			final String title = remarkMapper.selectByPrimaryKey(remarkId)
+					.getTitle();
+			final Long interactId = interact.getId();
+			final Long toUserId = authorId;
+			final Long fromUserId = userId;
+			final String itype = type;
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("title", title);
+					params.put("interactId", interactId);
+					params.put("toUserId", toUserId);
+					params.put("fromUserId", fromUserId);
+					params.put("type", itype);
+					msgService.insertNewMessage(params);
+				}
+			});
+			/*---------------------分割线---------------------------*/
+
 			if (insertTrId > 0) {
 				return insertTrId + insertId;
 			}
@@ -320,4 +349,5 @@ public class RemarkServiceImpl implements IRemarkService {
 		resultMap.put("remarklist", dtoList);
 		return resultMap;
 	}
+
 }
