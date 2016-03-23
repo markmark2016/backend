@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/23 15:01:05                           */
+/* Created on:     2016/3/23 15:51:36                           */
 /*==============================================================*/
 
 
@@ -288,7 +288,7 @@ alter table t_user_like comment 'ÓÃÓÚ´æ´¢ÓÃ»§¸öÈËĞÅÏ¢ÖĞ£¬×îÏ²»¶µÄÈı±¾ÊéºÍ×îÏë¿´µ
 /*==============================================================*/
 create table t_user_message
 (
-   id                   bigint(20) not null,
+   id                   bigint(20) not null auto_increment,
    user_id_fk           bigint(20) comment 'ÍÆËÍµ½µÄÓÃ»§£¬t_userÖ÷¼ü',
    content              varchar(2014) comment 'ÍÆËÍ¾ßÌåÄÚÈİ',
    url                  varchar(2014) comment 'µØÖ·',
