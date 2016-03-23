@@ -164,10 +164,11 @@ public class RemarkController {
 	@RequestMapping(value = "/like", method = RequestMethod.POST)
 	public @ResponseBody
 	Object like(@RequestParam(required = true) Long remarkId,
-			@RequestParam(required = true) Long userId) {
+			@RequestParam(required = true) Long userId,
+			@RequestParam(required = true) Long authorId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		Integer flag = remarkService.InteractWithRemark(remarkId, userId, null,
-				Constans.LIKE_REMARK);
+		Integer flag = remarkService.InteractWithRemark(remarkId, userId,
+				authorId, null, Constans.LIKE_REMARK);
 		if (flag > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -185,10 +186,11 @@ public class RemarkController {
 	public @ResponseBody
 	Object replyRemark(@RequestParam(required = true) Long remarkId,
 			@RequestParam(required = true) Long userId,
+			@RequestParam(required = true) Long authorId,
 			@RequestParam(required = true) String content) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer flag = remarkService.InteractWithRemark(remarkId, userId,
-				content, Constans.REPLY_REMARK);
+				authorId, content, Constans.REPLY_REMARK);
 		if (flag > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");

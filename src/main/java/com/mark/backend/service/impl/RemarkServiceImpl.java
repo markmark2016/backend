@@ -209,7 +209,7 @@ public class RemarkServiceImpl implements IRemarkService {
 
 	@Override
 	public Integer InteractWithRemark(Long remarkId, Long userId,
-			String content, String type) {
+			Long authorId, String content, String type) {
 		// 交互表对象
 		Interact interact = new Interact();
 		interact.setCreateTime(MarkUtils.getCurrentTime());

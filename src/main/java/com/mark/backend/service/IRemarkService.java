@@ -56,7 +56,7 @@ public interface IRemarkService {
 	 * @return
 	 */
 	public Integer InteractWithRemark(Long remarkId, Long userId,
-			String content, String type);
+			Long authorId, String content, String type);
 
 	/**
 	 * 获得连续打卡信息
