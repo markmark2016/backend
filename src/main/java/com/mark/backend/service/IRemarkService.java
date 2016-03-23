@@ -66,4 +66,11 @@ public interface IRemarkService {
 	 */
 	public Map<String, Object> getContinuePunchInfo(Map<String, Object> params);
 
+	/**
+	 * 获得用户的书评列表
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public Map<String, Object> getUserRemarkList(Map<String, Object> params);
 }

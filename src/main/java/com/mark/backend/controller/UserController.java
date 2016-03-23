@@ -178,6 +178,7 @@ public class UserController {
 		params.put("endDate", endDate);
 		// 直接用参数map返回data
 		params = userService.getPunchDateArray(params);
+		params.put("userId", userId);
 		map.put("status", 1);
 		map.put("msg", "更新成功");
 		map.put("data", params);

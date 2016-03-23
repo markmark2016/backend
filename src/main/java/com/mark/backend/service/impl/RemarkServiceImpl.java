@@ -1,5 +1,6 @@
 package com.mark.backend.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -272,5 +273,51 @@ public class RemarkServiceImpl implements IRemarkService {
 		}
 		punchMap.put("totalPunch", continuePunch);
 		return punchMap;
+	}
+
+	@Override
+	public Map<String, Object> getUserRemarkList(Map<String, Object> params) {
+		// 开始和结束日期
+		// String startDate = MarkUtils.formatDate(Constans.DATE_TYPE_ONE,
+		// new Date((Long) params.get("date")));
+		// String endDate = MarkUtils.formatDate(Constans.DATE_TYPE_ONE, new
+		// Date(
+		// (Long) params.get("date") + Constans.DAY));
+		// params.put("startDate", startDate);
+		// params.put("endDate", endDate);
+		// 条件查询
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Long userId = (Long) params.get("userId");
+		resultMap.put("userId", userId);
+		User user = WeixinService.userMap.get(userId);
+		RemarkExample rx = new RemarkExample();
+
+		if (params.get("date") != null) {
+			Date startDate = new Date((Long) params.get("date"));
+			Date endDate = new Date((Long) params.get("date") + Constans.DAY);
+			rx.createCriteria().andCreateTimeGreaterThanOrEqualTo(startDate)
+					.andCreateTimeLessThan(endDate).andUserIdFkEqualTo(userId);
+		} else {
+			rx.createCriteria().andUserIdFkEqualTo(userId);
+		}
+		List<RemarkWithBLOBs> remarkList = remarkMapper
+				.selectByExampleWithBLOBs(rx);
+		List<RemarkDto> dtoList = new ArrayList<RemarkDto>();
+		for (RemarkWithBLOBs remark : remarkList) {
+			RemarkDto dto = new RemarkDto();
+			dto.setCreateTime(remark.getCreateTime());
+			dto.setUserId(remark.getUserIdFk());
+			dto.setGroupId(remark.getGroupIdFk());
+			dto.setRemarkId(remark.getId());
+			dto.setComment(remark.getComment());
+			dto.setTitle(remark.getTitle());
+			dto.setHeadImage(user.getHeadImgUrl());
+			dto.setUserName(user.getNickname());
+			dto.setTotalLike(iexMapper.getLikeList(remark.getId()).size());
+			dto.setTotalReply(iexMapper.getReplyList(remark.getId()).size());
+			dtoList.add(dto);
+		}
+		resultMap.put("remarklist", dtoList);
+		return resultMap;
 	}
 }

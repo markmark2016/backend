@@ -196,4 +196,26 @@ public class RemarkController {
 		}
 		return map;
 	}
+
+	/**
+	 * 获得用户的所有书评 ，如果时间，查询改天内的
+	 * 
+	 * @param userId
+	 * @param date
+	 * @return
+	 */
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
+	public @ResponseBody
+	Object userRemarkInDay(@PathVariable("userId") Long userId,
+			@RequestParam(required = false) Long date) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("date", date);
+		Map<String, Object> resultMap = remarkService.getUserRemarkList(map);
+		map.clear();
+		map.put("data", resultMap);
+		map.put("msg", "success");
+		map.put("status", 1);
+		return map;
+	}
 }
