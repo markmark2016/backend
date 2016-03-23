@@ -20,6 +20,7 @@ public class MessageService {
 	private userMessageMapper userMessageMapper;
 
 	public Integer getUnreadedMessageCount(Map<String, Object> params) {
+		Long userId = (Long) params.get("userId");
 		return null;
 	}
 
