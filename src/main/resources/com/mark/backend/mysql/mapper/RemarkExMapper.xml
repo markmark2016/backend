@@ -117,10 +117,11 @@
 	<select id="getContinuePunch" parameterType="java.util.Map"
 		resultType="com.mark.backend.mysql.po.Remark">
 		SELECT
-		DATE_FORMAT(
+		DISTINCT DATE_FORMAT(
 		create_time,
 		'%Y-%m-%e 00:00:00'
-		) AS createTime
+		) AS
+		createTime
 		FROM
 		t_remark
 		WHERE
