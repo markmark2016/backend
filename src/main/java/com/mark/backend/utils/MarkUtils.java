@@ -2,12 +2,15 @@ package com.mark.backend.utils;
 
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -43,6 +46,11 @@ public class MarkUtils {
 
 	}
 
+	/**
+	 * 获得当日0时0分0秒时间
+	 * 
+	 * @return
+	 */
 	public static Date getZeroTime() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(getCurrentTime());
@@ -51,6 +59,37 @@ public class MarkUtils {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
+	}
+
+	/**
+	 * 返回日期map
+	 * 
+	 * @return
+	 */
+	public static Map<String, String> getMonthStartAndEnd() {
+		Map<String, String> dateMap = new HashMap<String, String>();
+		// 当前月的第一天
+		Calendar startDate = Calendar.getInstance();
+		startDate.setTime(getCurrentTime());
+		startDate.set(Calendar.HOUR_OF_DAY, 0);
+		startDate.set(Calendar.MINUTE, 0);
+		startDate.set(Calendar.SECOND, 0);
+		startDate.set(Calendar.MILLISECOND, 0);
+		startDate.set(Calendar.DAY_OF_MONTH, 1);
+		Calendar endDate = Calendar.getInstance();
+		// 下个月的第一天
+		endDate.setTime(getCurrentTime());
+		endDate.set(Calendar.HOUR_OF_DAY, 0);
+		endDate.set(Calendar.MINUTE, 0);
+		endDate.set(Calendar.SECOND, 0);
+		endDate.set(Calendar.MILLISECOND, 0);
+		endDate.set(Calendar.MONTH, endDate.get(Calendar.MONTH) + 1);
+		endDate.set(Calendar.DAY_OF_MONTH, 1);
+		dateMap.put("startDate",
+				formatDate(Constans.DATE_TYPE_ONE, startDate.getTime()));
+		dateMap.put("endDate",
+				formatDate(Constans.DATE_TYPE_ONE, endDate.getTime()));
+		return dateMap;
 	}
 
 	/**
@@ -221,8 +260,21 @@ public class MarkUtils {
 		return null;
 	}
 
+	/**
+	 * 格式化日期
+	 * 
+	 * @param formate
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(String formate, Date date) {
+		SimpleDateFormat format = new SimpleDateFormat(formate);
+		return format.format(date);
+	}
+
 	public static void main(String[] args) {
-//		getAccessToken();
+		// getAccessToken();
 		System.out.println(getZeroTime().getTime());
+		getMonthStartAndEnd();
 	}
 }

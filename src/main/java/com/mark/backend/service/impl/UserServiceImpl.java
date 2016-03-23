@@ -1,6 +1,7 @@
 package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,12 @@ import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.ScoreExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
+import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.IUserService;
+import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
 
 @Service
@@ -256,6 +259,42 @@ public class UserServiceImpl implements IUserService {
 		params.put("remarklist", finalList);
 		// 该用户信息
 		// params.put("user", WeixinService.userMap.get(userId));
+		return params;
+	}
+
+	/**
+	 * 获得打卡数组
+	 */
+	@Override
+	public Map<String, Object> getPunchDateArray(Map<String, Object> params) {
+		// 查询开始时间
+		if (params.get("startDate") != null) {
+			Date startDate = new Date((Long) params.get("startDate"));
+			params.put("startDate",
+					MarkUtils.formatDate(Constans.DATE_TYPE_ONE, startDate));
+		} else {
+			params.put("startDate",
+					MarkUtils.getMonthStartAndEnd().get("startDate"));
+		}
+		// 查询结束时间
+		if (params.get("endDate") != null) {
+			Date endDate = new Date((Long) params.get("endDate"));
+			params.put("endDate",
+					MarkUtils.formatDate(Constans.DATE_TYPE_ONE, endDate));
+		} else {
+			params.put("endDate", MarkUtils.getMonthStartAndEnd()
+					.get("endDate"));
+		}
+		List<Remark> punchDateList = rexMapper.getContinuePunch(params);
+		Long[] dateArray = new Long[punchDateList.size()];
+		int i = 0;
+		for (Remark r : punchDateList) {
+			dateArray[i] = r.getCreateTime().getTime();
+			i++;
+		}
+		params.clear();
+		params.put("datearray", dateArray);
+		params.put("monthtotalpunch", dateArray.length);
 		return params;
 	}
 }

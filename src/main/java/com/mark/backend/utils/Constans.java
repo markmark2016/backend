@@ -49,7 +49,13 @@ public class Constans {
 	 * 已读
 	 */
 	public static String CHECK = "1";
-
+	/**
+	 * 一天的毫秒数
+	 */
 	public static Long DAY = 86400000L;
+	/**
+	 * 日期格式 一
+	 */
+	public static String DATE_TYPE_ONE = "yyyy-MM-dd H:m:s";
 
 }

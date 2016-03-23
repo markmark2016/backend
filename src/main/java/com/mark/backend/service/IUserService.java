@@ -129,4 +129,12 @@ public interface IUserService {
 	 * @return
 	 */
 	Map<String, Object> getUserRemarkInGroup(Long userId, Long groupId);
+
+	/**
+	 * 获得用户打卡数组
+	 * 
+	 * @param params
+	 * @return
+	 */
+	Map<String, Object> getPunchDateArray(Map<String, Object> params);
 }

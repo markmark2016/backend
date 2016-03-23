@@ -11,10 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.GroupDto;
-import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IBookService;
@@ -168,15 +168,19 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/{userId}/punch", method = RequestMethod.GET)
 	public @ResponseBody
-	Object usersPunch(@PathVariable("userId") Long userId) {
+	Object usersPunch(@PathVariable("userId") Long userId,
+			@RequestParam(required = false) Long startDate,
+			@RequestParam(required = false) Long endDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (true) {
-			map.put("status", 1);
-			map.put("msg", "更新成功");
-		} else {
-			map.put("status", 1);
-			map.put("msg", "更新失败");
-		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", userId);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		// 直接用参数map返回data
+		params = userService.getPunchDateArray(params);
+		map.put("status", 1);
+		map.put("msg", "更新成功");
+		map.put("data", params);
 		return map;
 	}
 

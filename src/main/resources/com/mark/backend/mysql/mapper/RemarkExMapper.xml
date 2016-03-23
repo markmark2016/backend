@@ -128,6 +128,8 @@
 		<if test="groupId !=null">
 			AND group_id_fk = ${groupId}
 		</if>
+		<if test="startDate != null"> AND create_time &gt;= '${startDate}'</if>
+		<if test="endDate != null"> AND create_time &lt; '${endDate}'</if>
 		GROUP BY
 		user_id_fk,
 		group_id_fk,
