@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class userMessageExample {
+public class UserMessageExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public userMessageExample() {
+    public UserMessageExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

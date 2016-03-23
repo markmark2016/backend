@@ -2,7 +2,7 @@ package com.mark.backend.mysql.po;
 
 import java.util.Date;
 
-public class userMessage {
+public class UserMessage {
     private Long id;
 
     private Long userIdFk;
