@@ -40,7 +40,8 @@
 		</if>
 		WHERE
 		tg.book_id_fk = tb.id
-		AND tg. STATUS != 0
+		AND tg. STATUS != 0 
+		AND tg.list_visable = 1
 		<if test="groupId != null">
 			AND tg.id = ${groupId}
 		</if>
