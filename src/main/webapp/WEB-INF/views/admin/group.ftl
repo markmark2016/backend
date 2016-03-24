@@ -3,15 +3,11 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-
+	[#include "/_inc/meta.ftl"]
+	[#include "/_inc/css.ftl"]
+	[#include "/_inc/link.ftl"]
 </head>
 	<body>
 		[#include "head.ftl"]
-		[#if userlist ??]
-			[#list userlist as user]${user.id}[/#list]
-		[/#if]
-		[#if grouplist ??]
-			[#list grouplist as group]${group.id}[/#list]
-		[/#if]
 	</body>
 </html>
