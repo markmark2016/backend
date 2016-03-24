@@ -1,14 +1,18 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/23 15:51:36                           */
+/* Created on:     2016/3/24 14:14:15                           */
 /*==============================================================*/
 
 
 drop table if exists t_association;
 
+drop table if exists t_association_category;
+
 drop table if exists t_association_group;
 
 drop table if exists t_book;
+
+drop table if exists t_category;
 
 drop table if exists t_group;
 
@@ -47,6 +51,19 @@ create table t_association
 );
 
 alter table t_association comment 't_association';
+
+/*==============================================================*/
+/* Table: t_association_category                                */
+/*==============================================================*/
+create table t_association_category
+(
+   id                   bigint(20) not null auto_increment,
+   create_time          date,
+   association_id_fk    bigint(20),
+   category_id_fk       bigint(20),
+   status               char(1) comment '1可用，0不可用',
+   primary key (id)
+);
 
 /*==============================================================*/
 /* Table: t_association_group                                   */
@@ -105,6 +122,18 @@ create table t_book
 alter table t_book comment '后面的英文栏位，是看到原版本设计中有这些，所以保留了下来，不知道原版本是什么考虑';
 
 /*==============================================================*/
+/* Table: t_category                                            */
+/*==============================================================*/
+create table t_category
+(
+   id                   bigint(20) not null auto_increment,
+   category_name        varchar(64),
+   create_time          date,
+   status               char(1) comment '1可用，0删除',
+   primary key (id)
+);
+
+/*==============================================================*/
 /* Table: t_group                                               */
 /*==============================================================*/
 create table t_group
@@ -129,9 +158,12 @@ create table t_group
    captain_email        varchar(250),
    captain_wecode       varchar(100),
    captain_phone        varchar(22),
-   group_mode           varchar(50) comment '小组模式',
+   group_mode           varchar(50) comment '1，开始后可以加入，0开始后不可以加入',
    status               char(1) comment '小组的状态。0为未审核，1为审核通过，2为未开始,3为进行中,4为已结束',
    wechat_qrcode        varchar(512),
+   category_id_fk       bigint(20),
+   remark_visiable      char(1) comment '1都可见。0加入后可见',
+   list_visable         char(1) comment '1列表中可见，0不可见',
    primary key (id)
 );
 

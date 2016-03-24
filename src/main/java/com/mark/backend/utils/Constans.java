@@ -57,5 +57,9 @@ public class Constans {
 	 * 日期格式 一
 	 */
 	public static String DATE_TYPE_ONE = "yyyy-MM-dd H:m:s";
+	/**
+	 * 豆瓣书籍接口
+	 */
+	public static String DOUBAN_BOOK_URL = "https://api.douban.com/v2/book/search";
 
 }

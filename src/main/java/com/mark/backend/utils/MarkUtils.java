@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.mark.backend.model.AccessToken;
 import com.mark.backend.model.CheckModel;
+import com.mark.backend.mysql.po.Book;
 
 public class MarkUtils {
 	private final static Logger LOGGER = LoggerFactory
@@ -270,6 +271,33 @@ public class MarkUtils {
 	public static String formatDate(String formate, Date date) {
 		SimpleDateFormat format = new SimpleDateFormat(formate);
 		return format.format(date);
+	}
+
+	public static List<Book> getDoubanBookList(String queryInfo, Integer count) {
+		String url = Constans.GET_ACUTH_ACCESSTOKEN_URL + "?q=" + queryInfo
+				+ "&count=" + count;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(get);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				LOGGER.error("response error, status:{}", statusCode);
+				return null;
+			}
+			if (entity != null) {
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+				JSONObject json = JSONObject.parseObject(content);
+				String openId = json.getString("openid");
+				// return openId;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static void main(String[] args) {
