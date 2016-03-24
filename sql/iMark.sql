@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/24 14:14:15                           */
+/* Created on:     2016/3/24 15:41:19                           */
 /*==============================================================*/
 
 
@@ -163,7 +163,7 @@ create table t_group
    wechat_qrcode        varchar(512),
    category_id_fk       bigint(20),
    remark_visiable      char(1) comment '1都可见。0加入后可见',
-   list_visable         char(1) comment '1列表中可见，0不可见',
+   list_visiable        char(1) comment '1列表中可见，0不可见',
    primary key (id)
 );
 
