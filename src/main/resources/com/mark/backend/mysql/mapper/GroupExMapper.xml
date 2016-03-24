@@ -10,7 +10,12 @@
 		tg.group_name AS groupName,
 		tg.book_name AS bookName,
 		tg.group_desc AS groupDesc,
-		tb.image AS groupImage
+		tb.image AS groupImage,
+		tg.remark_visiable
+		AS remarkVisiable,
+		tg.list_visable AS listVisable,
+		tg.category_id_fk AS
+		categoryId
 		<if test="allInfo != null">
 			,tb.summary AS bookSummary,
 			tb.author AS author,
@@ -40,7 +45,7 @@
 		</if>
 		WHERE
 		tg.book_id_fk = tb.id
-		AND tg. STATUS != 0 
+		AND tg. STATUS != 0
 		AND tg.list_visable = 1
 		<if test="groupId != null">
 			AND tg.id = ${groupId}

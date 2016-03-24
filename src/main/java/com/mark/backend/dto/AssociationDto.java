@@ -1,7 +1,9 @@
 package com.mark.backend.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AssociationDto {
 	private Long id;
@@ -9,6 +11,8 @@ public class AssociationDto {
 	private String associationDesc;
 	private String image;
 	private List<GroupDto> groupList = new ArrayList<GroupDto>();
+	// 类别map
+	private Map<String, Object> categoryMap = new HashMap<String, Object>();
 
 	public Long getId() {
 		return id;
@@ -48,6 +52,14 @@ public class AssociationDto {
 
 	public void setGroupList(List<GroupDto> groupList) {
 		this.groupList = groupList;
+	}
+
+	public Map<String, Object> getCategoryMap() {
+		return categoryMap;
+	}
+
+	public void setCategoryMap(Map<String, Object> categoryMap) {
+		this.categoryMap = categoryMap;
 	}
 
 }

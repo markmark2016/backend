@@ -96,8 +96,22 @@ public class GroupDto {
 	 * 图书简介
 	 */
 	private String bookSummary;
-
+	/**
+	 * 阅读完成时间
+	 */
 	private Date readCompleteDate;
+	/**
+	 * 类别id
+	 */
+	private Long categoryId;
+	/**
+	 * 书评是否可见
+	 */
+	private String remarkVisiable;
+	/**
+	 * 列别是否可见
+	 */
+	private String listVisable;
 
 	public Long getId() {
 		return id;
@@ -273,6 +287,30 @@ public class GroupDto {
 
 	public void setReadCompleteDate(Date readCompleteDate) {
 		this.readCompleteDate = readCompleteDate;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getRemarkVisiable() {
+		return remarkVisiable;
+	}
+
+	public void setRemarkVisiable(String remarkVisiable) {
+		this.remarkVisiable = remarkVisiable;
+	}
+
+	public String getListVisable() {
+		return listVisable;
+	}
+
+	public void setListVisable(String listVisable) {
+		this.listVisable = listVisable;
 	}
 
 }

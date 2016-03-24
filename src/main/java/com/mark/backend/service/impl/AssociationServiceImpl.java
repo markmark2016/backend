@@ -1,5 +1,6 @@
 package com.mark.backend.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.mark.backend.dto.AssociationDto;
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.mysql.mapper.AssociationCategoryMapper;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
+import com.mark.backend.mysql.mapper.CategoryMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.po.AssociationCategory;
+import com.mark.backend.mysql.po.AssociationCategoryExample;
+import com.mark.backend.mysql.po.Category;
+import com.mark.backend.mysql.po.CategoryExample;
 import com.mark.backend.service.IAssociationService;
 
 @Service
@@ -24,6 +31,10 @@ public class AssociationServiceImpl implements IAssociationService {
 	private AssociationExMapper aexMapper;
 	@Resource
 	private GroupExMapper gexMapper;
+	@Resource
+	private CategoryMapper categoryMapper;
+	@Resource
+	private AssociationCategoryMapper acMapper;
 
 	@Override
 	public List<AssociationDto> getAssociationList(Map<String, Object> params) {
@@ -35,16 +46,72 @@ public class AssociationServiceImpl implements IAssociationService {
 
 	@Override
 	public AssociationDto getAssociationById(Map<String, Object> params) {
+		Long aId = (Long) params.get("associationId");
 		List<AssociationDto> resultList = aexMapper
 				.queryAssociationList(params);
 		AssociationDto dto = new AssociationDto();
 		if (resultList.size() > 0) {
 			dto = resultList.get(0);
 			List<GroupDto> groupList = gexMapper.queryGroupList(params);
-			dto.setGroupList(groupList);
+			List<Category> categoryList = getCategoryList(aId);
+			// 将小组分到所属的类别
+			// 循环类别
+			for (Category category : categoryList) {
+				// Map<String, Object> categoryMap = new HashMap<String,
+				// Object>();
+				List<GroupDto> clist = new ArrayList<GroupDto>();
+				// 循环小组
+				for (GroupDto group : groupList) {
+					if (category.getId() == group.getCategoryId()) {
+						clist.add(group);
+					}
+					// categoryMap.put("categoryname",
+					// category.getCategoryName());
+					// categoryMap.put("groupList", clist);
+				}
+				// 把这个小组名放到map
+				dto.getCategoryMap().put(category.getCategoryName(), clist);
+			}
+			// 无类别是使用
+			// dto.setGroupList(groupList);
 		} else {
 			LOGGER.error("所查询的小组不存在,id:" + params.get("associationId"));
 		}
 		return dto;
+	}
+
+	/**
+	 * 获得社群的类别 id
+	 * 
+	 * @param aId
+	 * @return
+	 */
+	public List<Long> categroyIdList(Long aId) {
+		AssociationCategoryExample ex = new AssociationCategoryExample();
+		ex.createCriteria().andAssociationIdFkEqualTo(aId)
+				.andStatusEqualTo("1");
+		List<AssociationCategory> list = acMapper.selectByExample(ex);
+		List<Long> idList = new ArrayList<Long>();
+		for (AssociationCategory ac : list) {
+			idList.add(ac.getCategoryIdFk());
+		}
+		return idList;
+	}
+
+	/**
+	 * 获得类别列表
+	 * 
+	 * @param idList
+	 * @return
+	 */
+	public List<Category> getCategoryList(Long aId) {
+		List<Long> idList = categroyIdList(aId);
+		List<Category> list = new ArrayList<Category>();
+		if (idList.size() > 0) {
+			CategoryExample ex = new CategoryExample();
+			ex.createCriteria().andIdIn(idList);
+			list = categoryMapper.selectByExample(ex);
+		}
+		return list;
 	}
 }
