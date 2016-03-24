@@ -24,6 +24,9 @@
     <result column="group_mode" property="groupMode" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
     <result column="wechat_qrcode" property="wechatQrcode" jdbcType="VARCHAR" />
+    <result column="category_id_fk" property="categoryIdFk" jdbcType="BIGINT" />
+    <result column="remark_visiable" property="remarkVisiable" jdbcType="CHAR" />
+    <result column="list_visable" property="listVisable" jdbcType="CHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.mark.backend.mysql.po.Group" extends="BaseResultMap" >
     <result column="group_desc" property="groupDesc" jdbcType="LONGVARCHAR" />
@@ -89,7 +92,8 @@
   <sql id="Base_Column_List" >
     id, create_time, update_time, begin_time, end_time, group_name, guarantee, frequency, 
     latest_time, book_id_fk, book_brief, book_name, read_slogan, captain_brief, user_id_fk, 
-    captain_name, captain_email, captain_wecode, captain_phone, group_mode, status, wechat_qrcode
+    captain_name, captain_email, captain_wecode, captain_phone, group_mode, status, wechat_qrcode, 
+    category_id_fk, remark_visiable, list_visable
   </sql>
   <sql id="Blob_Column_List" >
     group_desc
@@ -152,7 +156,8 @@
       read_slogan, captain_brief, user_id_fk, 
       captain_name, captain_email, captain_wecode, 
       captain_phone, group_mode, status, 
-      wechat_qrcode, group_desc)
+      wechat_qrcode, category_id_fk, remark_visiable, 
+      list_visable, group_desc)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{groupName,jdbcType=VARCHAR}, 
       #{guarantee,jdbcType=INTEGER}, #{frequency,jdbcType=VARCHAR}, #{latestTime,jdbcType=TIMESTAMP}, 
@@ -160,7 +165,8 @@
       #{readSlogan,jdbcType=VARCHAR}, #{captainBrief,jdbcType=VARCHAR}, #{userIdFk,jdbcType=BIGINT}, 
       #{captainName,jdbcType=VARCHAR}, #{captainEmail,jdbcType=VARCHAR}, #{captainWecode,jdbcType=VARCHAR}, 
       #{captainPhone,jdbcType=VARCHAR}, #{groupMode,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
-      #{wechatQrcode,jdbcType=VARCHAR}, #{groupDesc,jdbcType=LONGVARCHAR})
+      #{wechatQrcode,jdbcType=VARCHAR}, #{categoryIdFk,jdbcType=BIGINT}, #{remarkVisiable,jdbcType=CHAR}, 
+      #{listVisable,jdbcType=CHAR}, #{groupDesc,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mark.backend.mysql.po.Group" >
     insert into t_group
@@ -230,6 +236,15 @@
       </if>
       <if test="wechatQrcode != null" >
         wechat_qrcode,
+      </if>
+      <if test="categoryIdFk != null" >
+        category_id_fk,
+      </if>
+      <if test="remarkVisiable != null" >
+        remark_visiable,
+      </if>
+      <if test="listVisable != null" >
+        list_visable,
       </if>
       <if test="groupDesc != null" >
         group_desc,
@@ -301,6 +316,15 @@
       </if>
       <if test="wechatQrcode != null" >
         #{wechatQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryIdFk != null" >
+        #{categoryIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="remarkVisiable != null" >
+        #{remarkVisiable,jdbcType=CHAR},
+      </if>
+      <if test="listVisable != null" >
+        #{listVisable,jdbcType=CHAR},
       </if>
       <if test="groupDesc != null" >
         #{groupDesc,jdbcType=LONGVARCHAR},
@@ -382,6 +406,15 @@
       <if test="record.wechatQrcode != null" >
         wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR},
       </if>
+      <if test="record.categoryIdFk != null" >
+        category_id_fk = #{record.categoryIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="record.remarkVisiable != null" >
+        remark_visiable = #{record.remarkVisiable,jdbcType=CHAR},
+      </if>
+      <if test="record.listVisable != null" >
+        list_visable = #{record.listVisable,jdbcType=CHAR},
+      </if>
       <if test="record.groupDesc != null" >
         group_desc = #{record.groupDesc,jdbcType=LONGVARCHAR},
       </if>
@@ -414,6 +447,9 @@
       group_mode = #{record.groupMode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=CHAR},
       wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR},
+      category_id_fk = #{record.categoryIdFk,jdbcType=BIGINT},
+      remark_visiable = #{record.remarkVisiable,jdbcType=CHAR},
+      list_visable = #{record.listVisable,jdbcType=CHAR},
       group_desc = #{record.groupDesc,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -442,7 +478,10 @@
       captain_phone = #{record.captainPhone,jdbcType=VARCHAR},
       group_mode = #{record.groupMode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=CHAR},
-      wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR}
+      wechat_qrcode = #{record.wechatQrcode,jdbcType=VARCHAR},
+      category_id_fk = #{record.categoryIdFk,jdbcType=BIGINT},
+      remark_visiable = #{record.remarkVisiable,jdbcType=CHAR},
+      list_visable = #{record.listVisable,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -513,6 +552,15 @@
       <if test="wechatQrcode != null" >
         wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR},
       </if>
+      <if test="categoryIdFk != null" >
+        category_id_fk = #{categoryIdFk,jdbcType=BIGINT},
+      </if>
+      <if test="remarkVisiable != null" >
+        remark_visiable = #{remarkVisiable,jdbcType=CHAR},
+      </if>
+      <if test="listVisable != null" >
+        list_visable = #{listVisable,jdbcType=CHAR},
+      </if>
       <if test="groupDesc != null" >
         group_desc = #{groupDesc,jdbcType=LONGVARCHAR},
       </if>
@@ -542,6 +590,9 @@
       group_mode = #{groupMode,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
       wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR},
+      category_id_fk = #{categoryIdFk,jdbcType=BIGINT},
+      remark_visiable = #{remarkVisiable,jdbcType=CHAR},
+      list_visable = #{listVisable,jdbcType=CHAR},
       group_desc = #{groupDesc,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -567,7 +618,10 @@
       captain_phone = #{captainPhone,jdbcType=VARCHAR},
       group_mode = #{groupMode,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
-      wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR}
+      wechat_qrcode = #{wechatQrcode,jdbcType=VARCHAR},
+      category_id_fk = #{categoryIdFk,jdbcType=BIGINT},
+      remark_visiable = #{remarkVisiable,jdbcType=CHAR},
+      list_visable = #{listVisable,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

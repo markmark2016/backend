@@ -47,6 +47,12 @@ public class Group {
 
     private String wechatQrcode;
 
+    private Long categoryIdFk;
+
+    private String remarkVisiable;
+
+    private String listVisable;
+
     private String groupDesc;
 
     public Long getId() {
@@ -223,6 +229,30 @@ public class Group {
 
     public void setWechatQrcode(String wechatQrcode) {
         this.wechatQrcode = wechatQrcode == null ? null : wechatQrcode.trim();
+    }
+
+    public Long getCategoryIdFk() {
+        return categoryIdFk;
+    }
+
+    public void setCategoryIdFk(Long categoryIdFk) {
+        this.categoryIdFk = categoryIdFk;
+    }
+
+    public String getRemarkVisiable() {
+        return remarkVisiable;
+    }
+
+    public void setRemarkVisiable(String remarkVisiable) {
+        this.remarkVisiable = remarkVisiable == null ? null : remarkVisiable.trim();
+    }
+
+    public String getListVisable() {
+        return listVisable;
+    }
+
+    public void setListVisable(String listVisable) {
+        this.listVisable = listVisable == null ? null : listVisable.trim();
     }
 
     public String getGroupDesc() {

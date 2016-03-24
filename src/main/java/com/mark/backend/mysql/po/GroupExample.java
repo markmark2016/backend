@@ -1564,6 +1564,206 @@ public class GroupExample {
             addCriterion("wechat_qrcode not between", value1, value2, "wechatQrcode");
             return (Criteria) this;
         }
+
+        public Criteria andCategoryIdFkIsNull() {
+            addCriterion("category_id_fk is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkIsNotNull() {
+            addCriterion("category_id_fk is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkEqualTo(Long value) {
+            addCriterion("category_id_fk =", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkNotEqualTo(Long value) {
+            addCriterion("category_id_fk <>", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkGreaterThan(Long value) {
+            addCriterion("category_id_fk >", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkGreaterThanOrEqualTo(Long value) {
+            addCriterion("category_id_fk >=", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkLessThan(Long value) {
+            addCriterion("category_id_fk <", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkLessThanOrEqualTo(Long value) {
+            addCriterion("category_id_fk <=", value, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkIn(List<Long> values) {
+            addCriterion("category_id_fk in", values, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkNotIn(List<Long> values) {
+            addCriterion("category_id_fk not in", values, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkBetween(Long value1, Long value2) {
+            addCriterion("category_id_fk between", value1, value2, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIdFkNotBetween(Long value1, Long value2) {
+            addCriterion("category_id_fk not between", value1, value2, "categoryIdFk");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableIsNull() {
+            addCriterion("remark_visiable is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableIsNotNull() {
+            addCriterion("remark_visiable is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableEqualTo(String value) {
+            addCriterion("remark_visiable =", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableNotEqualTo(String value) {
+            addCriterion("remark_visiable <>", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableGreaterThan(String value) {
+            addCriterion("remark_visiable >", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableGreaterThanOrEqualTo(String value) {
+            addCriterion("remark_visiable >=", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableLessThan(String value) {
+            addCriterion("remark_visiable <", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableLessThanOrEqualTo(String value) {
+            addCriterion("remark_visiable <=", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableLike(String value) {
+            addCriterion("remark_visiable like", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableNotLike(String value) {
+            addCriterion("remark_visiable not like", value, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableIn(List<String> values) {
+            addCriterion("remark_visiable in", values, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableNotIn(List<String> values) {
+            addCriterion("remark_visiable not in", values, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableBetween(String value1, String value2) {
+            addCriterion("remark_visiable between", value1, value2, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkVisiableNotBetween(String value1, String value2) {
+            addCriterion("remark_visiable not between", value1, value2, "remarkVisiable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableIsNull() {
+            addCriterion("list_visable is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableIsNotNull() {
+            addCriterion("list_visable is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableEqualTo(String value) {
+            addCriterion("list_visable =", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableNotEqualTo(String value) {
+            addCriterion("list_visable <>", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableGreaterThan(String value) {
+            addCriterion("list_visable >", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableGreaterThanOrEqualTo(String value) {
+            addCriterion("list_visable >=", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableLessThan(String value) {
+            addCriterion("list_visable <", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableLessThanOrEqualTo(String value) {
+            addCriterion("list_visable <=", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableLike(String value) {
+            addCriterion("list_visable like", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableNotLike(String value) {
+            addCriterion("list_visable not like", value, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableIn(List<String> values) {
+            addCriterion("list_visable in", values, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableNotIn(List<String> values) {
+            addCriterion("list_visable not in", values, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableBetween(String value1, String value2) {
+            addCriterion("list_visable between", value1, value2, "listVisable");
+            return (Criteria) this;
+        }
+
+        public Criteria andListVisableNotBetween(String value1, String value2) {
+            addCriterion("list_visable not between", value1, value2, "listVisable");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
