@@ -136,4 +136,26 @@ public class GroupServiceImpl implements IGroupService {
 		Integer updateFlag = groupUserMapper.updateByExampleSelective(po, ex);
 		return updateFlag;
 	}
+
+	@Override
+	public Group getGroupInfo(Long groupId) {
+		GroupExample ex = new GroupExample();
+		ex.createCriteria().andIdEqualTo(groupId);
+		Group group = groupMapper.selectByPrimaryKey(groupId);
+		return group;
+	}
+
+	@Override
+	public Integer saveGroup(Group group) {
+		Integer i = 0;
+		if (group.getId() != null) {
+			group.setUpdateTime(group.getUpdateTime());
+			groupMapper.updateByPrimaryKeySelective(group);
+		} else {
+			group.setCreateTime(MarkUtils.getCurrentTime());
+			group.setUpdateTime(group.getCreateTime());
+			groupMapper.insert(group);
+		}
+		return i;
+	}
 }

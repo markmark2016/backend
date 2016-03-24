@@ -77,4 +77,14 @@ public interface IGroupService {
 	 */
 	Integer updateGroupUserStatus(Long groupId, Long userId, String status);
 
+	/**
+	 * 获得小组
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	Group getGroupInfo(Long groupId);
+	
+	Integer saveGroup(Group group);
+
 }

@@ -11,7 +11,7 @@
 		[#include "head.ftl"]
 		
 		<div class="admin-content">
-		<a href="<?=url('Admin', 'edit_group')?>">Add New Group</a>
+		<a href="${ctxPath}/admin/group/edit">Add New Group</a>
 		<hr>
 		<table class="am-table">
 			<thead>
@@ -30,8 +30,8 @@
 						<td>${group.groupName}</td>
 						<td>${group.captainName}</td>
 						<td>${group.bookName}</td>
-						<td>${group.beginTime}</td>
-						<td><a class="am-btn am-btn-primary" href="?c=Admin&amp;a=edit_group&amp;group_id=1">Edit</a></td>
+						<td>${group.beginTime ? string("yyyy-MM-dd")}</td>
+						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/edit?groupId=${group.id}">Edit</a></td>
 					</tr>
 				[/#list]
 			[/#if]

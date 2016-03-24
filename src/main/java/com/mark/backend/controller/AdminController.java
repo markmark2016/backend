@@ -64,7 +64,7 @@ public class AdminController {
 	@RequestMapping(value = "/association/save", method = RequestMethod.POST)
 	public String associationSave(Model model, Association association) {
 		Integer i = associationService.editAssociation(association);
-		return "admin/association_edit";
+		return "admin/association";
 	}
 
 	@RequestMapping(value = "/menu/create", method = RequestMethod.POST)
@@ -88,6 +88,21 @@ public class AdminController {
 	public String groups(Model model) {
 		List<Group> groupList = groupService.getAllGroup(null);
 		model.addAttribute("groupList", groupList);
+		return "admin/group";
+	}
+
+	@RequestMapping(value = "/group/edit", method = RequestMethod.GET)
+	public String editGroup(Model model, Long groupId) {
+		if (groupId != null) {
+			Group group = groupService.getGroupInfo(groupId);
+			model.addAttribute(group);
+		}
+		return "admin/group_edit";
+	}
+
+	@RequestMapping(value = "/group/save", method = RequestMethod.POST)
+	public String editGroup(Model model, Group group) {
+		int i = groupService.saveGroup(group);
 		return "admin/group";
 	}
 }
