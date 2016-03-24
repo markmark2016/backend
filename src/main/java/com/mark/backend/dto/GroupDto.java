@@ -111,7 +111,7 @@ public class GroupDto {
 	/**
 	 * 列别是否可见
 	 */
-	private String listVisable;
+	private String listVisiable;
 
 	public Long getId() {
 		return id;
@@ -305,12 +305,12 @@ public class GroupDto {
 		this.remarkVisiable = remarkVisiable;
 	}
 
-	public String getListVisable() {
-		return listVisable;
+	public String getListVisiable() {
+		return listVisiable;
 	}
 
-	public void setListVisable(String listVisable) {
-		this.listVisable = listVisable;
+	public void setListVisiable(String listVisiable) {
+		this.listVisiable = listVisiable;
 	}
 
 }

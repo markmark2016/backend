@@ -13,8 +13,9 @@
 		tb.image AS groupImage,
 		tg.remark_visiable
 		AS remarkVisiable,
-		tg.list_visable AS listVisable,
-		tg.category_id_fk AS
+		tg.list_visiable AS listVisiable,
+		tg.category_id_fk
+		AS
 		categoryId
 		<if test="allInfo != null">
 			,tb.summary AS bookSummary,
@@ -46,7 +47,7 @@
 		WHERE
 		tg.book_id_fk = tb.id
 		AND tg. STATUS != 0
-		AND tg.list_visable = 1
+		AND tg.list_visiable = 1
 		<if test="groupId != null">
 			AND tg.id = ${groupId}
 		</if>
@@ -57,6 +58,9 @@
 			tag.group_id_fk = tg.id
 			AND
 			ta.id = ${associationId}
+			OR
+			tg.list_visiable
+			= 0
 		</if>
 	</select>
 
