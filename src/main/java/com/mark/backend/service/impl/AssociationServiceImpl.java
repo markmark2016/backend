@@ -14,13 +14,17 @@ import com.mark.backend.dto.AssociationDto;
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.mysql.mapper.AssociationCategoryMapper;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
+import com.mark.backend.mysql.mapper.AssociationMapper;
 import com.mark.backend.mysql.mapper.CategoryMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.AssociationCategory;
 import com.mark.backend.mysql.po.AssociationCategoryExample;
+import com.mark.backend.mysql.po.AssociationExample;
 import com.mark.backend.mysql.po.Category;
 import com.mark.backend.mysql.po.CategoryExample;
 import com.mark.backend.service.IAssociationService;
+import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class AssociationServiceImpl implements IAssociationService {
@@ -35,6 +39,8 @@ public class AssociationServiceImpl implements IAssociationService {
 	private CategoryMapper categoryMapper;
 	@Resource
 	private AssociationCategoryMapper acMapper;
+	@Resource
+	private AssociationMapper associationMapper;
 
 	@Override
 	public List<AssociationDto> getAssociationList(Map<String, Object> params) {
@@ -113,5 +119,35 @@ public class AssociationServiceImpl implements IAssociationService {
 			list = categoryMapper.selectByExample(ex);
 		}
 		return list;
+	}
+
+	@Override
+	public List<Association> getAllList(Map<String, Object> params) {
+		AssociationExample ex = new AssociationExample();
+		ex.createCriteria();
+		List<Association> associationList = associationMapper
+				.selectByExample(ex);
+		return associationList;
+	}
+
+	@Override
+	public Association getAssociationById(Long id) {
+		Association ass = associationMapper.selectByPrimaryKey(id);
+		return ass;
+	}
+
+	@Override
+	public Integer editAssociation(Association association) {
+		Long id = association.getId();
+		Integer i = 0;
+		if (id != null) {
+			i = associationMapper.updateByPrimaryKeySelective(association);
+		} else {
+			association.setCreateTime(MarkUtils.getCurrentTime());
+			association.setUpdateTime(association.getCreateTime());
+			association.setStatus("1");
+			i = associationMapper.insert(association);
+		}
+		return i;
 	}
 }

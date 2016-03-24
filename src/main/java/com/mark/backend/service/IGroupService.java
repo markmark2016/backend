@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.mysql.po.Group;
 import com.mark.backend.vo.GroupVO;
 
 /**
@@ -29,7 +30,7 @@ public interface IGroupService {
 	 * 
 	 * @return
 	 */
-	List<GroupVO> getAllGroup();
+	List<Group> getAllGroup(Map<String, Object> params);
 
 	/**
 	 * 根据id获得小组
@@ -75,4 +76,5 @@ public interface IGroupService {
 	 * @return
 	 */
 	Integer updateGroupUserStatus(Long groupId, Long userId, String status);
+
 }

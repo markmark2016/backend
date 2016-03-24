@@ -1695,73 +1695,73 @@ public class GroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andListVisableIsNull() {
-            addCriterion("list_visable is null");
+        public Criteria andListVisiableIsNull() {
+            addCriterion("list_visiable is null");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableIsNotNull() {
-            addCriterion("list_visable is not null");
+        public Criteria andListVisiableIsNotNull() {
+            addCriterion("list_visiable is not null");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableEqualTo(String value) {
-            addCriterion("list_visable =", value, "listVisable");
+        public Criteria andListVisiableEqualTo(String value) {
+            addCriterion("list_visiable =", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableNotEqualTo(String value) {
-            addCriterion("list_visable <>", value, "listVisable");
+        public Criteria andListVisiableNotEqualTo(String value) {
+            addCriterion("list_visiable <>", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableGreaterThan(String value) {
-            addCriterion("list_visable >", value, "listVisable");
+        public Criteria andListVisiableGreaterThan(String value) {
+            addCriterion("list_visiable >", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableGreaterThanOrEqualTo(String value) {
-            addCriterion("list_visable >=", value, "listVisable");
+        public Criteria andListVisiableGreaterThanOrEqualTo(String value) {
+            addCriterion("list_visiable >=", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableLessThan(String value) {
-            addCriterion("list_visable <", value, "listVisable");
+        public Criteria andListVisiableLessThan(String value) {
+            addCriterion("list_visiable <", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableLessThanOrEqualTo(String value) {
-            addCriterion("list_visable <=", value, "listVisable");
+        public Criteria andListVisiableLessThanOrEqualTo(String value) {
+            addCriterion("list_visiable <=", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableLike(String value) {
-            addCriterion("list_visable like", value, "listVisable");
+        public Criteria andListVisiableLike(String value) {
+            addCriterion("list_visiable like", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableNotLike(String value) {
-            addCriterion("list_visable not like", value, "listVisable");
+        public Criteria andListVisiableNotLike(String value) {
+            addCriterion("list_visiable not like", value, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableIn(List<String> values) {
-            addCriterion("list_visable in", values, "listVisable");
+        public Criteria andListVisiableIn(List<String> values) {
+            addCriterion("list_visiable in", values, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableNotIn(List<String> values) {
-            addCriterion("list_visable not in", values, "listVisable");
+        public Criteria andListVisiableNotIn(List<String> values) {
+            addCriterion("list_visiable not in", values, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableBetween(String value1, String value2) {
-            addCriterion("list_visable between", value1, value2, "listVisable");
+        public Criteria andListVisiableBetween(String value1, String value2) {
+            addCriterion("list_visiable between", value1, value2, "listVisiable");
             return (Criteria) this;
         }
 
-        public Criteria andListVisableNotBetween(String value1, String value2) {
-            addCriterion("list_visable not between", value1, value2, "listVisable");
+        public Criteria andListVisiableNotBetween(String value1, String value2) {
+            addCriterion("list_visiable not between", value1, value2, "listVisiable");
             return (Criteria) this;
         }
     }

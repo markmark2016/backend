@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mark.backend.dto.AssociationDto;
+import com.mark.backend.mysql.po.Association;
 
 /**
  * 社群service
@@ -29,4 +30,28 @@ public interface IAssociationService {
 	 * @return
 	 */
 	AssociationDto getAssociationById(Map<String, Object> params);
+
+	/**
+	 * 获得所有社群信息
+	 * 
+	 * @param params
+	 * @return
+	 */
+	List<Association> getAllList(Map<String, Object> params);
+
+	/**
+	 * 通过id获得
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Association getAssociationById(Long id);
+
+	/**
+	 * 插入新纪录
+	 * 
+	 * @param association
+	 * @return
+	 */
+	Integer editAssociation(Association association);
 }

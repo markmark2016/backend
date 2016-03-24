@@ -51,7 +51,7 @@ public class Group {
 
     private String remarkVisiable;
 
-    private String listVisable;
+    private String listVisiable;
 
     private String groupDesc;
 
@@ -247,12 +247,12 @@ public class Group {
         this.remarkVisiable = remarkVisiable == null ? null : remarkVisiable.trim();
     }
 
-    public String getListVisable() {
-        return listVisable;
+    public String getListVisiable() {
+        return listVisiable;
     }
 
-    public void setListVisable(String listVisable) {
-        this.listVisable = listVisable == null ? null : listVisable.trim();
+    public void setListVisiable(String listVisiable) {
+        this.listVisiable = listVisiable == null ? null : listVisiable.trim();
     }
 
     public String getGroupDesc() {

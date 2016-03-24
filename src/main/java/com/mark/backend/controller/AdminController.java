@@ -1,5 +1,7 @@
 package com.mark.backend.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -8,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mark.backend.model.Admin;
-import com.mark.backend.service.IBookService;
+import com.mark.backend.mysql.po.Association;
+import com.mark.backend.mysql.po.Group;
+import com.mark.backend.service.IAssociationService;
 import com.mark.backend.service.IGroupService;
-import com.mark.backend.service.IUserService;
 import com.mark.backend.service.impl.WeixinService;
 
 @Controller
@@ -18,13 +21,11 @@ import com.mark.backend.service.impl.WeixinService;
 public class AdminController {
 
 	@Resource
-	private IUserService userService;
-	@Resource
-	private IGroupService groupService;
-	@Resource
-	private IBookService bookService;
+	private IAssociationService associationService;
 	@Resource
 	private WeixinService wxService;
+	@Resource
+	private IGroupService groupService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
@@ -43,9 +44,27 @@ public class AdminController {
 		return "admin/users";
 	}
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
-	public String menu(Model model) {
-		return "admin/menu";
+	@RequestMapping(value = "/association", method = RequestMethod.GET)
+	public String associationList(Model model) {
+		List<Association> list = associationService.getAllList(null);
+		model.addAttribute("list", list);
+		return "admin/association";
+	}
+
+	@RequestMapping(value = "/association/edit", method = RequestMethod.GET)
+	public String association(Model model, Long associationId) {
+		if (associationId != null) {
+			Association association = associationService
+					.getAssociationById(associationId);
+			model.addAttribute("association", association);
+		}
+		return "admin/association_edit";
+	}
+
+	@RequestMapping(value = "/association/save", method = RequestMethod.POST)
+	public String associationSave(Model model, Association association) {
+		Integer i = associationService.editAssociation(association);
+		return "admin/association_edit";
 	}
 
 	@RequestMapping(value = "/menu/create", method = RequestMethod.POST)
@@ -67,6 +86,8 @@ public class AdminController {
 
 	@RequestMapping(value = "/group", method = RequestMethod.GET)
 	public String groups(Model model) {
+		List<Group> groupList = groupService.getAllGroup(null);
+		model.addAttribute("groupList", groupList);
 		return "admin/group";
 	}
 }

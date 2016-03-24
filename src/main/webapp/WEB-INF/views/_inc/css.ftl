@@ -8,3 +8,4 @@
 	<link rel="stylesheet" href="${ctxPath}/resources/static/reset.css">
     <link rel="stylesheet" href="${ctxPath}/resources/static/normalize.css">
     <link rel="stylesheet" href="${ctxPath}/resources/static/am/css/amazeui.min.css">
+    <link rel="stylesheet" href="${ctxPath}/resources/static/style/admin-main.css">

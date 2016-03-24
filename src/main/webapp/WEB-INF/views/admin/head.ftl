@@ -5,7 +5,7 @@
 			      	<a href="${ctxPath}/admin/users">用户列表</a>
 			      </li>
 			      <li>
-			      	<a href="${ctxPath}/admin/menu">微信菜单</a>
+			      	<a href="${ctxPath}/admin/association">社群菜单</a>
 			      </li>
 			      <li>
 			      	<a href="${ctxPath}/admin/applygroup">申请小组</a>

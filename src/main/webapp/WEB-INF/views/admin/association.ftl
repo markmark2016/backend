@@ -1,37 +1,35 @@
 [#ftl]
 [#include "/_inc/inc.ftl"]
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html>
 <head>
-	[#include "/_inc/meta.ftl"]
+   	[#include "/_inc/meta.ftl"]
 	[#include "/_inc/css.ftl"]
 	[#include "/_inc/link.ftl"]
 </head>
-	<body>
-		[#include "head.ftl"]
-		
-		<div class="admin-content">
-		<a href="<?=url('Admin', 'edit_group')?>">Add New Group</a>
+<body>
+	[#include "head.ftl"]
+	
+	<div class="admin-content">
+		<a href="${ctxPath}/admin/association/edit">新建社群</a>
 		<hr>
 		<table class="am-table">
 			<thead>
 				<tr>
-					<td>Group Name</td>
-					<td>Group Leader</td>
-					<td>Book Name</td>
-					<td>Start Date</td>
+					<td>社群名</td>
+					<td>社群简介</td>
+					<td>读书口号</td>
 					<td>***</td>
 				</tr>
 			</thead>
 			<tbody>
-			[#if groupList??]
-				[#list groupList as group]
+			[#if list??]
+				[#list list as association]
 					<tr>
-						<td>${group.groupName}</td>
-						<td>${group.captainName}</td>
-						<td>${group.bookName}</td>
-						<td>${group.beginTime}</td>
-						<td><a class="am-btn am-btn-primary" href="?c=Admin&amp;a=edit_group&amp;group_id=1">Edit</a></td>
+						<td>${association.name}</td>
+						<td>${association.associationDesc}</td>
+						<td>${association.slogan}</td>
+						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/association/edit?associationId=${association.id}">Edit</a></td>
 					</tr>
 				[/#list]
 			[/#if]
@@ -53,6 +51,6 @@
 		</ul>
 		-->
 	</div>
-		
-	</body>
+	
+</body>
 </html>

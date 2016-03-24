@@ -35,21 +35,11 @@ public class GroupServiceImpl implements IGroupService {
 	private GroupExMapper groupExMapper;
 
 	@Override
-	public List<GroupVO> getAllGroup() {
+	public List<Group> getAllGroup(Map<String, Object> params) {
 		GroupExample ex = new GroupExample();
-		ex.createCriteria().andStatusNotEqualTo("0");
+		ex.createCriteria();
 		List<Group> groupList = groupMapper.selectByExample(ex);
-		List<GroupVO> voList = new ArrayList<GroupVO>();
-		for (Group po : groupList) {
-			GroupVO vo = new GroupVO();
-			try {
-				BeanUtils.copyProperties(po, vo);
-			} catch (Exception e) {
-				LOGGER.error("po转vo出错", e);
-			}
-			voList.add(vo);
-		}
-		return voList;
+		return groupList;
 	}
 
 	@Override
