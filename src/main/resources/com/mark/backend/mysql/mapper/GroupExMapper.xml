@@ -58,9 +58,6 @@
 			tag.group_id_fk = tg.id
 			AND
 			ta.id = ${associationId}
-			OR
-			tg.list_visiable
-			= 0
 		</if>
 	</select>
 
