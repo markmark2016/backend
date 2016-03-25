@@ -71,6 +71,7 @@ public class AdminController {
 	@RequestMapping(value = "/association/save", method = RequestMethod.POST)
 	public String associationSave(Model model, Association association) {
 		Integer i = associationService.editAssociation(association);
+		model.addAttribute("count", i);
 		return "admin/association";
 	}
 
@@ -102,6 +103,7 @@ public class AdminController {
 		model.addAttribute("bookList", bookList);
 		return "admin/book";
 	}
+
 	@RequestMapping(value = "/book/search", method = RequestMethod.POST)
 	public String bookSearch(Model model, String bookName) {
 		List<Book> bookList = bookService.getBookList(bookName);
@@ -109,12 +111,13 @@ public class AdminController {
 		return "admin/book";
 	}
 
-
 	@RequestMapping(value = "/book/edit", method = RequestMethod.GET)
 	public String bookEdit(Model model, Long bookId) {
-		Book book = bookService.getBookById(bookId);
-		model.addAttribute("book", book);
-		return "redirect:/admin/book";
+		if (bookId != null) {
+			Book book = bookService.getBookById(bookId);
+			model.addAttribute("book", book);
+		}
+		return "/admin/book_edit";
 	}
 
 	@RequestMapping(value = "/book/save", method = RequestMethod.POST)

@@ -15,8 +15,8 @@ import com.mark.backend.model.CheckModel;
 import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.MarkUtils;
 
-@Controller
-@RequestMapping(value = "/wechat")
+//@Controller
+//@RequestMapping(value = "/wechat")
 public class WechatController {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(WechatController.class);
