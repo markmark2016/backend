@@ -1,6 +1,8 @@
 package com.mark.backend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -76,7 +78,14 @@ public class AdminController {
 
 	@RequestMapping(value = "/applygroup", method = RequestMethod.GET)
 	public String applyGroup(Model model) {
-		return "admin/applygroup";
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 查询申请状态的小组
+		params.put("status", "applygroup");
+		List<Group> groupList = groupService.getAllGroup(params);
+		model.addAttribute("groupList", groupList);
+		// 显示通过按钮
+		model.addAttribute("apply", "apply");
+		return "admin/group";
 	}
 
 	@RequestMapping(value = "/book", method = RequestMethod.GET)
@@ -86,7 +95,10 @@ public class AdminController {
 
 	@RequestMapping(value = "/group", method = RequestMethod.GET)
 	public String groups(Model model) {
-		List<Group> groupList = groupService.getAllGroup(null);
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 查询申请状态的小组
+		params.put("status", "group");
+		List<Group> groupList = groupService.getAllGroup(params);
 		model.addAttribute("groupList", groupList);
 		return "admin/group";
 	}
@@ -104,5 +116,11 @@ public class AdminController {
 	public String editGroup(Model model, Group group) {
 		int i = groupService.saveGroup(group);
 		return "admin/group";
+	}
+
+	@RequestMapping(value = "/group/approve", method = RequestMethod.GET)
+	public String approveGroup(Model model, Group group) {
+		int i = groupService.saveGroup(group);
+		return "redirect:/admin/group";
 	}
 }

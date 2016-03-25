@@ -61,6 +61,8 @@
 			AND
 			ta.id = ${associationId}
 		</if>
+		ORDER BY
+		tg.`status` DESC ,tg.begin_time DESC
 	</select>
 
 	<select id="getUserGroupList" parameterType="Long"

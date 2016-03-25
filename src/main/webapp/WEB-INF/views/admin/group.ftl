@@ -20,6 +20,9 @@
 					<td>Group Leader</td>
 					<td>Book Name</td>
 					<td>Start Date</td>
+					[#if apply??]
+					<td>***</td>
+					[/#if]
 					<td>***</td>
 				</tr>
 			</thead>
@@ -31,7 +34,10 @@
 						<td>${group.captainName}</td>
 						<td>${group.bookName}</td>
 						<td>${group.beginTime ? string("yyyy-MM-dd")}</td>
-						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/edit?groupId=${group.id}">Edit</a></td>
+						[#if group.status== "0"]
+							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/approve?id=${group.id}&status=2">通过申请</a></td>
+						[/#if]
+							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/edit?groupId=${group.id}">Edit</a></td>
 					</tr>
 				[/#list]
 			[/#if]

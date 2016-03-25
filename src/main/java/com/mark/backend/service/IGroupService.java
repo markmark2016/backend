@@ -84,7 +84,7 @@ public interface IGroupService {
 	 * @return
 	 */
 	Group getGroupInfo(Long groupId);
-	
+
 	Integer saveGroup(Group group);
 
 }

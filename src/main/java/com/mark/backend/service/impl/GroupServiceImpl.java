@@ -36,8 +36,16 @@ public class GroupServiceImpl implements IGroupService {
 
 	@Override
 	public List<Group> getAllGroup(Map<String, Object> params) {
+		String status = params.get("status").toString();
 		GroupExample ex = new GroupExample();
-		ex.createCriteria();
+		// 查看小组列表
+		if ("group".equals(status)) {
+			ex.createCriteria().andStatusNotEqualTo("0");
+		}
+		// 查看申请小组列表
+		else {
+			ex.createCriteria().andStatusEqualTo("0");
+		}
 		List<Group> groupList = groupMapper.selectByExample(ex);
 		return groupList;
 	}
