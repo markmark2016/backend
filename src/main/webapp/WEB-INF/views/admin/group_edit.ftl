@@ -93,11 +93,10 @@
 	</div>
 </body>
 <script type="text/javascript">
-	[#if group??]]
 		$(function(){
-			var groupMode = "${group.groupMode ? default("")}";
-			var remarkVisiable = "${group.remarkVisiable ? default("")}";
-			var listVisiable = "${group.listVisiable ? default("")}";
+			var groupMode =[#if group??] "${group.groupMode ? default("")}"[/#if];
+			var remarkVisiable = [#if group??]"${group.remarkVisiable ? default("")}"[/#if];
+			var listVisiable = [#if group??]"${group.listVisiable ? default("")}"[/#if];
 			
 			$('input:radio[name=groupMode]').each(function(){
 		    	if ($(this).val() == groupMode) { 
@@ -116,7 +115,5 @@
 	   		});
 		    
 		});
-	[/#if]]
-		
 </script>
 </html>
