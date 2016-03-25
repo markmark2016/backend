@@ -97,6 +97,7 @@ public class GroupServiceImpl implements IGroupService {
 	@Override
 	public List<GroupDto> getGroupList(Map<String, Object> params) {
 		List<GroupDto> resultList = groupExMapper.queryGroupList(params);
+		// List<GroupDto> resultList = groupExMapper.getAllGroupList();
 		return resultList;
 	}
 

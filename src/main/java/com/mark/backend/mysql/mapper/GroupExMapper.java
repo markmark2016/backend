@@ -29,4 +29,6 @@ public interface GroupExMapper {
 	 * @return
 	 */
 	public Integer getTotalReader(Long groupId);
+
+	public List<GroupDto> getAllGroupList();
 }

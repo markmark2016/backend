@@ -34,6 +34,8 @@ public class GroupController {
 	public @ResponseBody
 	Object getGroupList(Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
+		// 只显示可以再列表中显示ide小组
+		params.put("list", "1");
 		List<GroupDto> dtoList = groupService.getGroupList(params);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 1);
