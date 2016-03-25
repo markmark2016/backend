@@ -36,6 +36,24 @@
 			</div>
   		</div>
   		<div class="am-form-group">
+			<label for="recruit_annoncement" class="col-sm-2 control-label">结束日期日期(*活动一旦开始则无法修改)</label>
+			<div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+			 <input type="text" class="am-form-field" placeholder="结束日期" name="endTime" value="[#if group??]${group.endTime?string("yyyy-MM-dd")}[/#if]" readonly>
+			  <span class="am-input-group-btn am-datepicker-add-on">
+			    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span></button>
+			  </span>
+			</div>
+  		</div>
+  		<div class="am-form-group">
+			<label for="recruit_annoncement" class="col-sm-2 control-label">最晚加入日期(*活动一旦开始则无法修改)</label>
+			<div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+			 <input type="text" class="am-form-field" placeholder="最晚加入日期" name="latestTime" value="[#if group??][#if group.latestTime??]${group.latestTime?string("yyyy-MM-dd")}[/#if][/#if]" readonly>
+			  <span class="am-input-group-btn am-datepicker-add-on">
+			    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span></button>
+			  </span>
+			</div>
+  		</div>
+  		<div class="am-form-group">
 			<label for="recruit_annoncement" class="col-sm-2 control-label">小组简介</label>
 			<div class="col-sm-10">
 				<textarea class="form-control" rows="6" name="groupDesc" placeholder="小组简介" required>[#if group??]${group.groupDesc}[/#if]</textarea>
@@ -56,8 +74,9 @@
   		</div>
   		-->
   		<div class="am-form-group am-form-icon">
-			<label for="book_id" class="col-sm-2 control-label">图书ID</label><br>
-			<input type="text" class="form-control" placeholder="图书id" name="bookIdFk" required value="2" requried>
+			<label for="book_id" class="col-sm-2 control-label">图书</label><br>
+			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="2" requried>
+			<a href="" class="am-btn am-btn-success">选择图书</a>
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="creator_id" class="col-sm-2 control-label">用户ID</label><br>

@@ -115,7 +115,7 @@ public class AdminController {
 	@RequestMapping(value = "/group/save", method = RequestMethod.POST)
 	public String editGroup(Model model, Group group) {
 		int i = groupService.saveGroup(group);
-		return "admin/group";
+		return "redirect:/admin/group";
 	}
 
 	@RequestMapping(value = "/group/approve", method = RequestMethod.GET)

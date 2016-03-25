@@ -2,15 +2,17 @@ package com.mark.backend.mysql.po;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Group {
     private Long id;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private Date createTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private Date updateTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private Date beginTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private Date endTime;
 
     private String groupName;
@@ -18,7 +20,7 @@ public class Group {
     private Integer guarantee;
 
     private String frequency;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private Date latestTime;
 
     private String bookIdFk;
