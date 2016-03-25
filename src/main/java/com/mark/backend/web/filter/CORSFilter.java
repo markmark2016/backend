@@ -9,13 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+
 /**
  * 解决跨域资源冲突问题
+ * 
  * @Title:CORSFilter
  * @Description:TODO
  * @author YangTianxiao
  * @date 2016年3月23日
- *
+ * 
  */
 public class CORSFilter implements Filter {
 

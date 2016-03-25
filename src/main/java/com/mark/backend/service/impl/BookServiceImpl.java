@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.BookDto;
 import com.mark.backend.mysql.mapper.BookExMapper;
@@ -15,6 +16,7 @@ import com.mark.backend.mysql.mapper.BookMapper;
 import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.BookExample;
 import com.mark.backend.service.IBookService;
+import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class BookServiceImpl implements IBookService {
@@ -25,9 +27,11 @@ public class BookServiceImpl implements IBookService {
 	private BookExMapper bookExMapper;
 
 	@Override
-	public List<Book> getBookList() {
+	public List<Book> getBookList(String bookName) {
 		BookExample bex = new BookExample();
-		// bex.createCriteria().andStatusNotEqualTo("0");
+		if (!StringUtils.isEmpty(bookName)) {
+			bex.createCriteria().andTitleLike("%" + bookName + "%");
+		}
 		List<Book> bookList = bookMapper.selectByExample(bex);
 		return bookList;
 	}
@@ -48,5 +52,27 @@ public class BookServiceImpl implements IBookService {
 		resultMap.put("likeList", likeList);
 		resultMap.put("wantList", wantList);
 		return resultMap;
+	}
+
+	@Override
+	public Book getBookById(Long bookId) {
+		BookExample ex = new BookExample();
+		ex.createCriteria().andIdEqualTo(bookId);
+		Book book = bookMapper.selectByPrimaryKey(bookId);
+		return book;
+	}
+
+	@Override
+	public Integer saveBook(Book book) {
+		Integer i = 0;
+		if (book.getId() != null) {
+			book.setUpdateTime(MarkUtils.getCurrentTime());
+			i = bookMapper.updateByPrimaryKeySelective(book);
+		} else {
+			book.setCreateTime(MarkUtils.getCurrentTime());
+			book.setUpdateTime(book.getCreateTime());
+			i = bookMapper.insert(book);
+		}
+		return i;
 	}
 }

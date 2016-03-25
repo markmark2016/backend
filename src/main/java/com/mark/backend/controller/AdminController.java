@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mark.backend.model.Admin;
 import com.mark.backend.mysql.po.Association;
+import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.service.IAssociationService;
+import com.mark.backend.service.IBookService;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.impl.WeixinService;
 
@@ -28,6 +30,8 @@ public class AdminController {
 	private WeixinService wxService;
 	@Resource
 	private IGroupService groupService;
+	@Resource
+	private IBookService bookService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
@@ -46,6 +50,7 @@ public class AdminController {
 		return "admin/users";
 	}
 
+	/** ---------------------社群相关controller------------------------ */
 	@RequestMapping(value = "/association", method = RequestMethod.GET)
 	public String associationList(Model model) {
 		List<Association> list = associationService.getAllList(null);
@@ -69,6 +74,7 @@ public class AdminController {
 		return "admin/association";
 	}
 
+	/** ---------------------修改微信按钮相关controller------------------------ */
 	@RequestMapping(value = "/menu/create", method = RequestMethod.POST)
 	public String menuCreate(String jsonStr, Model model) {
 		String responseStr = wxService.createMenu(jsonStr);
@@ -76,6 +82,7 @@ public class AdminController {
 		return "admin/menu";
 	}
 
+	/** ---------------------申请相关controller------------------------ */
 	@RequestMapping(value = "/applygroup", method = RequestMethod.GET)
 	public String applyGroup(Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -88,11 +95,35 @@ public class AdminController {
 		return "admin/group";
 	}
 
+	/** ---------------------书籍相关controller------------------------ */
 	@RequestMapping(value = "/book", method = RequestMethod.GET)
-	public String book(Model model) {
+	public String book(Model model, String bookName) {
+		List<Book> bookList = bookService.getBookList(bookName);
+		model.addAttribute("bookList", bookList);
+		return "admin/book";
+	}
+	@RequestMapping(value = "/book/search", method = RequestMethod.POST)
+	public String bookSearch(Model model, String bookName) {
+		List<Book> bookList = bookService.getBookList(bookName);
+		model.addAttribute("bookList", bookList);
 		return "admin/book";
 	}
 
+
+	@RequestMapping(value = "/book/edit", method = RequestMethod.GET)
+	public String bookEdit(Model model, Long bookId) {
+		Book book = bookService.getBookById(bookId);
+		model.addAttribute("book", book);
+		return "redirect:/admin/book";
+	}
+
+	@RequestMapping(value = "/book/save", method = RequestMethod.POST)
+	public String bookSave(Model model, Book book) {
+		Integer i = bookService.saveBook(book);
+		return "redirect:/admin/book";
+	}
+
+	/** ---------------------小组相关controller------------------------ */
 	@RequestMapping(value = "/group", method = RequestMethod.GET)
 	public String groups(Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
