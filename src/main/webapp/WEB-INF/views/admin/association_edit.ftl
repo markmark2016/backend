@@ -91,6 +91,8 @@
 			} else {
 			}
 		});
+		window.location.href = '${ctxPath}'
+						+ "/admin/association";
 	};
 	
 </script>

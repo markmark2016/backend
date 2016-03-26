@@ -165,6 +165,7 @@ public class AdminController {
 		return "redirect:/admin/group";
 	}
 
+	/** ---------------------上传图片controller------------------------ */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody
 	Object upload(MultipartFile pictureUrl) {
@@ -182,4 +183,9 @@ public class AdminController {
 		return map;
 	}
 
+	/** ---------------------类别controller------------------------ */
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
+	public String getAssociaCategory(Model model, Long groupId) {
+		return "redirect:/admin/group";
+	}
 }
