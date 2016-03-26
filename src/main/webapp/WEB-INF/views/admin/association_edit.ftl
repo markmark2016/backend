@@ -11,31 +11,65 @@
 	[#include "head.ftl"]
 	
 	<div class="admin-content">
-		<form class="am-form form-horizontal" action="${ctxPath}/admin/association/save" method="post" data-am-validator>
+		<form id="foo" class="am-form form-horizontal" action="${ctxPath}/admin/association/save" method="post" enctype="multipart/form-data" data-am-validator>
 		<div class="am-form-group">
 			<label class="control-label">小组名称</label>
 			<div class="col-sm-10">
 			[#if association??]
 				<input type="hidden" name="id" value="${association.id}" >
 			[/#if]
-				<input type="text" class="form-control" name="name" placeholder="社群名称" value="[#if association??]${association.name}[/#if]" required>
+				<input type="text" id="name" class="form-control" name="name" placeholder="社群名称" value="[#if association??]${association.name}[/#if]" required>
 			</div>
 		</div>
 		<div class="am-form-group">
 			<label for="recruit_annoncement" class="control-label">口号</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" name="slogan" value="[#if association??]${association.slogan}[/#if]" placeholder="口号" required>
+				<input type="text" id="slogan" class="form-control" name="slogan" value="[#if association??]${association.slogan}[/#if]" placeholder="口号" required>
 			</div>
   		</div>
   		<div class="am-form-group">
 			<label for="recruit_annoncement" class="col-sm-2 control-label">社群简介</label>
 			<div class="col-sm-10">
-				<textarea class="form-control" rows="6" name="associationDesc" placeholder="小组简介" required>[#if association??]${association.associationDesc}[/#if]</textarea>
+				<textarea class="form-control" id="associationDesc" rows="6" name="associationDesc" placeholder="小组简介" required>[#if association??]${association.associationDesc}[/#if]</textarea>
 			</div>
   		</div>
-  		<button type="submit" class="am-btn am-btn-primary">保存</button>
+  		<div class="am-form-group">
+			<label for="picture" class="col-sm-2 control-label">社群图片</label>
+			<div class="col-sm-10">
+				 <input type="file" id="pictureUrl" name="pictureUrl" alt="图片" />
+			</div>
+  		</div>
+  		<button type="button" class="am-btn am-btn-primary" onClick="checkAddForm()">保存</button>
 	</form>
 	</div>
 </header>
+<script type="text/javascript">
+	function checkAddForm(){
+		var ctxPath = '${ctxPath}';
+		var name = $.trim($("#name").val());
+		var slogan = $.trim($("#slogan").val());
+		var associationDesc = $.trim($("#associationDesc").val());
+		var pictureUrl = $.trim($("#pictureUrl").val());
+		if(pictureUrl != ""){
+			$.ajaxFileUpload({
+			    url: ctxPath + '/admin/upload',
+			    secureuri: false,
+			    fileElementId: ["pictureUrl"],
+			    dataType: 'JSON',
+			    success: function(data) {
+			        var obj = jQuery.parseJSON(jsonData);
+			        if (obj.status) {
+						alert(1);
+			        } else {
+			           alert(2);
+			        }
+			    }
+			});
+		}else{
+			$("#foo").submit();
+		}
+	}
+	
+</script>
 </body>
 </html>

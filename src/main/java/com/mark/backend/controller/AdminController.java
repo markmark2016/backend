@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mark.backend.model.Admin;
 import com.mark.backend.mysql.po.Association;
@@ -17,6 +19,7 @@ import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.service.IAssociationService;
 import com.mark.backend.service.IBookService;
+import com.mark.backend.service.ICloudUploadService;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.impl.WeixinService;
 
@@ -25,13 +28,15 @@ import com.mark.backend.service.impl.WeixinService;
 public class AdminController {
 
 	@Resource
-	private IAssociationService associationService;
-	@Resource
 	private WeixinService wxService;
 	@Resource
 	private IGroupService groupService;
 	@Resource
 	private IBookService bookService;
+	@Resource
+	private IAssociationService associationService;
+	@Resource
+	private ICloudUploadService uploadService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
@@ -157,4 +162,22 @@ public class AdminController {
 		int i = groupService.saveGroup(group);
 		return "redirect:/admin/group";
 	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public @ResponseBody
+	Object upload(MultipartFile picture) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String picUrl = "";
+		if (picture != null) {
+			picUrl = uploadService.upload(picture, null);
+		}
+		if (picUrl != null) {
+			map.put("status", "true");
+			map.put("pictureUrl", picUrl);
+		} else {
+			map.put("status", "false");
+		}
+		return map;
+	}
+
 }
