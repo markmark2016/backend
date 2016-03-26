@@ -1,5 +1,8 @@
 package com.mark.backend.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -54,8 +57,14 @@ public class CloudUploadServiceImpl implements ICloudUploadService {
 		}
 		PutExtra extra = new PutExtra();
 		// key=存在云端的文件名，prefix为文件的前缀,加时间戳这样可以上传同名图片
-		String key = cloudImg.getPrefix() + file.getOriginalFilename()
-				+ System.currentTimeMillis();
+		String key = "";
+		try {
+			key = URLEncoder.encode(cloudImg.getPrefix(), "UTF-8")
+					+ file.getOriginalFilename() + System.currentTimeMillis();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		PutRet ret = null;
 		try {
 			ret = IoApi.Put(uptoken, key, file.getInputStream(), extra);

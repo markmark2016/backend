@@ -16,7 +16,7 @@
 			<label class="control-label">小组名称</label>
 			<div class="col-sm-10">
 			[#if association??]
-				<input type="hidden" name="id" value="${association.id}" >
+				<input id="id" type="hidden" name="id" value="${association.id}" >
 			[/#if]
 				<input type="text" id="name" class="form-control" name="name" placeholder="社群名称" value="[#if association??]${association.name}[/#if]" required>
 			</div>
@@ -36,7 +36,10 @@
   		<div class="am-form-group">
 			<label for="picture" class="col-sm-2 control-label">社群图片</label>
 			<div class="col-sm-10">
-				 <input type="file" id="pictureUrl" name="pictureUrl" alt="图片" />
+				 <input type="file" id="pictureUrl" name="pictureUrl" alt="图片" required/>
+				 [#if pic??]
+				 	<img src="${pic}"/>
+				 [/#if]
 			</div>
   		</div>
   		<button type="button" class="am-btn am-btn-primary" onClick="checkAddForm()">保存</button>
@@ -46,6 +49,7 @@
 <script type="text/javascript">
 	function checkAddForm(){
 		var ctxPath = '${ctxPath}';
+		var id = $.trim($("#id").val())
 		var name = $.trim($("#name").val());
 		var slogan = $.trim($("#slogan").val());
 		var associationDesc = $.trim($("#associationDesc").val());
@@ -57,18 +61,37 @@
 			    fileElementId: ["pictureUrl"],
 			    dataType: 'JSON',
 			    success: function(data) {
-			        var obj = jQuery.parseJSON(jsonData);
+					var jsonData = data.replace("<pre>", "").replace(
+								"</pre>", "");
+					var obj = jQuery.parseJSON(jsonData);
 			        if (obj.status) {
-						alert(1);
+						addPost(id,name, slogan, associationDesc,obj.pictureUrl);
 			        } else {
-			           alert(2);
+			           alert(上传失败);
 			        }
 			    }
 			});
 		}else{
 			$("#foo").submit();
 		}
-	}
+	};
+	
+	function addPost(id,name, slogan, associationDesc,pictureUrl){
+		var ctxPath = '${ctxPath}';
+		$.post(ctxPath + "/admin/association/save", {
+			"id" : id,
+			"name" : name,
+			"slogan" : slogan,
+			"associationDesc" : associationDesc,
+			"pictureUrl" : pictureUrl
+		}, function(data) {
+			if (data.success) {
+				window.location.href = '${ctxPath}'
+						+ "/admin/association";
+			} else {
+			}
+		});
+	};
 	
 </script>
 </body>

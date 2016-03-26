@@ -1,6 +1,7 @@
 package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +18,15 @@ import com.mark.backend.mysql.mapper.AssociationExMapper;
 import com.mark.backend.mysql.mapper.AssociationMapper;
 import com.mark.backend.mysql.mapper.CategoryMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.mapper.PictureMapper;
 import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.AssociationCategory;
 import com.mark.backend.mysql.po.AssociationCategoryExample;
 import com.mark.backend.mysql.po.AssociationExample;
 import com.mark.backend.mysql.po.Category;
 import com.mark.backend.mysql.po.CategoryExample;
+import com.mark.backend.mysql.po.Picture;
+import com.mark.backend.mysql.po.PictureExample;
 import com.mark.backend.service.IAssociationService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -41,6 +45,8 @@ public class AssociationServiceImpl implements IAssociationService {
 	private AssociationCategoryMapper acMapper;
 	@Resource
 	private AssociationMapper associationMapper;
+	@Resource
+	private PictureMapper picMapper;
 
 	@Override
 	public List<AssociationDto> getAssociationList(Map<String, Object> params) {
@@ -131,23 +137,46 @@ public class AssociationServiceImpl implements IAssociationService {
 	}
 
 	@Override
-	public Association getAssociationById(Long id) {
+	public Map<String, Object> getAssociationById(Long id) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		Association ass = associationMapper.selectByPrimaryKey(id);
-		return ass;
+		PictureExample ex = new PictureExample();
+		ex.createCriteria().andIdFkEqualTo(id).andTypeEqualTo("3");
+		Picture picture = picMapper.selectByExample(ex).get(0);
+		map.put("association", ass);
+		map.put("pic", picture.getUrl());
+		return map;
 	}
 
 	@Override
-	public Integer editAssociation(Association association) {
+	public Integer editAssociation(Association association, String pictureUrl) {
 		Long id = association.getId();
 		Integer i = 0;
 		if (id != null) {
 			i = associationMapper.updateByPrimaryKeySelective(association);
+			// 更新图片表
+			PictureExample ex = new PictureExample();
+			ex.createCriteria().andIdFkEqualTo(association.getId())
+					.andTypeEqualTo("3");
+			Picture picture = new Picture();
+			picture.setUpdateTime(MarkUtils.getCurrentTime());
+			picture.setUrl(pictureUrl);
+			picMapper.updateByExampleSelective(picture, ex);
 		} else {
 			association.setCreateTime(MarkUtils.getCurrentTime());
 			association.setUpdateTime(association.getCreateTime());
 			association.setStatus("1");
 			i = associationMapper.insert(association);
+			// 插入图片表
+			Picture picture = new Picture();
+			picture.setCreateTime(MarkUtils.getCurrentTime());
+			picture.setUpdateTime(picture.getCreateTime());
+			picture.setIdFk(association.getId());
+			picture.setType("3");
+			picture.setUrl(pictureUrl);
+			picMapper.insert(picture);
 		}
 		return i;
 	}
+
 }

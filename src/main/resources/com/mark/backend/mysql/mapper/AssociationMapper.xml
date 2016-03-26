@@ -117,7 +117,8 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
-	<insert id="insert" parameterType="com.mark.backend.mysql.po.Association">
+	<insert id="insert" parameterType="com.mark.backend.mysql.po.Association"
+		useGeneratedKeys="true" keyProperty="id">
 		insert into t_association (id,
 		create_time, update_time,
 		name, status, user_id_fk,

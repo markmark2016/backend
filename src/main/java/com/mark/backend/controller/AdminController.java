@@ -66,16 +66,18 @@ public class AdminController {
 	@RequestMapping(value = "/association/edit", method = RequestMethod.GET)
 	public String association(Model model, Long associationId) {
 		if (associationId != null) {
-			Association association = associationService
+			Map<String, Object> map = associationService
 					.getAssociationById(associationId);
-			model.addAttribute("association", association);
+			model.addAttribute("association", map.get("association"));
+			model.addAttribute("pic", map.get("pic"));
 		}
 		return "admin/association_edit";
 	}
 
 	@RequestMapping(value = "/association/save", method = RequestMethod.POST)
-	public String associationSave(Model model, Association association) {
-		Integer i = associationService.editAssociation(association);
+	public String associationSave(Model model, Association association,
+			String pictureUrl) {
+		Integer i = associationService.editAssociation(association, pictureUrl);
 		model.addAttribute("count", i);
 		return "admin/association";
 	}
@@ -165,11 +167,11 @@ public class AdminController {
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody
-	Object upload(MultipartFile picture) {
+	Object upload(MultipartFile pictureUrl) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String picUrl = "";
-		if (picture != null) {
-			picUrl = uploadService.upload(picture, null);
+		if (pictureUrl != null) {
+			picUrl = uploadService.upload(pictureUrl, "");
 		}
 		if (picUrl != null) {
 			map.put("status", "true");

@@ -20,8 +20,8 @@
 		<property name="ACCESS_KEY" value="TNbj2_C3UXzwWqQ_Jj5e8ZgWSy8hkwKj-DTNdOpp" />
 		<property name="SECRET_KEY" value="hA0lZhyRcBRuMMaGfNYaSZ43IaKwRbaQ5kG_sbtX" />
 		<property name="bucketName" value="imark" />
-		<property name="imgPath" value="" />
-		<property name="prefix" value="http://7xsaxl.com1.z0.glb.clouddn.com/" />
+		<property name="imgPath" value="http://7xsaxl.com1.z0.glb.clouddn.com/" />
+		<property name="prefix" value="" />
 	</bean>
 
 

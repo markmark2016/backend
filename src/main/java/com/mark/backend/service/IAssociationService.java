@@ -40,12 +40,12 @@ public interface IAssociationService {
 	List<Association> getAllList(Map<String, Object> params);
 
 	/**
-	 * 通过id获得
+	 * 通过id获得社群和她的图片
 	 * 
 	 * @param id
 	 * @return
 	 */
-	Association getAssociationById(Long id);
+	Map<String, Object> getAssociationById(Long id);
 
 	/**
 	 * 插入新纪录
@@ -53,5 +53,5 @@ public interface IAssociationService {
 	 * @param association
 	 * @return
 	 */
-	Integer editAssociation(Association association);
+	Integer editAssociation(Association association, String pictureUrl);
 }
