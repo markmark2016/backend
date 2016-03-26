@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/tx
+    		http://www.springframework.org/schema/tx/spring-tx.xsd
+    		http://www.springframework.org/schema/data/mongo 
+    		http://www.springframework.org/schema/data/mongo/spring-mongo.xsd 
+    		"
+	default-lazy-init="false">
+
+	<!-- cloudImg config -->
+	<bean id="cloudImg" class="com.mark.backend.model.CloudImg">
+		<property name="ACCESS_KEY" value="TNbj2_C3UXzwWqQ_Jj5e8ZgWSy8hkwKj-DTNdOpp" />
+		<property name="SECRET_KEY" value="hA0lZhyRcBRuMMaGfNYaSZ43IaKwRbaQ5kG_sbtX" />
+		<property name="bucketName" value="imark" />
+		<property name="imgPath" value="" />
+		<property name="prefix" value="http://7xsaxl.com1.z0.glb.clouddn.com/" />
+	</bean>
+
+
+</beans>  
