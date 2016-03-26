@@ -197,6 +197,12 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.9</version>
 		</dependency>
+		<!-- qiniu cloud -->
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>sdk</artifactId>
+			<version>6.1.7</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>mark-backend</finalName>
