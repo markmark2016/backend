@@ -162,7 +162,7 @@
 			}, function(data) {
 				if (data.success) {
 					window.location.href = '${ctxPath}'
-							+ "/admin/category?associationId=${associationId}";
+							+ "/admin/";
 				} else {
 					alert('更新失败');
 				}
