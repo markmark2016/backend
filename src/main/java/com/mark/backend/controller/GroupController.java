@@ -48,7 +48,7 @@ public class GroupController {
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupById(@PathVariable("groupId") Long groupId,
-			@RequestParam(required = true) Long userId, Model model) {
+			@RequestParam(required = false) Long userId, Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		params.put("allInfo", "true");
