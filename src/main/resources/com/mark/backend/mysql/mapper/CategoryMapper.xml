@@ -110,7 +110,8 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
-	<insert id="insert" parameterType="com.mark.backend.mysql.po.Category">
+	<insert id="insert" parameterType="com.mark.backend.mysql.po.Category"
+		useGeneratedKeys="true" keyProperty="id">
 		insert into t_category (id,
 		category_name, create_time,
 		status)

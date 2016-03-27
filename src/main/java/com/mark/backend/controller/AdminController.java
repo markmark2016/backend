@@ -194,8 +194,24 @@ public class AdminController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("associationId", associationId);
 		List<Category> categoryList = categoryService.getCategoryList(params);
-		model.addAttribute("associattionId", associationId);
+		model.addAttribute("associationId", associationId);
 		model.addAttribute("categorylist", categoryList);
 		return "admin/category";
+	}
+
+	@RequestMapping(value = "/category/save", method = RequestMethod.POST)
+	public @ResponseBody
+	Object saveCategory(Model model, Long associationId, Long categoryId,
+			String categoryName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("associationId", associationId);
+		params.put("categoryId", categoryId);
+		params.put("categoryName", categoryName);
+		Long i = categoryService.saveCategory(params);
+		if (i > 0) {
+			params.clear();
+			params.put("success", "true");
+		}
+		return params;
 	}
 }
