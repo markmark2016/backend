@@ -24,6 +24,7 @@ import com.mark.backend.service.ICategoryService;
 import com.mark.backend.service.ICloudUploadService;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.impl.WeixinService;
+import com.mark.backend.utils.MarkUtils;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -136,6 +137,22 @@ public class AdminController {
 	public String bookSave(Model model, Book book) {
 		Integer i = bookService.saveBook(book);
 		return "redirect:/admin/book";
+	}
+
+	/**
+	 * 搜索豆瓣
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/book/searchadouban", method = RequestMethod.POST)
+	public @ResponseBody
+	Object searchaDouban(Model model, String searchname) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<Book> bookList = MarkUtils.getDoubanBookList(searchname, 5);
+		resultMap.put("success", "true");
+		resultMap.put("booklist", bookList);
+		return resultMap;
 	}
 
 	/** ---------------------小组相关controller------------------------ */

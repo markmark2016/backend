@@ -3,9 +3,12 @@
 <!doctype html>
 <html>
 <head>
+
    	[#include "/_inc/meta.ftl"]
 	[#include "/_inc/css.ftl"]
 	[#include "/_inc/link.ftl"]
+	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 	[#include "head.ftl"]
@@ -79,7 +82,7 @@
   		<div class="am-form-group am-form-icon">
 			<label for="book_id" class="col-sm-2 control-label">图书</label><br>
 			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="2" requried>
-			<a href="" class="am-btn am-btn-success">选择图书</a>
+			<a href="#" class="am-btn am-btn-success" onclick="messageModel(' ')">选择图书</a>
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="creator_id" class="col-sm-2 control-label">用户ID</label><br>
@@ -113,29 +116,60 @@
   		<button type="submit" class="am-btn am-btn-primary">保存</button>
 	</form>
 	</div>
+	
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="messageModel" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	      <div class="modal-content">
+	         <div class="modal-header">
+	            <button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">
+	                  &times;
+	            </button>
+	            <h4 class="modal-title" id="myModalLabel">
+	         		     输入书籍名称
+	            </h4>
+	         </div>
+	         <div class="modal-body">
+	       		   <input class="form-control" type="text" name="searchname" id="searchname" value="" />
+	         </div>
+	         <div class="modal-footer">
+	            <button type="button" class="btn btn-default" 
+	               data-dismiss="modal">关闭
+	            </button>
+	            <button id="createCategory" onclick="searchCheck()" type="button" class="btn btn-primary">
+	          		     提交更改
+	            </button>
+	         </div>
+	      </div><!-- /.modal-content -->
+	</div><!-- /.modal -->
 </body>
 <script type="text/javascript">
-		$(function(){
-			var groupMode =[#if group??] "${group.groupMode ? default("")}"[/#if];
-			var remarkVisiable = [#if group??]"${group.remarkVisiable ? default("")}"[/#if];
-			var listVisiable = [#if group??]"${group.listVisiable ? default("")}"[/#if];
-			
-			$('input:radio[name=groupMode]').each(function(){
-		    	if ($(this).val() == groupMode) { 
-					$(this).attr("checked", true); 
-				}    
-		    });
-	    	$('input:radio[name=remarkVisiable]').each(function(){
-	    	if ($(this).val() == remarkVisiable) { 
-				$(this).attr("checked", true); 
-			}    
-	 	    });
-	    	$('input:radio[name=listVisiable]').each(function(){
-	    	if ($(this).val() == listVisiable) { 
-				$(this).attr("checked", true); 
-			}    
-	   		});
-		    
-		});
+		function searchCheck(){
+			var searchname = $.trim($("#searchname").val());
+			if(searchname == ''){
+				alert('输入书名');
+			}else{
+				search(searchname);
+			}
+		}
+		function search(searchanme){
+			var ctxPath = '${ctxPath}';
+			$.post(ctxPath + "/admin/book/searchadouban", {
+				"searchname" : searchname
+			}, function(data) {
+				if (data.success) {
+					window.location.href = '${ctxPath}'
+							+ "/admin/category?associationId=${associationId}";
+				} else {
+					alert('更新失败');
+				}
+			});
+		}
+		
+		function messageModel(message) {
+			$('#messageModel').modal();
+		};
 </script>
 </html>

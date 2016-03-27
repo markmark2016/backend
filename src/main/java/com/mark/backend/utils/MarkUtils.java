@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mark.backend.model.AccessToken;
 import com.mark.backend.model.CheckModel;
@@ -274,8 +275,8 @@ public class MarkUtils {
 	}
 
 	public static List<Book> getDoubanBookList(String queryInfo, Integer count) {
-		String url = Constans.GET_ACUTH_ACCESSTOKEN_URL + "?q=" + queryInfo
-				+ "&count=" + count;
+		String url = Constans.DOUBAN_BOOK_URL + "?q=" + queryInfo + "&count="
+				+ count;
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpGet get = new HttpGet(url);
 		CloseableHttpResponse response = null;
@@ -290,9 +291,10 @@ public class MarkUtils {
 			if (entity != null) {
 				// 响应内容
 				String content = EntityUtils.toString(entity);
-				JSONObject json = JSONObject.parseObject(content);
-				String openId = json.getString("openid");
-				// return openId;
+				JSONArray bookArray = JSONObject.parseObject(content)
+						.getJSONArray("books");
+				List<Book> bookliList = transferJsonToBook(bookArray);
+				return bookliList;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -300,9 +302,24 @@ public class MarkUtils {
 		return null;
 	}
 
+	public static List<Book> transferJsonToBook(JSONArray bookArray) {
+		List<Book> bookList = new ArrayList<Book>();
+		JSONObject[] bookJson = bookArray.toArray(new JSONObject[0]);
+		for (JSONObject json : bookJson) {
+			Book book = new Book();
+			book.setTitle(json.getString("title"));
+			book.setAuthor(json.getJSONArray("author").getString(0));
+			book.setSummary(json.getString("summary"));
+			book.setImage(json.getString("image"));
+			bookList.add(book);
+		}
+		return bookList;
+	}
+
 	public static void main(String[] args) {
 		// getAccessToken();
-		System.out.println(getZeroTime().getTime());
-		getMonthStartAndEnd();
+		// System.out.println(getZeroTime().getTime());
+		// getMonthStartAndEnd();
+		getDoubanBookList("嫌疑人", 5);
 	}
 }
