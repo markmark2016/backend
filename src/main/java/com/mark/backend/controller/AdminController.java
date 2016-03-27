@@ -16,9 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mark.backend.model.Admin;
 import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.Book;
+import com.mark.backend.mysql.po.Category;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.service.IAssociationService;
 import com.mark.backend.service.IBookService;
+import com.mark.backend.service.ICategoryService;
 import com.mark.backend.service.ICloudUploadService;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.impl.WeixinService;
@@ -37,6 +39,9 @@ public class AdminController {
 	private IAssociationService associationService;
 	@Resource
 	private ICloudUploadService uploadService;
+
+	@Resource
+	private ICategoryService categoryService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
@@ -185,7 +190,12 @@ public class AdminController {
 
 	/** ---------------------类别controller------------------------ */
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public String getAssociaCategory(Model model, Long groupId) {
-		return "redirect:/admin/group";
+	public String getAssociaCategory(Model model, Long associationId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("associationId", associationId);
+		List<Category> categoryList = categoryService.getCategoryList(params);
+		model.addAttribute("associattionId", associationId);
+		model.addAttribute("categorylist", categoryList);
+		return "admin/category";
 	}
 }
