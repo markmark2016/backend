@@ -144,8 +144,9 @@
 	         </div>
 	      </div><!-- /.modal-content -->
 	</div><!-- /.modal -->
-</body>
-<script type="text/javascript">
+	
+	
+	<script type="text/javascript">
 		function searchCheck(){
 			var searchname = $.trim($("#searchname").val());
 			if(searchname == ''){
@@ -171,5 +172,6 @@
 		function messageModel(message) {
 			$('#messageModel').modal();
 		};
-</script>
+	</script>
+</body>
 </html>
