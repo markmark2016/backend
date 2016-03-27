@@ -71,4 +71,10 @@ public class CategoryServiceImpl implements ICategoryService {
 		return acTag + cTag;
 	}
 
+	@Override
+	public Category getCategoryById(Long categoryId) {
+		Category category = categoryMapper.selectByPrimaryKey(categoryId);
+		return category;
+	}
+
 }

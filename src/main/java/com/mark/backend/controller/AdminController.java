@@ -139,34 +139,72 @@ public class AdminController {
 	}
 
 	/** ---------------------小组相关controller------------------------ */
+	/**
+	 * 条件获取小组列表
+	 * 
+	 * @param model
+	 * @param associationId
+	 * @param categoryId
+	 * @return
+	 */
 	@RequestMapping(value = "/group", method = RequestMethod.GET)
-	public String groups(Model model) {
+	public String groups(Model model, Long associationId, Long categoryId) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 查询申请状态的小组
 		params.put("status", "group");
+		// 获取社群
+		if (associationId != null) {
+			Association association = (Association) associationService
+					.getAssociationById(associationId).get("association");
+			model.addAttribute("association", association);
+		}
+		// 获取类别
+		if (categoryId != null) {
+			params.put("categoryId", categoryId);
+			Category category = categoryService.getCategoryById(categoryId);
+			model.addAttribute("category", category);
+		}
+
 		List<Group> groupList = groupService.getAllGroup(params);
 		model.addAttribute("groupList", groupList);
 		return "admin/group";
 	}
 
 	@RequestMapping(value = "/group/edit", method = RequestMethod.GET)
-	public String editGroup(Model model, Long groupId) {
+	public String editGroup(Model model, Long groupId, Long associationId,
+			Long categoryId) {
 		if (groupId != null) {
 			Group group = groupService.getGroupInfo(groupId);
 			model.addAttribute(group);
+		}
+		if (associationId != null) {
+			model.addAttribute("associationId", associationId);
+		}
+		if (categoryId != null) {
+			model.addAttribute("categoryId", categoryId);
 		}
 		return "admin/group_edit";
 	}
 
 	@RequestMapping(value = "/group/save", method = RequestMethod.POST)
-	public String editGroup(Model model, Group group) {
-		int i = groupService.saveGroup(group);
+	public String saveGroup(Model model, Group group, Long associationId,
+			Long categoryId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("group", group);
+		params.put("associationId", associationId);
+		params.put("categoryId", categoryId);
+		// 新建小组默认通过批准
+		params.put("approve", "approve");
+		groupService.saveGroup(params);
 		return "redirect:/admin/group";
 	}
 
 	@RequestMapping(value = "/group/approve", method = RequestMethod.GET)
 	public String approveGroup(Model model, Group group) {
-		int i = groupService.saveGroup(group);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("group", group);
+		params.put("approve", "approve");
+		groupService.saveGroup(params);
 		return "redirect:/admin/group";
 	}
 

@@ -10,11 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.GroupDto;
+import com.mark.backend.mysql.mapper.AssociationGroupMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.GroupMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
+import com.mark.backend.mysql.po.AssociationGroup;
+import com.mark.backend.mysql.po.AssociationGroupExample;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.mysql.po.GroupExample;
 import com.mark.backend.mysql.po.GroupUser;
@@ -34,13 +38,23 @@ public class GroupServiceImpl implements IGroupService {
 	@Resource
 	private GroupExMapper groupExMapper;
 
+	@Resource
+	private AssociationGroupMapper agMapper;
+
 	@Override
 	public List<Group> getAllGroup(Map<String, Object> params) {
 		String status = params.get("status").toString();
+		Long categoryId = (Long) params.get("categoryId");
 		GroupExample ex = new GroupExample();
 		// 查看小组列表
 		if ("group".equals(status)) {
-			ex.createCriteria().andStatusNotEqualTo("0");
+			// 若有categoryid 查询这个类别下的
+			if (categoryId != null) {
+				ex.createCriteria().andStatusNotEqualTo("0")
+						.andCategoryIdFkEqualTo(categoryId);
+			} else {
+				ex.createCriteria().andStatusNotEqualTo("0");
+			}
 		}
 		// 查看申请小组列表
 		else {
@@ -155,15 +169,47 @@ public class GroupServiceImpl implements IGroupService {
 	}
 
 	@Override
-	public Integer saveGroup(Group group) {
+	public Integer saveGroup(Map<String, Object> params) {
+		Group group = (Group) params.get("group");
+		Long associationId = (Long) params.get("associationId");
+		// Long categoryId = (Long) params.get("categoryId");
+		String isApprove = params.get("approve").toString();
 		Integer i = 0;
+		//先对小组信息做处理
 		if (group.getId() != null) {
 			group.setUpdateTime(group.getUpdateTime());
 			groupMapper.updateByPrimaryKeySelective(group);
 		} else {
+			if (!StringUtils.isEmpty(isApprove)) {
+				group.setStatus("2");
+			}
 			group.setCreateTime(MarkUtils.getCurrentTime());
 			group.setUpdateTime(group.getCreateTime());
 			groupMapper.insert(group);
+		}
+		// 存储小组社群关系
+		if (associationId != null) {
+			// 先查数据库中是否已经有小组和社群关系
+			AssociationGroup ag = new AssociationGroup();
+			AssociationGroupExample agex = new AssociationGroupExample();
+			agex.createCriteria().andGroupIdFkEqualTo(group.getId());
+			List<AssociationGroup> agList = agMapper.selectByExample(agex);
+			// 结果集若有，只有一个
+			if (agList.size() > 0) {
+				ag = agList.get(0);
+				ag.setUpdateTime(MarkUtils.getCurrentTime());
+				ag.setAssociationIdFk(associationId);
+				agMapper.updateByPrimaryKeySelective(ag);
+			}
+			// 若无插入新纪录
+			else {
+				ag.setAssociationIdFk(associationId);
+				ag.setGroupIdFk(group.getId());
+				ag.setCreateTime(MarkUtils.getCurrentTime());
+				ag.setUpdateTime(ag.getCreateTime());
+				ag.setStatus("1");
+				agMapper.insert(ag);
+			}
 		}
 		return i;
 	}

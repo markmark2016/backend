@@ -11,12 +11,15 @@
 	[#include "head.ftl"]
 	<div class="admin-content">
 		<form class="am-form form-horizontal" action="${ctxPath}/admin/group/save" method="post" data-am-validator>
+		
+		[#if group??]
+			<input type="hidden" name="id" value="${group.id}" >
+		[/#if]
+		<input type="hidden" name="associationId" value="[#if associationId??]${associationId}[/#if]" >
+		<input type="hidden" name="categoryIdFk" value="[#if categoryId??]${categoryId}[/#if]" >
 		<div class="am-form-group">
 			<label class="control-label">小组名称</label>
 			<div class="col-sm-10">
-			[#if group??]
-				<input type="hidden" name="id" value="${group.id}" >
-			[/#if]
 				<input type="text" class="form-control" name="groupName" placeholder="小组名称" value="[#if group??]${group.groupName}[/#if]" required>
 			</div>
 		</div>

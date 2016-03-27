@@ -22,4 +22,12 @@ public interface ICategoryService {
 	 * @return
 	 */
 	Long saveCategory(Map<String, Object> params);
+
+	/**
+	 * 根据主键获取类别
+	 * 
+	 * @param categoryId
+	 * @return
+	 */
+	Category getCategoryById(Long categoryId);
 }

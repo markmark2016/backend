@@ -85,6 +85,12 @@ public interface IGroupService {
 	 */
 	Group getGroupInfo(Long groupId);
 
-	Integer saveGroup(Group group);
+	/**
+	 * 根据参数去存储group
+	 * 
+	 * @param params
+	 * @return
+	 */
+	Integer saveGroup(Map<String, Object> params);
 
 }

@@ -11,8 +11,12 @@
 		[#include "head.ftl"]
 		
 		<div class="admin-content">
-		<a href="${ctxPath}/admin/group/edit">Add New Group</a>
+		<a href="#" ><h1 onclick="addNewGroup()">Add New Group</h1></a>
 		<hr>
+		[#if association??]社群：${association.name ? default("")}-------------[/#if]
+		[#if category ??]类目：${category.categoryName ? default("")}[/#if]
+		<input type="hidden" id="associationId" name="associationId" value="[#if association??]${association.id ? default("")}[/#if]" /> 
+		<input type="hidden" id="categoryId" name="categoryId" value="[#if category ??]${category.id ? default("")}[/#if]" /> 
 		<table class="am-table">
 			<thead>
 				<tr>
@@ -59,6 +63,18 @@
 		</ul>
 		-->
 	</div>
-		
+		<script type="text/javascript">
+			function addNewGroup(){
+				var associationId = $.trim($("#associationId").val());
+				var categoryId = $.trim($("#categoryId").val());
+				if(associationId == ''){
+					window.location.href = '${ctxPath}'
+						+ "/admin/group/edit";
+				}else{
+					window.location.href = '${ctxPath}'
+						+ "/admin/group/edit?associationId=" + associationId + "&categoryId=" + categoryId;
+				}
+			}
+		</script>
 	</body>
 </html>

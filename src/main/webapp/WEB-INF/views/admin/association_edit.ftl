@@ -36,7 +36,7 @@
   		<div class="am-form-group">
 			<label for="picture" class="col-sm-2 control-label">社群图片</label>
 			<div class="col-sm-10">
-				 <input type="file" id="pictureUrl" name="pictureUrl" alt="图片" required/>
+				 <input type="file" id="pictureUrl" name="picture" alt="图片"/>
 				 [#if pic??]
 				 	<img src="${pic}"/>
 				 [/#if]
