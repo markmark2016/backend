@@ -140,11 +140,12 @@ public class RemarkServiceImpl implements IRemarkService {
 		// 查询map，查点赞数和评论数用
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("groupId", groupId);
+		// 只有热门的list中做了当前用户是否对这条书评点过赞的查询，而且若要进行查询，需在map中加入当前登录的用户id，而现在没有加
 		// 热门的list
-		List<RemarkDto> beginList = rexMapper.getGroupRemarkHotList(groupId);
+		List<RemarkDto> hotList = rexMapper.getGroupRemarkHotList(map);
 		// 按时间排序list
 		List<RemarkDto> timeOrderList = rexMapper
-				.getGroupRemarkListRecentlyList(groupId);
+				.getGroupRemarkListRecentlyList(map);
 		// 丰富后的热门列表
 		List<RemarkDto> finalHotList = new ArrayList<RemarkDto>();
 		List<RemarkDto> finalTimeOrderList = new ArrayList<RemarkDto>();
@@ -156,7 +157,7 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.put("type", 2);
 		List<RemarkDto> likeCountList = rexMapper
 				.getGroupRemarkInteractList(map);
-		for (RemarkDto hotDto : beginList) {
+		for (RemarkDto hotDto : hotList) {
 			User user = WeixinService.userMap.get(hotDto.getUserId());
 			hotDto.setUserName(user.getNickname());
 			hotDto.setHeadImage(user.getHeadImgUrl());

@@ -21,7 +21,8 @@ public interface RemarkExMapper {
 	 * @param groupId
 	 * @return
 	 */
-	public List<RemarkDto> getGroupRemarkListRecentlyList(Long groupId);
+	public List<RemarkDto> getGroupRemarkListRecentlyList(
+			Map<String, Object> params);
 
 	/**
 	 * 获得小组中最热门的评论
@@ -29,7 +30,7 @@ public interface RemarkExMapper {
 	 * @param groupId
 	 * @return
 	 */
-	public List<RemarkDto> getGroupRemarkHotList(Long groupId);
+	public List<RemarkDto> getGroupRemarkHotList(Map<String, Object> params);
 
 	/**
 	 * 获得评论的id-like列表 和id-reply 列表

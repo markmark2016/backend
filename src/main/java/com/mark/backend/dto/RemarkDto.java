@@ -87,6 +87,10 @@ public class RemarkDto {
 	 * 上一次书评的结束页码
 	 */
 	private Integer lastPage;
+	/**
+	 * 是否点过赞
+	 */
+	private String hasLike;
 
 	public Long getUserId() {
 		return userId;
@@ -254,6 +258,14 @@ public class RemarkDto {
 
 	public void setLastPage(Integer lastPage) {
 		this.lastPage = lastPage;
+	}
+
+	public String getHasLike() {
+		return hasLike;
+	}
+
+	public void setHasLike(String hasLike) {
+		this.hasLike = hasLike;
 	}
 
 }

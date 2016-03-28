@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.mark.backend.mysql.mapper.RemarkExMapper">
-	<select id="getGroupRemarkListRecentlyList" parameterType="long"
+	<select id="getGroupRemarkListRecentlyList" parameterType="java.util.Map"
 		resultType="com.mark.backend.dto.RemarkDto">
 		SELECT
 		tr.id AS remarkId,
@@ -13,11 +13,11 @@
 		FROM
 		t_remark tr
 		WHERE
-		tr.group_id_fk = #{groupId}
+		tr.group_id_fk = ${groupId}
 		ORDER BY
 		tr.create_time DESC
 	</select>
-	<select id="getGroupRemarkHotList" parameterType="long"
+	<select id="getGroupRemarkHotList" parameterType="java.util.Map"
 		resultType="com.mark.backend.dto.RemarkDto">
 		SELECT
 		tr.user_id_fk AS userId,
@@ -26,20 +26,30 @@
 		createTime,tr.`comment`,
 		tr.title,
 		COUNT(tri.remark_id_fk) AS
-		counts
+		counts,
+		ti.id AS hasLike
 		FROM
 		t_remark
 		tr
 		LEFT JOIN
-		t_remark_interact tri ON tr.id =
+		t_remark_interact tri ON
+		tr.id =
 		tri.remark_id_fk
+		LEFT JOIN t_interact
+		ti ON tri.interact_id_fk =
+		ti.id
+		<if test="userId != null">
+			AND ti.user_id_fk = ${userId}
+			AND tri.type = '2'
+		</if>
 		WHERE
 		tr.group_id_fk =
-		#{groupId}
+		${groupId}
 		GROUP BY
 		tri.remark_id_fk
 		ORDER BY
-		counts DESC
+		counts
+		DESC
 	</select>
 	<select id="getGroupRemarkInteractList" parameterType="java.util.Map"
 		resultType="com.mark.backend.dto.RemarkDto">
