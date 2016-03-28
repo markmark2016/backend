@@ -94,7 +94,7 @@
 		      </div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</body>
-		<script type="text/javascript">
+	<script type="text/javascript">
 			function searchCheck(){
 				var searchname = $.trim($("#searchname").val());
 				if(searchname == ''){
@@ -103,7 +103,7 @@
 					search(searchname);
 				}
 			}
-			function search(searchanme){
+			function search(searchname){
 				var ctxPath = '${ctxPath}';
 				$.post(ctxPath + "/admin/book/searchadouban", {
 					"searchname" : searchname
