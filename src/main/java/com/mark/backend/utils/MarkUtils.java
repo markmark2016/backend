@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.sasl.AuthorizeCallback;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -308,7 +310,12 @@ public class MarkUtils {
 		for (JSONObject json : bookJson) {
 			Book book = new Book();
 			book.setTitle(json.getString("title"));
-			book.setAuthor(json.getJSONArray("author").getString(0));
+			JSONArray authorArray = json.getJSONArray("author");
+			if (authorArray.size() > 0) {
+				book.setAuthor(authorArray.getString(0));
+			} else {
+				book.setAuthor("");
+			}
 			book.setSummary(json.getString("summary"));
 			book.setImage(json.getString("image"));
 			bookList.add(book);
