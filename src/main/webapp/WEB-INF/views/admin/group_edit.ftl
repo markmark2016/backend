@@ -7,8 +7,10 @@
    	[#include "/_inc/meta.ftl"]
 	[#include "/_inc/css.ftl"]
 	[#include "/_inc/link.ftl"]
+	<!--
 	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 	<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	-->
 </head>
 <body>
 	[#include "head.ftl"]
@@ -81,7 +83,7 @@
   		-->
   		<div class="am-form-group am-form-icon">
 			<label for="book_id" class="col-sm-2 control-label">图书</label><br>
-			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="2" requried>
+			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="[#if group??]${group.bookIdFk}[/#if]" requried>
 			<a href="#" class="am-btn am-btn-success" onclick="messageModel(' ')">选择图书</a>
    		</div>
    		<div class="am-form-group am-form-icon">
@@ -118,6 +120,7 @@
 	</div>
 	
 	<!-- 模态框（Modal） -->
+	<!--
 	<div class="modal fade" id="messageModel" tabindex="-1" role="dialog" 
 	   aria-labelledby="myModalLabel" aria-hidden="true">
 	   <div class="modal-dialog">
@@ -144,6 +147,7 @@
 	         </div>
 	      </div><!-- /.modal-content -->
 	</div><!-- /.modal -->
+	-->
 	
 	
 	<script type="text/javascript">

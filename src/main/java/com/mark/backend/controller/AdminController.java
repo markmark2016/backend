@@ -135,7 +135,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/book/save", method = RequestMethod.POST)
 	public String bookSave(Model model, Book book) {
-		Integer i = bookService.saveBook(book);
+		bookService.saveBook(book);
 		return "redirect:/admin/book";
 	}
 

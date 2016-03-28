@@ -34,9 +34,9 @@
 			[#if groupList??]
 				[#list groupList as group]
 					<tr>
-						<td>${group.groupName}</td>
-						<td>${group.captainName}</td>
-						<td>${group.bookName}</td>
+						<td>${group.groupName?default('')}</td>
+						<td>${group.captainName?default('')}</td>
+						<td>${group.bookName?default('')}</td>
 						<td>${group.beginTime ? string("yyyy-MM-dd")}</td>
 						[#if group.status== "0"]
 							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/approve?id=${group.id}&status=2">通过申请</a></td>

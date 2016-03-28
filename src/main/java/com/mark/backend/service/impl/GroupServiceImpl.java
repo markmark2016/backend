@@ -14,15 +14,19 @@ import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.mysql.mapper.AssociationGroupMapper;
+import com.mark.backend.mysql.mapper.BookMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.GroupMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
+import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.AssociationGroup;
 import com.mark.backend.mysql.po.AssociationGroupExample;
+import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.mysql.po.GroupExample;
 import com.mark.backend.mysql.po.GroupUser;
 import com.mark.backend.mysql.po.GroupUserExample;
+import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.utils.MarkUtils;
 import com.mark.backend.vo.GroupVO;
@@ -40,6 +44,10 @@ public class GroupServiceImpl implements IGroupService {
 
 	@Resource
 	private AssociationGroupMapper agMapper;
+	@Resource
+	private BookMapper bookMapper;
+	@Resource
+	private UserMapper userMapper;
 
 	@Override
 	public List<Group> getAllGroup(Map<String, Object> params) {
@@ -171,18 +179,28 @@ public class GroupServiceImpl implements IGroupService {
 	@Override
 	public Integer saveGroup(Map<String, Object> params) {
 		Group group = (Group) params.get("group");
+		Long bookId = Long.parseLong(group.getBookIdFk());
+		// 设置小组对应的书籍名称
+		Book book = bookMapper.selectByPrimaryKey(bookId);
+
+		// 设置小组的领读人名称
+		User user = userMapper.selectByPrimaryKey(group.getUserIdFk());
 		Long associationId = (Long) params.get("associationId");
 		// Long categoryId = (Long) params.get("categoryId");
 		String isApprove = params.get("approve").toString();
 		Integer i = 0;
-		//先对小组信息做处理
+		// 先对小组信息做处理
 		if (group.getId() != null) {
 			group.setUpdateTime(group.getUpdateTime());
+			group.setBookName(book.getTitle());
+			group.setCaptainName(user.getNickname());
 			groupMapper.updateByPrimaryKeySelective(group);
 		} else {
 			if (!StringUtils.isEmpty(isApprove)) {
 				group.setStatus("2");
 			}
+			group.setBookName(book.getTitle());
+			group.setCaptainName(user.getNickname());
 			group.setCreateTime(MarkUtils.getCurrentTime());
 			group.setUpdateTime(group.getCreateTime());
 			groupMapper.insert(group);
