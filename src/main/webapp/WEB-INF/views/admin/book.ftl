@@ -107,6 +107,13 @@
 				var ctxPath = '${ctxPath}';
 				$.post(ctxPath + "/admin/book/searchadouban", {
 					"searchname" : searchname
+				}, function(data) {
+					if (data.success) {
+						window.location.href = '${ctxPath}'
+								+ "/admin/";
+					} else {
+						alert('更新失败');
+					}
 				});
 			}
 			function messageModel(message) {
