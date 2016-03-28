@@ -9,6 +9,23 @@
 	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		.brand_table {
+		    border-collapse: collapse;
+		    border-spacing: 0;
+		    margin-bottom: 20px;
+		    max-width: 100%;
+		    text-align: center;
+		    width: 100%;
+		}
+		.brand_table tr > td {
+		    border: 1px solid #ddd;
+		    line-height: 35px;
+		}
+		.brand_table .table_bold {
+		    font-weight: bold;
+		}
+	</style>
 </head>
 	<body>
 		[#include "head.ftl"]
@@ -82,13 +99,43 @@
 		         </div>
 		         <div class="modal-body">
 		       		   名称：<input class="form-control" type="text" name="searchname" id="searchname" value="" />
+		       		   <table id="xsph" class="brand_table" align="center">
+		       		   		<tr>
+		                    	<td id="title1" style='width:30%'></td>
+		                    	<td id="image1" style='width:30%'><img src=""/></td>
+		                    	<td style='width:30%'><input type="radio" name="bookradio" value="1"></td>
+		                    </tr>
+		                    <tr>
+		                    	<td id="title2" style='width:30%'></td>
+		                    	<td id="image2" style='width:30%'><img src=""/></td>
+		                    	<td style='width:30%'><input type="radio" name="bookradio" value="2"></td>
+		                    </tr>
+		                    <tr>
+		                    	<td id="title3" style='width:30%'></td>
+		                    	<td id="image3" style='width:30%'><img src=""/></td>
+		                    	<td style='width:30%'><input type="radio" name="bookradio" value="3"></td>
+		                    </tr>
+		                    <tr>
+		                    	<td id="title4" style='width:30%'></td>
+		                    	<td id="image4" style='width:30%'><img src=""/></td>
+		                    	<td style='width:30%'><input type="radio" name="bookradio" value="4"></td>
+		                    </tr>
+		                    <tr>
+		                    	<td id="title5" style='width:30%'></td>
+		                    	<td id="image5" style='width:30%'><img src=""/></td>
+		                    	<td style='width:30%'><input type="radio" name="bookradio" value="5"></td>
+		                    </tr>
+		       		   </table>
 		         </div>
 		         <div class="modal-footer">
 		            <button type="button" class="btn btn-default" 
 		               data-dismiss="modal">关闭
 		            </button>
-		            <button id="createCategory" onclick="searchCheck()" type="button" class="btn btn-primary">
-		          		     提交更改
+		            <button id="search" onclick="searchCheck()" type="button" class="btn btn-success">
+		          		     查找
+		            </button>
+		            <button id="craeteBook" onclick="addCheck()" type="button" class="btn btn-primary">
+		          		    提交
 		            </button>
 		         </div>
 		      </div><!-- /.modal-content -->
@@ -109,12 +156,24 @@
 					"searchname" : searchname
 				}, function(data) {
 					if (data.success) {
-						window.location.href = '${ctxPath}'
-								+ "/admin/";
+						var books = data.booklist;
+						for(var i=0;i<books.length;i++){
+							$("#title"+ (i+1)).html(books[i].title);
+							var src = books[i].image;
+							$("#image"+ (i+1)).children('img').attr({ src: src });
+						}
 					} else {
 						alert('更新失败');
 					}
 				});
+			}
+			function addCheck(){
+				var searchname = $.trim($("#searchname").val());
+				if(searchname == ''){
+					alert('输入书名');
+				}else{
+					search(searchname);
+				}
 			}
 			function messageModel(message) {
 				$('#messageModel').modal();
