@@ -60,4 +60,8 @@ public interface RemarkExMapper {
 	 * 获得连续打卡天数，以及连续打卡列表
 	 */
 	public List<Remark> getContinuePunch(Map<String, Object> params);
+
+	public List<RemarkDto> getPunchList(Map<String, Object> params);
+
+	public Integer getLastReadPage(Map<String, Object> params);
 }

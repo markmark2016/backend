@@ -83,6 +83,10 @@ public class RemarkDto {
 	 * 评论内容
 	 */
 	private String comment;
+	/**
+	 * 上一次书评的结束页码
+	 */
+	private Integer lastPage;
 
 	public Long getUserId() {
 		return userId;
@@ -242,6 +246,14 @@ public class RemarkDto {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Integer getLastPage() {
+		return lastPage;
+	}
+
+	public void setLastPage(Integer lastPage) {
+		this.lastPage = lastPage;
 	}
 
 }

@@ -139,4 +139,50 @@
 		create_time
 		DESC
 	</select>
+	<select id="getPunchList" parameterType="java.util.Map"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT
+		tg.id,
+		tg.group_name AS groupName,
+		tb.image AS
+		groupImage,
+		tb.title AS bookName,
+		tgu.user_status AS
+		userStatus,
+		tgu.update_time AS readCompleteDate,
+		tr.end_page AS lastPage
+		FROM
+		t_group tg
+		LEFT JOIN
+		t_association_group tag
+		ON
+		tag.group_id_fk = tg.id
+		LEFT JOIN t_remark tr ON tr.group_id_fk =
+		tg.id,
+		t_book tb,
+		t_group_user
+		tgu
+		WHERE
+		tg.book_id_fk =
+		tb.id
+		AND tg.
+		STATUS != 0
+		AND
+		tgu.group_id_fk =
+		tg.id
+		AND tgu.user_id_fk
+		= #{userId}
+	</select>
+	<select id="getLastReadPage" parameterType="java.util.Map"
+		resultType="com.mark.backend.dto.RemarkDto">
+		SELECT end_page FROM t_remark WHERE 1 =1
+		<if test="gourpId != null">
+			AND group_id_fk = ${groupId}
+		</if>
+		<if test="userId != null">
+			AND user_id_fk = ${userId}
+		</if>
+		ORDER BY end_page
+		DESC LIMIT 0,1
+	</select>
 </mapper>

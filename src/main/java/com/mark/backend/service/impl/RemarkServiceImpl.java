@@ -72,6 +72,7 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setIsComplete("2".equals(groupDto.getUserStatus()));
 			rdto.setContinuePunch((Integer) this.getContinuePunchInfo(params)
 					.get("totalPunch"));
+			rdto.setLastPage(rexMapper.getLastReadPage(params));
 			// 今日是否打卡了
 			RemarkExample rex = new RemarkExample();
 			rex.createCriteria().andGroupIdFkEqualTo(groupDto.getId())

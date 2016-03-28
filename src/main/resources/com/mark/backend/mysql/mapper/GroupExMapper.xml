@@ -79,18 +79,22 @@
 		tgu.user_class AS userClass,
 		tgu.user_status AS
 		userStatus,
-		tgu.update_time AS readCompleteDate
+		tgu.update_time AS readCompleteDate,
+		tr.end_page AS lastPage
 		FROM
 		t_group tg
 		LEFT JOIN
 		t_association_group tag ON
-		tag.group_id_fk = tg.id,
+		tag.group_id_fk = tg.id 
+		LEFT JOIN t_remark tr ON tr.group_id_fk =
+		tg.id,
 		t_book tb,
 		t_group_user tgu
 		WHERE
 		tg.book_id_fk =
 		tb.id
-		AND tg. STATUS != 0
+		AND tg.
+		STATUS != 0
 		AND
 		tgu.group_id_fk = tg.id
 		AND tgu.user_id_fk
