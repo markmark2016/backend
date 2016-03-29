@@ -134,9 +134,17 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/book/save", method = RequestMethod.POST)
-	public String bookSave(Model model, Book book) {
-		bookService.saveBook(book);
-		return "redirect:/admin/book";
+	public @ResponseBody
+	Object bookSave(Model model, Book book) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Long bookId = bookService.saveBook(book);
+		if (bookId > 0) {
+			map.put("bookId", bookId);
+			map.put("success", "true");
+		} else {
+			map.put("success", "false");
+		}
+		return map;
 	}
 
 	/**

@@ -102,26 +102,31 @@
 		       		   <table id="xsph" class="brand_table" align="center">
 		       		   		<tr>
 		                    	<td id="title1" style='width:30%'></td>
+		                    	<td id="author1" style='width:30%'></td>
 		                    	<td id="image1" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="1"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title2" style='width:30%'></td>
+		                    	<td id="author2" style='width:30%'></td>
 		                    	<td id="image2" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="2"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title3" style='width:30%'></td>
+		                    	<td id="author3" style='width:30%'></td>
 		                    	<td id="image3" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="3"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title4" style='width:30%'></td>
+		                    	<td id="author4" style='width:30%'></td>
 		                    	<td id="image4" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="4"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title5" style='width:30%'></td>
+		                    	<td id="author5" style='width:30%'></td>
 		                    	<td id="image5" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="5"></td>
 		                    </tr>
@@ -159,6 +164,7 @@
 						var books = data.booklist;
 						for(var i=0;i<books.length;i++){
 							$("#title"+ (i+1)).html(books[i].title);
+							$("#author"+ (i+1)).html(books[i].author);
 							var src = books[i].image;
 							$("#image"+ (i+1)).children('img').attr({ src: src });
 						}
@@ -170,10 +176,31 @@
 			function addCheck(){
 				var searchname = $.trim($("#searchname").val());
 				if(searchname == ''){
-					alert('输入书名');
-				}else{
-					search(searchname);
+					alert('请先搜索');
 				}
+				var id = $('input:radio[name=bookradio]:checked').val();
+				if(id == undefined){
+					alert('请选择一本书');
+				}
+				var title = $.trim($("#title"+id).text());
+				var author = $.trim($("#author"+id).text());
+				var image = $.trim($("#image"+id).children('img').attr("src"));
+				addPost(title,author,image);
+			}
+			function addPost(title,author,image){	
+				var ctxPath = '${ctxPath}';
+				$.post(ctxPath + "/admin/book/save", {
+					"title" : title,
+					"author" : author,
+					"image" : image
+				}, function(data) {
+					if (data.success) {
+						var bookId = data.bookId;
+						alert('新添加的书籍Id：'+bookId);
+					} else {
+						alert('更新失败');
+					}
+				});
 			}
 			function messageModel(message) {
 				$('#messageModel').modal();

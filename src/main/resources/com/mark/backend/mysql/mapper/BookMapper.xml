@@ -152,7 +152,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mark.backend.mysql.po.Book" >
+  <insert id="insert" parameterType="com.mark.backend.mysql.po.Book" useGeneratedKeys="true" keyProperty="id">
     insert into t_book (id, create_time, update_time, 
       title, author, pic_id_fk, 
       image, status, origin_title, 

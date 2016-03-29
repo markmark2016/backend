@@ -63,15 +63,16 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
-	public Integer saveBook(Book book) {
-		Integer i = 0;
+	public Long saveBook(Book book) {
+		Long i = 0L;
 		if (book.getId() != null) {
 			book.setUpdateTime(MarkUtils.getCurrentTime());
-			i = bookMapper.updateByPrimaryKeySelective(book);
+			i = (long) bookMapper.updateByPrimaryKeySelective(book);
 		} else {
 			book.setCreateTime(MarkUtils.getCurrentTime());
 			book.setUpdateTime(book.getCreateTime());
-			i = bookMapper.insert(book);
+			bookMapper.insert(book);
+			i = book.getId();
 		}
 		return i;
 	}

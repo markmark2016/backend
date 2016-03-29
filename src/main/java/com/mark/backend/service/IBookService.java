@@ -43,5 +43,5 @@ public interface IBookService {
 	 * @param book
 	 * @return
 	 */
-	Integer saveBook(Book book);
+	Long saveBook(Book book);
 }
