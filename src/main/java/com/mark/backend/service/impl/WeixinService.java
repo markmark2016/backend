@@ -1,6 +1,7 @@
 package com.mark.backend.service.impl;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,14 +167,17 @@ public class WeixinService {
 				markInfoMap.get("userIdMap").put(openId, user.getId());
 				userMap.put(user.getId(), user);
 			}
+			return user.getId();
 		} else {
 			multiExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
 					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
 							openId);
-					User user = userMap.get(openId);
-					user.setUpdateTime(MarkUtils.getCurrentTime());
+					Long userId = (Long) markInfoMap.get("userIdMap").get(
+							openId);
+					User user = userMap.get(userId);
+					user.setUpdateTime(new Date());
 					// user.setCity(userInfo.getString("city"));
 					// user.setProvince(userInfo.getString("province"));
 					user.setNickname(userInfo.getString("nickname"));
@@ -189,7 +193,7 @@ public class WeixinService {
 					}
 				}
 			});
+			return (Long) markInfoMap.get("userIdMap").get(openId);
 		}
-		return openId;
 	}
 }
