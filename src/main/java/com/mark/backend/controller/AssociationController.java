@@ -41,7 +41,7 @@ public class AssociationController {
 	@RequestMapping(value = "/{associationId}", method = RequestMethod.GET)
 	public @ResponseBody
 	Object getGroupList(@PathVariable("associationId") Long associationId,
-			@RequestParam(required = true) Long userId, Model model) {
+			@RequestParam(required = false) Long userId, Model model) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("associationId", associationId);
 		params.put("userId", userId);

@@ -72,7 +72,7 @@
 			    }
 			});
 		}else{
-			$("#foo").submit();
+			addPost(id,name, slogan, associationDesc,pictureUrl);
 		}
 	};
 	
@@ -91,8 +91,6 @@
 			} else {
 			}
 		});
-		window.location.href = '${ctxPath}'
-						+ "/admin/association";
 	};
 	
 </script>

@@ -81,11 +81,15 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/association/save", method = RequestMethod.POST)
-	public String associationSave(Model model, Association association,
+	public @ResponseBody
+	Object associationSave(Model model, Association association,
 			String pictureUrl) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		Integer i = associationService.editAssociation(association, pictureUrl);
-		model.addAttribute("count", i);
-		return "admin/association";
+		if (i > 0) {
+			map.put("success", "true");
+		}
+		return map;
 	}
 
 	/** ---------------------修改微信按钮相关controller------------------------ */
