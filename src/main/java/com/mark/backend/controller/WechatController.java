@@ -48,14 +48,16 @@ public class WechatController {
 			@RequestParam(required = false) String status,
 			HttpServletRequest request, HttpServletResponse response) {
 		String userId = wxService.getUserInfo(code, status).toString();
-		Cookie c = new Cookie("markUserId", userId);
+		Cookie c = new Cookie("userId", userId);
 		c.setDomain("*");
 		c.setPath("/");
 		response.addCookie(c);
 		response.setHeader("markUserId", userId);
-		// response.setHeader("", arg1);
+		// response.setHeader("Location",
+		// "http://markmark.sinaapp.com/app/#/tab/groups-center");
 		try {
-			response.sendRedirect("http://markmark.sinaapp.com/app/#/tab/groups-center");
+			response.sendRedirect("http://www.swanhi.com/app/" + "?userId="
+					+ userId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

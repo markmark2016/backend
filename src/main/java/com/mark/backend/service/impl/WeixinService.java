@@ -185,7 +185,7 @@ public class WeixinService {
 					user.setHeadImgUrl(userInfo.getString("headimgurl"));
 					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
-					ex.createCriteria().andOpenidEqualTo(openId);
+					ex.createCriteria().andIdEqualTo(userId);
 					Integer i = userMapper.updateByExampleSelective(user, ex);
 					if (i > 0) {
 						markInfoMap.get("userIdMap").put(openId, user.getId());
