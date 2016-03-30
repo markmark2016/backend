@@ -53,6 +53,7 @@ public class WechatController {
 		c.setPath("/");
 		response.addCookie(c);
 		response.setHeader("markUserId", userId);
+		// response.setHeader("", arg1);
 		try {
 			response.sendRedirect("http://markmark.sinaapp.com/app/#/tab/groups-center");
 		} catch (IOException e) {
