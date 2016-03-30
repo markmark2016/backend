@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.mark.backend.mysql.mapper.AssociationCategoryMapper;
 import com.mark.backend.mysql.mapper.CategoryMapper;
 import com.mark.backend.mysql.po.AssociationCategory;
+import com.mark.backend.mysql.po.AssociationCategoryExample;
 import com.mark.backend.mysql.po.Category;
 import com.mark.backend.service.ICategoryService;
 import com.mark.backend.utils.MarkUtils;
@@ -80,6 +81,9 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public Integer deleteByCategoryId(Long categoryId) {
 		int i = categoryMapper.deleteByPrimaryKey(categoryId);
+		AssociationCategoryExample ex = new AssociationCategoryExample();
+		ex.createCriteria().andCategoryIdFkEqualTo(categoryId);
+		acMapper.deleteByExample(ex);
 		return i;
 	}
 

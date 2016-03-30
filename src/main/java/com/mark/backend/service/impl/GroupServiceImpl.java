@@ -235,6 +235,9 @@ public class GroupServiceImpl implements IGroupService {
 	@Override
 	public Integer deleteGroupById(Long groupId) {
 		int i = groupMapper.deleteByPrimaryKey(groupId);
+		AssociationGroupExample ex = new AssociationGroupExample();
+		ex.createCriteria().andGroupIdFkEqualTo(groupId);
+		agMapper.deleteByExample(ex);
 		return i;
 	}
 }
