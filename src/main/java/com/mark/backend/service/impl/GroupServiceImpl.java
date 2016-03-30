@@ -231,4 +231,10 @@ public class GroupServiceImpl implements IGroupService {
 		}
 		return i;
 	}
+
+	@Override
+	public Integer deleteGroupById(Long groupId) {
+		int i = groupMapper.deleteByPrimaryKey(groupId);
+		return i;
+	}
 }

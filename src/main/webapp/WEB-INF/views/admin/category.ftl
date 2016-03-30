@@ -22,6 +22,7 @@
 					<td>类别名</td>
 					<td>***</td>
 					<td>***</td>
+					<td>***</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,6 +32,7 @@
 						<td id="category_${category.id}">${category.categoryName}</td>
 						<td><a class="am-btn am-btn-primary" onclick="messageModel('${category.id}')">Edit</a></td>
 						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group?associationId=${associationId}&categoryId=${category.id}">小组</a></td>
+						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/category/delete?categoryId=${category.id}&associationId=${associationId}">删除</a></td>
 					</tr>
 				[/#list]
 			[/#if]

@@ -179,4 +179,10 @@ public class AssociationServiceImpl implements IAssociationService {
 		return i;
 	}
 
+	@Override
+	public Integer deleteByAssociationId(Long associationId) {
+		int i = associationMapper.deleteByPrimaryKey(associationId);
+		return i;
+	}
+
 }

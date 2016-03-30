@@ -54,4 +54,6 @@ public interface IAssociationService {
 	 * @return
 	 */
 	Integer editAssociation(Association association, String pictureUrl);
+
+	Integer deleteByAssociationId(Long associationId);
 }

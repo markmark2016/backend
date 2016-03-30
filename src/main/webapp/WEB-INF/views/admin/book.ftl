@@ -61,6 +61,7 @@
 						</td>
 						<td>${book.summary?default('')}</td>
 						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/book/edit?bookId=${book.id?default('')}">Edit</a></td>
+						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/book/delete?bookId=${book.id?default('')}">删除</a></td>
 					</tr>
 				[/#list]
 				[/#if]

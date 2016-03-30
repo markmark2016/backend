@@ -30,4 +30,6 @@ public interface ICategoryService {
 	 * @return
 	 */
 	Category getCategoryById(Long categoryId);
+
+	Integer deleteByCategoryId(Long categoryId);
 }

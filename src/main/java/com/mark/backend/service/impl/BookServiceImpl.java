@@ -76,4 +76,10 @@ public class BookServiceImpl implements IBookService {
 		}
 		return i;
 	}
+
+	@Override
+	public Integer deleteByBookId(Long bookId) {
+		int i = bookMapper.deleteByPrimaryKey(bookId);
+		return i;
+	}
 }

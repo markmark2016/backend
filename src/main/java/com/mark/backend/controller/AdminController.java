@@ -25,7 +25,6 @@ import com.mark.backend.service.ICategoryService;
 import com.mark.backend.service.ICloudUploadService;
 import com.mark.backend.service.IGroupService;
 import com.mark.backend.service.IUserService;
-import com.mark.backend.service.impl.UserServiceImpl;
 import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -99,6 +98,12 @@ public class AdminController {
 		return map;
 	}
 
+	@RequestMapping(value = "/association/delete", method = RequestMethod.GET)
+	public String associationSave(Model model, Long associationId) {
+		associationService.deleteByAssociationId(associationId);
+		return "redirect:/admin/association";
+	}
+
 	/** ---------------------修改微信按钮相关controller------------------------ */
 	@RequestMapping(value = "/menu/create", method = RequestMethod.POST)
 	public String menuCreate(String jsonStr, Model model) {
@@ -156,6 +161,12 @@ public class AdminController {
 			map.put("success", "false");
 		}
 		return map;
+	}
+
+	@RequestMapping(value = "/book/delete", method = RequestMethod.GET)
+	public Object bookSave(Model model, Long bookId) {
+		bookService.deleteByBookId(bookId);
+		return "redirect:/admin/book";
 	}
 
 	/**
@@ -247,6 +258,12 @@ public class AdminController {
 		return "redirect:/admin/group";
 	}
 
+	@RequestMapping(value = "/group/delete", method = RequestMethod.GET)
+	public String deleteGroup(Model model, Long groupId) {
+		groupService.deleteGroupById(groupId);
+		return "redirect:/admin/group";
+	}
+
 	/** ---------------------上传图片controller------------------------ */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody
@@ -290,6 +307,13 @@ public class AdminController {
 			params.put("success", "true");
 		}
 		return params;
+	}
+
+	@RequestMapping(value = "/category/delete", method = RequestMethod.GET)
+	public String deleteCategory(Model model, Long categoryId,
+			Long associationId) {
+		categoryService.deleteByCategoryId(categoryId);
+		return "redirect:/admin/category?associationId=" + associationId;
 	}
 
 }

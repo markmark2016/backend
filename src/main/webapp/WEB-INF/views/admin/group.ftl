@@ -42,6 +42,7 @@
 							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/approve?id=${group.id}&status=2">通过申请</a></td>
 						[/#if]
 							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/edit?groupId=${group.id}">Edit</a></td>
+							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/delete?groupId=${group.id}">删除</a></td>
 					</tr>
 				[/#list]
 			[/#if]

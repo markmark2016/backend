@@ -77,4 +77,10 @@ public class CategoryServiceImpl implements ICategoryService {
 		return category;
 	}
 
+	@Override
+	public Integer deleteByCategoryId(Long categoryId) {
+		int i = categoryMapper.deleteByPrimaryKey(categoryId);
+		return i;
+	}
+
 }

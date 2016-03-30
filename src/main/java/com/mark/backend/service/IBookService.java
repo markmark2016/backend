@@ -38,10 +38,14 @@ public interface IBookService {
 	 * @return
 	 */
 	Book getBookById(Long bookId);
+
 	/**
 	 * 存储book
+	 * 
 	 * @param book
 	 * @return
 	 */
 	Long saveBook(Book book);
+
+	Integer deleteByBookId(Long bookId);
 }
