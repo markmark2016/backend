@@ -18,26 +18,26 @@
 		<form class="am-form form-horizontal" action="${ctxPath}/admin/group/save" method="post" data-am-validator>
 		
 		[#if group??]
-			<input type="hidden" name="id" value="${group.id}" >
+			<input type="hidden" name="id" value="${group.id?default('')}" >
 		[/#if]
 		<input type="hidden" name="associationId" value="[#if associationId??]${associationId}[/#if]" >
 		<input type="hidden" name="categoryIdFk" value="[#if categoryId??]${categoryId}[/#if]" >
 		<div class="am-form-group">
 			<label class="control-label">小组名称</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" name="groupName" placeholder="小组名称" value="[#if group??]${group.groupName}[/#if]" required>
+				<input type="text" class="form-control" name="groupName" placeholder="小组名称" value="[#if group??]${group.groupName?default('')}[/#if]" required>
 			</div>
 		</div>
 		<div class="am-form-group">
 			<label for="recruit_annoncement" class="control-label">口号</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" name="readSlogan" value="[#if group??]${group.readSlogan}[/#if]" placeholder="口号" required>
+				<input type="text" class="form-control" name="readSlogan" value="[#if group??]${group.readSlogan?default('')}[/#if]" placeholder="口号" required>
 			</div>
   		</div>
   		<div class="am-form-group">
 			<label for="recruit_annoncement" class="col-sm-2 control-label">开始日期(*活动一旦开始则无法修改)</label>
 			<div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
-			 <input type="text" class="am-form-field" placeholder="开始日期" name="beginTime" value="[#if group??]${group.beginTime?string("yyyy-MM-dd")}[/#if]" readonly>
+			 <input type="text" class="am-form-field" placeholder="开始日期" name="beginTime" value="[#if group??][#if group.beginTime??]${group.beginTime?string("yyyy-MM-dd")}[/#if][/#if]" readonly>
 			  <span class="am-input-group-btn am-datepicker-add-on">
 			    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span></button>
 			  </span>
@@ -46,7 +46,7 @@
   		<div class="am-form-group">
 			<label for="recruit_annoncement" class="col-sm-2 control-label">结束日期日期(*活动一旦开始则无法修改)</label>
 			<div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
-			 <input type="text" class="am-form-field" placeholder="结束日期" name="endTime" value="[#if group??]${group.endTime?string("yyyy-MM-dd")}[/#if]" readonly>
+			 <input type="text" class="am-form-field" placeholder="结束日期" name="endTime" value="[#if group??][#if group.beginTime??]${group.endTime?string("yyyy-MM-dd")}[/#if][/#if]" readonly>
 			  <span class="am-input-group-btn am-datepicker-add-on">
 			    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span></button>
 			  </span>
@@ -64,13 +64,19 @@
   		<div class="am-form-group">
 			<label for="recruit_annoncement" class="col-sm-2 control-label">小组简介</label>
 			<div class="col-sm-10">
-				<textarea class="form-control" rows="6" name="groupDesc" placeholder="小组简介" required>[#if group??]${group.groupDesc}[/#if]</textarea>
+				<textarea class="form-control" rows="6" name="groupDesc" placeholder="小组简介">[#if group??]${group.groupDesc?default('')}[/#if]</textarea>
+			</div>
+  		</div>
+  		<div class="am-form-group">
+			<label for="recruit_annoncement" class="col-sm-2 control-label">打卡频率</label>
+			<div class="col-sm-10">
+				每&nbsp;&nbsp;&nbsp;<input type="text" class="col-sm-2" name="frequency" value="[#if group??]${group.frequency?default("")}[/#if]" placeholder="打卡频率" required>&nbsp;&nbsp;天一次
 			</div>
   		</div>
   		<div class="am-form-group">
 			<label for="recruit_annoncement" class="control-label">小组管理员Email(登陆用)</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" name="captainEmail" value="[#if group??]${group.captainEmail}[/#if]" placeholder="Email" required>
+				<input type="text" class="form-control" name="captainEmail" value="[#if group??]${group.captainEmail?default('')}[/#if]" placeholder="Email" required>
 			</div>
   		</div>
   		<!--
@@ -83,36 +89,36 @@
   		-->
   		<div class="am-form-group am-form-icon">
 			<label for="book_id" class="col-sm-2 control-label">图书</label><br>
-			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="[#if group??]${group.bookIdFk}[/#if]" requried>
+			<input type="text" class="form-control" placeholder="图书" name="bookIdFk" required value="[#if group??]${group.bookIdFk?default('')}[/#if]" requried>
 			<a href="#" class="am-btn am-btn-success" onclick="messageModel(' ')">选择图书</a>
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="creator_id" class="col-sm-2 control-label">用户ID</label><br>
-			<input type="text" class="form-control" placeholder="用户id" name="userIdFk" required value="[#if group??]${group.userIdFk}[/#if]" required>
+			<input type="text" class="form-control" placeholder="用户id" name="userIdFk" required value="[#if group??]${group.userIdFk?default('')}[/#if]" required>
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="wechat_qrcode" class="col-sm-2 control-label">加入小组后显示的二维码</label><br>
-			<input type="text" class="form-control" placeholder="请填写二维码的对应文本，程序会自动生成二维码图案" name="wechatQrcode" value="[#if group??]${group.wechatQrcode}[/#if]" required>
+			<input type="text" class="form-control" placeholder="请填写二维码的对应文本，程序会自动生成二维码图案" name="wechatQrcode" value="[#if group??]${group.wechatQrcode?default('')}[/#if]" required>
    		</div>
   		<div class="am-form-group">
 			<label for="mode" class="col-sm-2 control-label">新增成员方式</label>
 			<div class="col-sm-10">
-				<input type="radio" class="am-checkbox-inline" name="groupMode" value="1" ?>&nbsp;<span>无限制加入</span>&nbsp;
-				<input type="radio" class="am-checkbox-inline" name="groupMode" value="0" ?>&nbsp;<span>活动开始后不能再加入</span>&nbsp;
+				<input type="radio" class="am-checkbox-inline" id="groupMode1" name="groupMode" value="1" checked?>&nbsp;<span>无限制加入</span>&nbsp;
+				<input type="radio" class="am-checkbox-inline" id="groupMode0" name="groupMode" value="0" ?>&nbsp;<span>活动开始后不能再加入</span>&nbsp;
 			</div>
   		</div>
   		<div class="am-form-group">
 			<label for="listVisiable" class="col-sm-2 control-label">列表是否可见</label>
 			<div class="col-sm-10">
-				<input type="radio" class="am-checkbox-inline" name="listVisiable" value="1" ?>&nbsp;<span>可见</span>&nbsp;<br>
-				<input type="radio" class="am-checkbox-inline" name="listVisiable" value="0" ?>&nbsp;<span>不可见</span>&nbsp;<br>
+				<input type="radio" class="am-checkbox-inline" id="listVisiable1" name="listVisiable" value="1" ?>&nbsp;<span>可见</span>&nbsp;<br>
+				<input type="radio" class="am-checkbox-inline" id="listVisiable0" name="listVisiable" value="0" ?>&nbsp;<span>不可见</span>&nbsp;<br>
 			</div>
   		</div>
   		<div class="am-form-group">
 			<label for="remarkVisiable" class="col-sm-2 control-label">书评是否可见</label>
 			<div class="col-sm-10">
-				<input type="radio" class="am-checkbox-inline" name="remarkVisiable" value="1" ?>&nbsp;<span>可见</span>&nbsp;<br>
-				<input type="radio" class="am-checkbox-inline" name="remarkVisiable" value="0" ?>&nbsp;<span>不可见</span>&nbsp;<br>
+				<input type="radio" class="am-checkbox-inline" id="remarkVisiable1" name="remarkVisiable" value="1" ?>&nbsp;<span>可见</span>&nbsp;<br>
+				<input type="radio" class="am-checkbox-inline" id="remarkVisiable0" name="remarkVisiable" value="0" ?>&nbsp;<span>不可见</span>&nbsp;<br>
 			</div>
   		</div>
   		<button type="submit" class="am-btn am-btn-primary">保存</button>
@@ -151,6 +157,16 @@
 	
 	
 	<script type="text/javascript">
+		$(function(){
+			var groupMode = "${group.groupMode?default('1')}";
+			var listVisiable = "${group.listVisiable?default('1')}";
+			var remarkVisiable = "${group.remarkVisiable?default('1')}";
+			$('#groupMode'+groupMode).attr("checked",'checked');
+			$('#listVisiable'+listVisiable).attr("checked",'checked');
+			$('#remarkVisiable'+remarkVisiable).attr("checked",'checked');
+		
+		});
+	
 		function searchCheck(){
 			var searchname = $.trim($("#searchname").val());
 			if(searchname == ''){

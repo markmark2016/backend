@@ -21,7 +21,7 @@
 					<td>读书口号</td>
 					<td>***</td>
 					<td>***</td>
-					<td>***</td>
+				<!--	<td>***</td>-->
 				</tr>
 			</thead>
 			<tbody>
@@ -33,7 +33,7 @@
 						<td>${association.slogan}</td>
 						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/association/edit?associationId=${association.id}">Edit</a></td>
 						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/category?associationId=${association.id}">类别</a></td>
-						<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/association/edit?associationId=${association.id}">小组</a></td>
+						<!--<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/association/edit?associationId=${association.id}">小组</a></td>-->
 					</tr>
 				[/#list]
 			[/#if]

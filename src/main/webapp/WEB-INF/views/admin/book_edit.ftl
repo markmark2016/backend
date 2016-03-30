@@ -11,8 +11,8 @@
 		[#include "head.ftl"]
 		<div class="admin-content">
 		<form class="am-form form-horizontal" action="${ctxPath}/admin/book/save" method="post" data-am-validator>
-			[#if book??]]
-				<input typ="hidden" name="id" value="${book.id?default('')}"></input>
+			[#if book??]
+				<input type="hidden" name="id" value="${book.id?default('')}"></input>
 			[/#if]
 			<div class="am-form-group">
 				<label class="control-label">图书名称</label>

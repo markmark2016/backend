@@ -205,6 +205,9 @@ public class AdminController {
 		if (groupId != null) {
 			Group group = groupService.getGroupInfo(groupId);
 			model.addAttribute(group);
+		} else {
+			Group group = new Group();
+			model.addAttribute(group);
 		}
 		if (associationId != null) {
 			model.addAttribute("associationId", associationId);

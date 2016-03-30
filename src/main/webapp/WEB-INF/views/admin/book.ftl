@@ -30,8 +30,9 @@
 	<body>
 		[#include "head.ftl"]
 	<div class="admin-content">
-		<a href="${ctxPath}/admin/book/edit">Add New Book</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="am-btn am-btn-success" onclick="messageModel(' ')">新建书籍</a>
+		<!--<a href="${ctxPath}/admin/book/edit">Add New Book</a>-->
+		<a class="am-btn am-btn-success" onclick="messageModel(' ')">新建书籍</a>
+		<br/>
 		<form class="am-form form-horizontal" action="${ctxPath}/admin/book/search" method="POST" data-am-validator>
 			<input type="text" class="form-control" name="bookName" placeholder="书籍名称" value="" >
 			<button type="submit" class="am-btn am-btn-primary">查询</button>
@@ -103,30 +104,35 @@
 		       		   		<tr>
 		                    	<td id="title1" style='width:30%'></td>
 		                    	<td id="author1" style='width:30%'></td>
+		                    	<td id="summary1" style='width:30%'></td>
 		                    	<td id="image1" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="1"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title2" style='width:30%'></td>
 		                    	<td id="author2" style='width:30%'></td>
+		                    	<td id="summary2" style='width:30%'></td>
 		                    	<td id="image2" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="2"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title3" style='width:30%'></td>
 		                    	<td id="author3" style='width:30%'></td>
+		                    	<td id="summary3" style='width:30%'></td>
 		                    	<td id="image3" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="3"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title4" style='width:30%'></td>
 		                    	<td id="author4" style='width:30%'></td>
+		                    	<td id="summary4" style='width:30%'></td>
 		                    	<td id="image4" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="4"></td>
 		                    </tr>
 		                    <tr>
 		                    	<td id="title5" style='width:30%'></td>
 		                    	<td id="author5" style='width:30%'></td>
+		                    	<td id="summary5" style='width:30%'></td>
 		                    	<td id="image5" style='width:30%'><img src=""/></td>
 		                    	<td style='width:30%'><input type="radio" name="bookradio" value="5"></td>
 		                    </tr>
@@ -165,6 +171,7 @@
 						for(var i=0;i<books.length;i++){
 							$("#title"+ (i+1)).html(books[i].title);
 							$("#author"+ (i+1)).html(books[i].author);
+							$("#summary"+ (i+1)).html(books[i].summary);
 							var src = books[i].image;
 							$("#image"+ (i+1)).children('img').attr({ src: src });
 						}
@@ -184,14 +191,16 @@
 				}
 				var title = $.trim($("#title"+id).text());
 				var author = $.trim($("#author"+id).text());
+				var summary = $.trim($("#summary"+id).text());
 				var image = $.trim($("#image"+id).children('img').attr("src"));
-				addPost(title,author,image);
+				addPost(title,author,summary,image);
 			}
-			function addPost(title,author,image){	
+			function addPost(title,author,summary,image){	
 				var ctxPath = '${ctxPath}';
 				$.post(ctxPath + "/admin/book/save", {
 					"title" : title,
 					"author" : author,
+					"summary" : summary,
 					"image" : image
 				}, function(data) {
 					if (data.success) {
