@@ -18,11 +18,14 @@ import com.mark.backend.mysql.po.Association;
 import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.Category;
 import com.mark.backend.mysql.po.Group;
+import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IAssociationService;
 import com.mark.backend.service.IBookService;
 import com.mark.backend.service.ICategoryService;
 import com.mark.backend.service.ICloudUploadService;
 import com.mark.backend.service.IGroupService;
+import com.mark.backend.service.IUserService;
+import com.mark.backend.service.impl.UserServiceImpl;
 import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.MarkUtils;
 
@@ -40,7 +43,8 @@ public class AdminController {
 	private IAssociationService associationService;
 	@Resource
 	private ICloudUploadService uploadService;
-
+	@Resource
+	private IUserService userSerivce;
 	@Resource
 	private ICategoryService categoryService;
 
@@ -56,8 +60,11 @@ public class AdminController {
 		return "redirect:/login";
 	}
 
+	/** ---------------------用户controller------------------------ */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String users(Model model) {
+		List<User> userList = userSerivce.getUserList();
+		model.addAttribute("userlist", userList);
 		return "admin/users";
 	}
 
@@ -284,4 +291,5 @@ public class AdminController {
 		}
 		return params;
 	}
+
 }
