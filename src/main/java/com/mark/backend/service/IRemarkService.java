@@ -21,7 +21,7 @@ public interface IRemarkService {
 	 * @param remark
 	 * @return
 	 */
-	public Long createRemark(RemarkWithBLOBs remark);
+	public Long createRemark(RemarkWithBLOBs remark, String picUrl);
 
 	/**
 	 * 

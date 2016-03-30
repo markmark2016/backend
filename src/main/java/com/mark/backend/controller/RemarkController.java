@@ -62,11 +62,11 @@ public class RemarkController {
 	public @ResponseBody
 	Object createRemark(RemarkWithBLOBs remark,
 			@PathVariable("userId") Long userId,
-			@PathVariable("groupId") Long groupId) {
+			@PathVariable("groupId") Long groupId, String picUrl) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
 		remark.setUserIdFk(userId);
-		Long remarkId = remarkService.createRemark(remark);
+		Long remarkId = remarkService.createRemark(remark, picUrl);
 		if (remarkId > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
@@ -87,11 +87,11 @@ public class RemarkController {
 	public @ResponseBody
 	Object completeBook(RemarkWithBLOBs remark,
 			@PathVariable("userId") Long userId,
-			@PathVariable("groupId") Long groupId) {
+			@PathVariable("groupId") Long groupId, String picUrl) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
 		remark.setUserIdFk(userId);
-		Long remarkId = remarkService.createRemark(remark);
+		Long remarkId = remarkService.createRemark(remark, picUrl);
 		Integer updateFlag = groupService.updateGroupUserStatus(groupId,
 				userId, "2");
 		if (remarkId > 0 && updateFlag > 0) {

@@ -91,7 +91,7 @@ public class RemarkServiceImpl implements IRemarkService {
 	}
 
 	@Override
-	public Long createRemark(RemarkWithBLOBs remark) {
+	public Long createRemark(RemarkWithBLOBs remark, String picUrl) {
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
 		remarkMapper.insert(remark);
