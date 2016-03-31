@@ -112,6 +112,10 @@ public class GroupDto {
 	 * 列别是否可见
 	 */
 	private String listVisiable;
+	/**
+	 * 上次结束的页码
+	 */
+	private Integer lastPage;
 
 	public Long getId() {
 		return id;
@@ -311,6 +315,14 @@ public class GroupDto {
 
 	public void setListVisiable(String listVisiable) {
 		this.listVisiable = listVisiable;
+	}
+
+	public Integer getLastPage() {
+		return lastPage;
+	}
+
+	public void setLastPage(Integer lastPage) {
+		this.lastPage = lastPage;
 	}
 
 }
