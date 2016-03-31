@@ -136,6 +136,9 @@ public class RemarkServiceImpl implements IRemarkService {
 			// 回复列表
 			List<InteractDto> replyList = iexMapper
 					.getReplyList(remark.getId());
+			// pic表中存储的书评图片，type是2
+			String pictureUrl = picService.getPicByIdFk(remark.getId(), "1");
+			map.put("pictureUrl", pictureUrl);
 			map.put("totalLike", likeList.size());
 			map.put("likelist", likeList);
 			map.put("replylist", replyList);

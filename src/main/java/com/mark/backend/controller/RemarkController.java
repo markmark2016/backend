@@ -62,11 +62,11 @@ public class RemarkController {
 	public @ResponseBody
 	Object createRemark(RemarkWithBLOBs remark,
 			@PathVariable("userId") Long userId,
-			@PathVariable("groupId") Long groupId, String picUrl) {
+			@PathVariable("groupId") Long groupId, String pictureUrl) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		remark.setGroupIdFk(groupId);
 		remark.setUserIdFk(userId);
-		Long remarkId = remarkService.createRemark(remark, picUrl);
+		Long remarkId = remarkService.createRemark(remark, pictureUrl);
 		if (remarkId > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
