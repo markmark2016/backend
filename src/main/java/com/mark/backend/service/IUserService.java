@@ -137,4 +137,12 @@ public interface IUserService {
 	 * @return
 	 */
 	Map<String, Object> getPunchDateArray(Map<String, Object> params);
+
+	/**
+	 * 根据参数修改用户对书籍的喜好信息
+	 * 
+	 * @param params
+	 * @return
+	 */
+	Integer editUserBook(Map<String, Object> params);
 }

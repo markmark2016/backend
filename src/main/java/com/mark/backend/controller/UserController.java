@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.UserDto;
+import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IBookService;
 import com.mark.backend.service.IUserService;
@@ -243,6 +244,45 @@ public class UserController {
 		map.put("status", 1);
 		map.put("msg", "更新成功");
 		map.put("date", data);
+		return map;
+	}
+
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/book/delete", method = RequestMethod.POST)
+	public @ResponseBody
+	Object deleteBook(Long userId, Long bookId, String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", userId);
+		params.put("bookId", bookId);
+		params.put("type", type);
+		params.put("delete", "1");
+		userService.editUserBook(params);
+		map.put("status", 1);
+		map.put("msg", "删除成功");
+		return map;
+	}
+
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/book/save", method = RequestMethod.POST)
+	public @ResponseBody
+	Object deleteBook(Book book, Long userId, String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userId", userId);
+		params.put("book", book);
+		params.put("type", type);
+		userService.editUserBook(params);
+		map.put("status", 1);
+		map.put("msg", "删除成功");
 		return map;
 	}
 

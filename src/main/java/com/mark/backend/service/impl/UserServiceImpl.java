@@ -10,20 +10,26 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.AssociationDto;
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
+import com.mark.backend.mysql.mapper.BookMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
 import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.ScoreExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
+import com.mark.backend.mysql.mapper.userLikeMapper;
+import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
+import com.mark.backend.mysql.po.userLike;
+import com.mark.backend.mysql.po.userLikeExample;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.IUserService;
 import com.mark.backend.utils.Constans;
@@ -46,6 +52,10 @@ public class UserServiceImpl implements IUserService {
 	private RemarkExMapper rexMapper;
 	@Resource
 	private IRemarkService remarkService;
+	@Resource
+	private userLikeMapper ulMapper;
+	@Resource
+	private BookMapper bookMapper;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -297,5 +307,32 @@ public class UserServiceImpl implements IUserService {
 		params.put("datearray", dateArray);
 		params.put("monthtotalpunch", dateArray.length);
 		return params;
+	}
+
+	@Override
+	public Integer editUserBook(Map<String, Object> params) {
+		Long userId = (Long) params.get("userId");
+		Long bookId = (Long) params.get("bookId");
+		Book book = (Book) params.get("book");
+		String type = params.get("type").toString();
+		Object delete = params.get("delete");
+		int i = 0;
+		if (!StringUtils.isEmpty(delete)) {
+			userLikeExample ex = new userLikeExample();
+			ex.createCriteria().andUserIdFkEqualTo(userId)
+					.andBookIdFkEqualTo(bookId).andTypeEqualTo(type);
+			i = ulMapper.deleteByExample(ex);
+		} else {
+			bookMapper.insert(book);
+			userLike ul = new userLike();
+			ul.setCreateTime(new Date());
+			ul.setUpdateTime(new Date());
+			ul.setUserIdFk(userId);
+			ul.setBookIdFk(book.getId());
+			ul.setType(type);
+			ul.setStatus("1");
+			i = ulMapper.insert(ul);
+		}
+		return i;
 	}
 }
