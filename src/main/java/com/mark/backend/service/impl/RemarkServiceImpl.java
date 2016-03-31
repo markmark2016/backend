@@ -369,4 +369,24 @@ public class RemarkServiceImpl implements IRemarkService {
 		return resultMap;
 	}
 
+	@Override
+	public Integer updateRemark(RemarkWithBLOBs remark, String pictureUrl) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		Long remarkId = remark.getId();
+		// 先更新书评
+		int i = remarkMapper.updateByPrimaryKeySelective(remark);
+		// 更新书评的图片
+		params.put("idFk", remarkId);
+		params.put("type", "1");
+		String[] picArray = pictureUrl.split(",");
+		params.put("picArray", picArray);
+		picService.savePic(params);
+		// TODO Auto-generated method stub
+		if (i > 0) {
+			return i;
+		} else {
+			return -1;
+		}
+
+	}
 }

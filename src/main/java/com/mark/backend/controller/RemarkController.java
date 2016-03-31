@@ -87,13 +87,14 @@ public class RemarkController {
 	public @ResponseBody
 	Object updateRemark(RemarkWithBLOBs remark, String pictureUrl) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// if (remarkId > 0) {
-		// map.put("status", 1);
-		// map.put("msg", "sucess");
-		// } else {
-		// map.put("status", 1);
-		// map.put("msg", "fail");
-		// }
+		int i = remarkService.updateRemark(remark, pictureUrl);
+		if (i > 0) {
+			map.put("status", 1);
+			map.put("msg", "sucess");
+		} else {
+			map.put("status", 1);
+			map.put("msg", "fail");
+		}
 		return map;
 	}
 

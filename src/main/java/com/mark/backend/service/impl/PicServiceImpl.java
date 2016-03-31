@@ -24,6 +24,10 @@ public class PicServiceImpl implements IPicService {
 		String type = params.get("type").toString();
 		Long idFk = (Long) params.get("idFk");
 		String[] picArray = (String[]) params.get("picArray");
+		// 更新书评图片时，先把以前图片全删了，在重新插入
+		PictureExample ex = new PictureExample();
+		ex.createCriteria().andIdFkEqualTo(idFk).andTypeEqualTo(type);
+		picMapper.deleteByExample(ex);
 		for (String url : picArray) {
 			Picture pic = new Picture();
 			pic.setCreateTime(new Date());

@@ -73,4 +73,6 @@ public interface IRemarkService {
 	 * @return
 	 */
 	public Map<String, Object> getUserRemarkList(Map<String, Object> params);
+
+	public Integer updateRemark(RemarkWithBLOBs remark, String pictureUrl);
 }
