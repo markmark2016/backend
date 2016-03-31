@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/24 15:41:19                           */
+/* Created on:     2016/3/31 16:41:24                           */
 /*==============================================================*/
 
 
@@ -159,7 +159,7 @@ create table t_group
    captain_wecode       varchar(100),
    captain_phone        varchar(22),
    group_mode           varchar(50) comment '1，开始后可以加入，0开始后不可以加入',
-   status               char(1) comment '小组的状态。0为未审核，1为审核通过，2为未开始,3为进行中,4为已结束',
+   status               char(1) comment '小组的状态。0为未审核，1为已结束，2为未开始,3为进行中,',
    wechat_qrcode        varchar(512),
    category_id_fk       bigint(20),
    remark_visiable      char(1) comment '1都可见。0加入后可见',
@@ -281,7 +281,7 @@ create table t_user
    user_id              bigint(20) comment '不走微信渠道时候可用',
    openid               varchar(50) comment '微信openid',
    nickname             varchar(2014) comment '昵称',
-   gender               char(1) comment '1代表男2代表女',
+   gender               int(1) comment '1代表男2代表女',
    interests            varchar(24) comment '兴趣领域',
    intro                varchar(144) comment '描述
             ',
@@ -289,8 +289,8 @@ create table t_user
    province             varchar(32) comment '省份',
    school               varchar(22) comment '学校',
    occupation           varchar(20) comment '职业',
-   constellation        char(4) comment '星座',
-   affective_status     char(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
+   constellation        varchar(20) comment '星座',
+   affective_status     int(1) comment '情感状态。0为单身,1为恋爱,2为已婚',
    head_img_url         varchar(1024) comment '头像地址，pic表的外键',
    unionid              varchar(32),
    primary key (id)
