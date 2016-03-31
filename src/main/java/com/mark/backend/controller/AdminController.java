@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,16 +50,26 @@ public class AdminController {
 	@Resource
 	private ICategoryService categoryService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
-		return "admin/dashboard";
+		return "admin/login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(Admin admin, Model model) {
-		if (admin.getUsername() == "imark" && admin.getPassword() == "root")
-			return "admin/index";
-		return "redirect:/login";
+	public String login(Admin admin, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		@SuppressWarnings("unused")
+		Cookie c;
+		if ("imark".equals(admin.getUsername())
+				&& "root".equals(admin.getPassword())) {
+			c = new Cookie("mark.com", "loged");
+			String contextPath = request.getContextPath();
+			c.setPath(contextPath);
+			response.addCookie(c);
+			return "admin/dashboard";
+		}
+
+		return "redirect:/admin/index";
 	}
 
 	/** ---------------------用户controller------------------------ */
