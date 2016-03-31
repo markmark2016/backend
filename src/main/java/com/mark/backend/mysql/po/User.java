@@ -15,7 +15,7 @@ public class User {
 
     private String nickname;
 
-    private String gender;
+    private Integer gender;
 
     private String interests;
 
@@ -31,7 +31,7 @@ public class User {
 
     private String constellation;
 
-    private String affectiveStatus;
+    private Integer affectiveStatus;
 
     private String headImgUrl;
 
@@ -85,12 +85,12 @@ public class User {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public String getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public String getInterests() {
@@ -149,12 +149,12 @@ public class User {
         this.constellation = constellation == null ? null : constellation.trim();
     }
 
-    public String getAffectiveStatus() {
+    public Integer getAffectiveStatus() {
         return affectiveStatus;
     }
 
-    public void setAffectiveStatus(String affectiveStatus) {
-        this.affectiveStatus = affectiveStatus == null ? null : affectiveStatus.trim();
+    public void setAffectiveStatus(Integer affectiveStatus) {
+        this.affectiveStatus = affectiveStatus;
     }
 
     public String getHeadImgUrl() {

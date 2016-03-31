@@ -495,62 +495,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andGenderEqualTo(String value) {
+        public Criteria andGenderEqualTo(Integer value) {
             addCriterion("gender =", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotEqualTo(String value) {
+        public Criteria andGenderNotEqualTo(Integer value) {
             addCriterion("gender <>", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderGreaterThan(String value) {
+        public Criteria andGenderGreaterThan(Integer value) {
             addCriterion("gender >", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderGreaterThanOrEqualTo(String value) {
+        public Criteria andGenderGreaterThanOrEqualTo(Integer value) {
             addCriterion("gender >=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderLessThan(String value) {
+        public Criteria andGenderLessThan(Integer value) {
             addCriterion("gender <", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderLessThanOrEqualTo(String value) {
+        public Criteria andGenderLessThanOrEqualTo(Integer value) {
             addCriterion("gender <=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderLike(String value) {
-            addCriterion("gender like", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotLike(String value) {
-            addCriterion("gender not like", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIn(List<String> values) {
+        public Criteria andGenderIn(List<Integer> values) {
             addCriterion("gender in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotIn(List<String> values) {
+        public Criteria andGenderNotIn(List<Integer> values) {
             addCriterion("gender not in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderBetween(String value1, String value2) {
+        public Criteria andGenderBetween(Integer value1, Integer value2) {
             addCriterion("gender between", value1, value2, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotBetween(String value1, String value2) {
+        public Criteria andGenderNotBetween(Integer value1, Integer value2) {
             addCriterion("gender not between", value1, value2, "gender");
             return (Criteria) this;
         }
@@ -1055,62 +1045,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusEqualTo(String value) {
+        public Criteria andAffectiveStatusEqualTo(Integer value) {
             addCriterion("affective_status =", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusNotEqualTo(String value) {
+        public Criteria andAffectiveStatusNotEqualTo(Integer value) {
             addCriterion("affective_status <>", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusGreaterThan(String value) {
+        public Criteria andAffectiveStatusGreaterThan(Integer value) {
             addCriterion("affective_status >", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusGreaterThanOrEqualTo(String value) {
+        public Criteria andAffectiveStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("affective_status >=", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusLessThan(String value) {
+        public Criteria andAffectiveStatusLessThan(Integer value) {
             addCriterion("affective_status <", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusLessThanOrEqualTo(String value) {
+        public Criteria andAffectiveStatusLessThanOrEqualTo(Integer value) {
             addCriterion("affective_status <=", value, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusLike(String value) {
-            addCriterion("affective_status like", value, "affectiveStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAffectiveStatusNotLike(String value) {
-            addCriterion("affective_status not like", value, "affectiveStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAffectiveStatusIn(List<String> values) {
+        public Criteria andAffectiveStatusIn(List<Integer> values) {
             addCriterion("affective_status in", values, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusNotIn(List<String> values) {
+        public Criteria andAffectiveStatusNotIn(List<Integer> values) {
             addCriterion("affective_status not in", values, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusBetween(String value1, String value2) {
+        public Criteria andAffectiveStatusBetween(Integer value1, Integer value2) {
             addCriterion("affective_status between", value1, value2, "affectiveStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAffectiveStatusNotBetween(String value1, String value2) {
+        public Criteria andAffectiveStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("affective_status not between", value1, value2, "affectiveStatus");
             return (Criteria) this;
         }
