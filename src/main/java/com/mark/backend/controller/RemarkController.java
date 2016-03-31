@@ -78,6 +78,26 @@ public class RemarkController {
 	}
 
 	/**
+	 * 编辑书评，值针对当天的
+	 * 
+	 * @param remark
+	 * @return
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public @ResponseBody
+	Object updateRemark(RemarkWithBLOBs remark, String pictureUrl) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// if (remarkId > 0) {
+		// map.put("status", 1);
+		// map.put("msg", "sucess");
+		// } else {
+		// map.put("status", 1);
+		// map.put("msg", "fail");
+		// }
+		return map;
+	}
+
+	/**
 	 * 读完一本书
 	 * 
 	 * @param remark

@@ -103,7 +103,7 @@ public class GroupController {
 	}
 
 	// 用户退出小组
-	@RequestMapping(value = "/quit", method = RequestMethod.PUT)
+	@RequestMapping(value = "/quit", method = RequestMethod.POST)
 	public @ResponseBody
 	Object quitGroup(GroupUserVO vo, Model model) {
 		Integer quitFlag = groupService.quitGroup(vo.getGroupIdFk(),

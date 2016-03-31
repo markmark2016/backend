@@ -46,6 +46,9 @@ public class PicServiceImpl implements IPicService {
 		for (Picture picture : picList) {
 			pictureUrl += ("," + picture.getUrl());
 		}
+		if (!"".equals(pictureUrl)) {
+			pictureUrl.replaceFirst(",", "");
+		}
 
 		return pictureUrl;
 	}
