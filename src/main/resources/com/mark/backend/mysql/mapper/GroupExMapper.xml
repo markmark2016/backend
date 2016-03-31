@@ -17,11 +17,11 @@
 		tg.category_id_fk
 		AS
 		categoryId
+		,tg.begin_time AS beginDate,
+		tg.end_time AS endDate
 		<if test="allInfo != null">
 			,tb.summary AS bookSummary,
 			tb.author AS author,
-			tg.begin_time AS beginDate,
-			tg.end_time AS endDate,
 			tg.latest_time AS
 			latestDate,
 			tg.read_slogan AS readSlogan,
