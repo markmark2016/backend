@@ -48,6 +48,7 @@ public class WechatController {
 			@RequestParam(required = false) String status,
 			HttpServletRequest request, HttpServletResponse response) {
 		String userId = wxService.getUserInfo(code, status).toString();
+		LOGGER.info("用户:" + userId + "登录了");
 		Cookie c = new Cookie("userId", userId);
 		c.setDomain("*");
 		c.setPath("/");

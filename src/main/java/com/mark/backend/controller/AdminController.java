@@ -58,11 +58,9 @@ public class AdminController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(Admin admin, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		@SuppressWarnings("unused")
-		Cookie c;
 		if ("imark".equals(admin.getUsername())
 				&& "root".equals(admin.getPassword())) {
-			c = new Cookie("mark.com", "loged");
+			Cookie c = new Cookie("mark.com", "loged");
 			String contextPath = request.getContextPath();
 			c.setPath(contextPath);
 			response.addCookie(c);
