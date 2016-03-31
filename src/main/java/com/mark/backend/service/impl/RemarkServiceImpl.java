@@ -30,6 +30,7 @@ import com.mark.backend.mysql.po.RemarkExample;
 import com.mark.backend.mysql.po.RemarkInteract;
 import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.mysql.po.User;
+import com.mark.backend.service.IPicService;
 import com.mark.backend.service.IRemarkService;
 import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
@@ -53,6 +54,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	private InteractMapper interactMapper;
 	@Resource
 	private MessageService msgService;
+	@Resource
+	private IPicService picService;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -96,6 +99,14 @@ public class RemarkServiceImpl implements IRemarkService {
 		remark.setUpdateTime(remark.getCreateTime());
 		remarkMapper.insert(remark);
 		Long returnId = remark.getId();
+		if (!StringUtils.isEmpty(picUrl)) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("idFk", returnId);
+			params.put("type", "1");
+			String[] picArray = picUrl.split(",");
+			params.put("picArray", picArray);
+			picService.savePic(params);
+		}
 		if (returnId > 0) {
 			return remark.getId();
 		} else {
@@ -199,6 +210,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	public Map<String, Object> getRemarkById(Long remarkId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		RemarkWithBLOBs remark = remarkMapper.selectByPrimaryKey(remarkId);
+		// pic表中存储的书评图片，type是2
+		String pictureUrl = picService.getPicByIdFk(remarkId, "1");
 		// 用户信息
 		User user = WeixinService.userMap.get(remark.getUserIdFk());
 		// 点赞列表
@@ -210,6 +223,7 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.put("replylist", replyList);
 		map.put("user", user);
 		map.put("remark", remark);
+		map.put("pictureUrl", pictureUrl);
 		return map;
 	}
 
