@@ -43,13 +43,17 @@ public class PicServiceImpl implements IPicService {
 		PictureExample ex = new PictureExample();
 		ex.createCriteria().andIdFkEqualTo(idFk).andTypeEqualTo(type);
 		List<Picture> picList = picMapper.selectByExample(ex);
+		int i = 0;
 		for (Picture picture : picList) {
-			pictureUrl += ("," + picture.getUrl());
-		}
-		if (!"".equals(pictureUrl)) {
-			pictureUrl.replaceFirst(",", "");
-		}
+			if (i == 0) {
+				pictureUrl += picture.getUrl();
+				i++;
+			} else {
+				pictureUrl += ("," + picture.getUrl());
+				i++;
+			}
 
+		}
 		return pictureUrl;
 	}
 }
