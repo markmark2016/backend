@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -326,6 +325,6 @@ public class MarkUtils {
 		// getAccessToken();
 		// System.out.println(getZeroTime().getTime());
 		// getMonthStartAndEnd();
-		getDoubanBookList("嫌疑人", 5);
+		// getDoubanBookList("嫌疑人", 5);
 	}
 }
