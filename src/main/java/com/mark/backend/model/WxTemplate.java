@@ -1,19 +1,36 @@
 package com.mark.backend.model;
 
 import java.util.Map;
+
 /**
  * 微信模板对象
+ * 
  * @Title:WxTemplate
  * @Description:TODO
  * @author YangTianxiao
  * @date 2016年4月1日
- *
+ * 
  */
 public class WxTemplate {
+	/**
+	 * 模板ID
+	 */
 	private String template_id;
+	/**
+	 * 发送到某一个用户
+	 */
 	private String touser;
+	/**
+	 * 点击url
+	 */
 	private String url;
+	/**
+	 * 颜色
+	 */
 	private String topcolor;
+	/**
+	 * 数据包
+	 */
 	private Map<String, TemplateData> data;
 
 	public String getTemplate_id() {

@@ -10,8 +10,14 @@ package com.mark.backend.model;
  * 
  */
 public class TemplateData {
+	/**
+	 * 值
+	 */
 	private String value;
-	private String color;
+	/**
+	 * 颜色
+	 */
+	private String color = "#333333";
 
 	public String getValue() {
 		return value;
