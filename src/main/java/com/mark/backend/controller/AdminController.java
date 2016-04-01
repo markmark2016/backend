@@ -73,7 +73,14 @@ public class AdminController {
 	/** ---------------------用户controller------------------------ */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String users(Model model) {
-		List<User> userList = userSerivce.getUserList();
+		List<User> userList = userSerivce.getUserList(null);
+		model.addAttribute("userlist", userList);
+		return "admin/users";
+	}
+
+	@RequestMapping(value = "/users/search", method = RequestMethod.POST)
+	public String users(Model model, String nickName) {
+		List<User> userList = userSerivce.getUserList(nickName);
 		model.addAttribute("userlist", userList);
 		return "admin/users";
 	}

@@ -37,7 +37,7 @@ public interface IUserService {
 	 * 
 	 * @return
 	 */
-	List<User> getUserList();
+	List<User> getUserList(String nickName);
 
 	/**
 	 * 获得用户页信息

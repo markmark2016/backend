@@ -11,6 +11,10 @@
 		[#include "head.ftl"]
 		<div class="admin-content">
 			<h2>总用户数：${userlist?size}</h2>
+			<form class="am-form form-horizontal" action="${ctxPath}/admin/users/search" method="POST" data-am-validator>
+				<input type="text" class="form-control" name="nickName" placeholder="用户昵称" value="" >
+				<button type="submit" class="am-btn am-btn-primary">查询</button>
+			</form>
 			<table class="am-table">
 				<thead>
 					<tr>
@@ -26,12 +30,12 @@
 				<tbody>
 				[#list userlist as user]
 					<tr>
-						<td>15</td>
-						<td>${user.nickname}</td>
-						<td><img style="width:24px;height:auto;" src="${user.headImgUrl}"></td>
+						<td>${user.id?default("")}</td>
+						<td>${user.nickname?default("")}</td>
+						<td><img style="width:24px;height:auto;" src="${user.headImgUrl?default("")}"></td>
 						<!--<td>2015-10-24 12:39:26</td> -->
-						<td>${user.province}</td>
-						<td>${user.city}</td>
+						<td>${user.province?default("")}</td>
+						<td>${user.city?default("")}</td>
 						<!-- <td></td> -->
 					</tr>
 				[/#list]

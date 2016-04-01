@@ -77,9 +77,13 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<User> getUserList() {
+	public List<User> getUserList(String nickName) {
 		UserExample ue = new UserExample();
-		ue.createCriteria();
+		if (StringUtils.isEmpty(nickName)) {
+			ue.createCriteria();
+		} else {
+			ue.createCriteria().andNicknameLike("%" + nickName + "%");
+		}
 		List<User> userList = userMapper.selectByExample(ue);
 		return userList;
 	}
