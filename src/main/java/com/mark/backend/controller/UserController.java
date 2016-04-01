@@ -182,7 +182,7 @@ public class UserController {
 		params = userService.getPunchDateArray(params);
 		params.put("userId", userId);
 		map.put("status", 1);
-		map.put("msg", "更新成功");
+		map.put("msg", "成功");
 		map.put("data", params);
 		return map;
 	}
