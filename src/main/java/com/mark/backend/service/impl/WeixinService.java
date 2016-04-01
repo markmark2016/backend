@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,10 +25,14 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.model.ErrorCodeModel;
+import com.mark.backend.model.TemplateData;
+import com.mark.backend.model.WxTemplate;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
+import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
 
 /**
@@ -55,6 +60,9 @@ public class WeixinService {
 
 	@Resource
 	private UserMapper userMapper;
+
+	@Resource
+	private RemarkServiceImpl remarkService;
 
 	ScheduledExecutorService executor = Executors
 			.newSingleThreadScheduledExecutor();
@@ -194,6 +202,65 @@ public class WeixinService {
 				}
 			});
 			return (Long) markInfoMap.get("userIdMap").get(openId);
+		}
+	}
+
+	/**
+	 * 发送打卡提醒
+	 */
+	public void sendPunchAlert() {
+		Set<Long> set = userMap.keySet();
+		for (Long userId : set) {
+			List<RemarkDto> punchList = remarkService.getPunchList(userId);
+			sendAlertToUser(userId, punchList);
+		}
+	}
+
+	/**
+	 * 给用户发送打卡提醒
+	 * 
+	 * @param userId
+	 * @param punchList
+	 */
+	public void sendAlertToUser(Long userId, List<RemarkDto> punchList) {
+		String url = Constans.TEMPLEATE_URL + access_token;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		for (RemarkDto dto : punchList) {
+			if (!dto.getIsPunch()) {
+				HttpPost post = new HttpPost(url);
+				Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+				WxTemplate wxt = new WxTemplate();
+				wxt.setTemplate_id(Constans.TEMPLEATE_NOTIFICE_ID);
+				wxt.setTouser(userMap.get(userId).getOpenid());
+				// 设置map中的数据，根据模板参数配置而看
+				TemplateData first = new TemplateData();
+				first.setValue("您参加的小组" + dto.getGroupName() + "今天还没有打卡，快去打吧");
+				// TemplateData keynote1 = new TemplateData();
+				// keynote1.setValue("您参加的小组" + dto.getGroupName()
+				// + "今天还没有打卡，快去打吧");
+				// TemplateData keynote2 = new TemplateData();
+				// keynote2.setValue("您参加的小组" + dto.getGroupName()
+				// + "今天还没有打卡，快去打吧");
+				// TemplateData remark = new TemplateData();
+				// remark.setValue("您参加的小组" + dto.getGroupName() +
+				// "今天还没有打卡，快去打吧");
+				data.put("first", first);
+				// data.put("keynote1", keynote1);
+				// data.put("keynote2", keynote2);
+				// data.put("remark", remark);
+				wxt.setData(data);
+				String jsonStr = JSONObject.toJSONString(wxt);
+				StringEntity entity = new StringEntity(jsonStr, "utf-8");
+				entity.setContentEncoding("UTF-8");
+				entity.setContentType("application/json");
+				post.setEntity(entity);
+				try {
+					response = httpClient.execute(post);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

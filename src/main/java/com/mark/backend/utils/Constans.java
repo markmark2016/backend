@@ -1,6 +1,7 @@
 package com.mark.backend.utils;
 
 public class Constans {
+
 	/**
 	 * APPID
 	 */
@@ -61,5 +62,13 @@ public class Constans {
 	 * 豆瓣书籍接口
 	 */
 	public static String DOUBAN_BOOK_URL = "https://api.douban.com/v2/book/search";
+	/**
+	 * 发送模板消息接口
+	 */
+	public static String TEMPLEATE_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
+	/**
+	 * 通知的模板id
+	 */
+	public static final String TEMPLEATE_NOTIFICE_ID = "9sCHmqDnWO6jo-15gFUsiaZKvmZojjB5gKeTwJunpCc";
 
 }

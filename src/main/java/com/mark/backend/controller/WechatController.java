@@ -64,4 +64,12 @@ public class WechatController {
 		}
 		return null;
 	}
+
+	@RequestMapping(value = "/check/{userId}", method = RequestMethod.GET)
+	public @ResponseBody
+	String userId(CheckModel checkModel, Model model) {
+
+		wxService.sendPunchAlert();
+		return null;
+	}
 }

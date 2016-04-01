@@ -17,7 +17,7 @@ public class TemplateData {
 	/**
 	 * 颜色
 	 */
-	private String color = "#333333";
+	private String color = "#173177";
 
 	public String getValue() {
 		return value;
