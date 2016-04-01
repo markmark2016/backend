@@ -32,6 +32,7 @@ import com.mark.backend.mysql.po.RemarkWithBLOBs;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IPicService;
 import com.mark.backend.service.IRemarkService;
+import com.mark.backend.service.IScoreService;
 import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
 
@@ -56,6 +57,8 @@ public class RemarkServiceImpl implements IRemarkService {
 	private MessageService msgService;
 	@Resource
 	private IPicService picService;
+	@Resource
+	private IScoreService scoreService;
 
 	@Override
 	public List<RemarkDto> getPunchList(Long userId) {
@@ -107,6 +110,8 @@ public class RemarkServiceImpl implements IRemarkService {
 			params.put("picArray", picArray);
 			picService.savePic(params);
 		}
+		scoreService.updateUserScore(remark.getUserIdFk(),
+				remark.getGroupIdFk(), 6L);
 		if (returnId > 0) {
 			return remark.getId();
 		} else {
@@ -233,7 +238,6 @@ public class RemarkServiceImpl implements IRemarkService {
 	@Override
 	public Integer InteractWithRemark(Long remarkId, Long userId,
 			Long authorId, String content, String type) {
-
 		// 交互表对象
 		Interact interact = new Interact();
 		interact.setCreateTime(MarkUtils.getCurrentTime());
@@ -256,10 +260,11 @@ public class RemarkServiceImpl implements IRemarkService {
 			Integer insertTrId = riMapper.insert(ri);
 
 			/*---------------------分割线---------------------------*/
-			// 输入user message表
+			// 输入user message表以及加上用户积分
 			// 书评标题
-			final String title = remarkMapper.selectByPrimaryKey(remarkId)
-					.getTitle();
+
+			final RemarkWithBLOBs remark = remarkMapper
+					.selectByPrimaryKey(remarkId);
 			final Long interactId = interact.getId();
 			final Long toUserId = authorId;
 			final Long fromUserId = userId;
@@ -268,12 +273,17 @@ public class RemarkServiceImpl implements IRemarkService {
 				@Override
 				public void run() {
 					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("title", title);
+					params.put("title", remark.getTitle());
 					params.put("interactId", interactId);
 					params.put("toUserId", toUserId);
 					params.put("fromUserId", fromUserId);
 					params.put("type", itype);
 					msgService.insertNewMessage(params);
+					// 插入积分，被赞或者被评论的3分，动作发生人1分
+					scoreService.updateUserScore(toUserId,
+							remark.getGroupIdFk(), 3L);
+					scoreService.updateUserScore(fromUserId,
+							remark.getGroupIdFk(), 1L);
 				}
 			});
 			/*---------------------分割线---------------------------*/
