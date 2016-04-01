@@ -15,7 +15,7 @@
 <body>
 	[#include "head.ftl"]
 	<div class="admin-content">
-		<form class="am-form form-horizontal" action="${ctxPath}/admin/group/save" method="post" data-am-validator>
+		<form id="groupform" class="am-form form-horizontal" action="${ctxPath}/admin/group/save" method="post" data-am-validator>
 		
 		[#if group??]
 			<input type="hidden" name="id" value="${group.id?default('')}" >
@@ -68,7 +68,7 @@
 			</div>
   		</div>
   		<div class="am-form-group">
-			<label for="recruit_annoncement" class="col-sm-2 control-label">打卡频率</label>
+			<label for="recruit_annoncement" class="col-sm-2 control-label">打卡频率（只能是数字）</label>
 			<div class="col-sm-10">
 				每&nbsp;&nbsp;&nbsp;<input type="text" class="col-sm-2" name="frequency" value="[#if group??]${group.frequency?default("")}[/#if]" placeholder="打卡频率" required>&nbsp;&nbsp;天一次
 			</div>
@@ -98,7 +98,8 @@
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="wechat_qrcode" class="col-sm-2 control-label">加入小组后显示的二维码</label><br>
-			<input type="text" class="form-control" placeholder="请填写二维码的对应文本，程序会自动生成二维码图案" name="wechatQrcode" value="[#if group??]${group.wechatQrcode?default('')}[/#if]" required>
+			<input id="pictureUrl" type="file">
+			<input id="wechatQrcode" type="hidden" name="wechatQrcode" value="[#if group??]${group.wechatQrcode?default('')}[/#if]"/>
    		</div>
   		<div class="am-form-group">
 			<label for="mode" class="col-sm-2 control-label">新增成员方式</label>
@@ -121,7 +122,7 @@
 				<input type="radio" class="am-checkbox-inline" id="remarkVisiable0" name="remarkVisiable" value="0" ?>&nbsp;<span>不可见</span>&nbsp;<br>
 			</div>
   		</div>
-  		<button type="submit" class="am-btn am-btn-primary">保存</button>
+  		<button type="button" class="am-btn am-btn-primary" onClick="checkAddForm()">保存</button>
 	</form>
 	</div>
 	
@@ -166,6 +167,33 @@
 			$('#remarkVisiable'+remarkVisiable).attr("checked",'checked');
 		
 		});
+	
+		function checkAddForm(){
+			var ctxPath = '${ctxPath}';
+			var pictureUrl = $.trim($("#pictureUrl").val());
+			if(pictureUrl != ""){
+				$.ajaxFileUpload({
+			    url: ctxPath + '/admin/upload',
+			    secureuri: false,
+			    fileElementId: ["pictureUrl"],
+			    dataType: 'JSON',
+			    success: function(data) {
+					var jsonData = data.replace("<pre>", "").replace(
+								"</pre>", "");
+					var obj = jQuery.parseJSON(jsonData);
+			        if (obj.status) {
+						$('#wechatQrcode').val(obj.pictureUrl);
+						$('#groupform').submit();
+			        } else {
+			           alert(上传失败);
+			        }
+			    }
+			});
+			}else{
+				$('#groupform').submit();
+			}
+		}
+	
 	
 		function searchCheck(){
 			var searchname = $.trim($("#searchname").val());
