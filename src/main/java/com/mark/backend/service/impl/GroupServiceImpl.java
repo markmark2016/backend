@@ -1,6 +1,7 @@
 package com.mark.backend.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -195,6 +196,13 @@ public class GroupServiceImpl implements IGroupService {
 			group.setBookName(book.getTitle());
 			group.setCaptainName(user.getNickname());
 			groupMapper.updateByPrimaryKeySelective(group);
+
+			GroupUserExample ex = new GroupUserExample();
+			ex.createCriteria().andGroupIdFkEqualTo(group.getId());
+			GroupUser gu = new GroupUser();
+			gu.setUserIdFk(group.getCategoryIdFk());
+			groupUserMapper.updateByExampleSelective(gu, ex);
+
 		} else {
 			if (!StringUtils.isEmpty(isApprove)) {
 				group.setStatus("2");
@@ -204,6 +212,14 @@ public class GroupServiceImpl implements IGroupService {
 			group.setCreateTime(MarkUtils.getCurrentTime());
 			group.setUpdateTime(group.getCreateTime());
 			groupMapper.insert(group);
+			GroupUser gu = new GroupUser();
+			gu.setGroupIdFk(group.getId());
+			gu.setUserIdFk(group.getUserIdFk());
+			gu.setUserClass("1");
+			gu.setUserStatus("1");
+			gu.setCreateTime(new Date());
+			gu.setUpdateTime(new Date());
+			groupUserMapper.insert(gu);
 		}
 		// 存储小组社群关系
 		if (associationId != null) {
@@ -229,6 +245,7 @@ public class GroupServiceImpl implements IGroupService {
 				agMapper.insert(ag);
 			}
 		}
+
 		return i;
 	}
 
