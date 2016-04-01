@@ -43,9 +43,9 @@ public class UserController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
 		UserDto userDto = userService.queryUserPageInfo(params);
+		userDto.setUserId(userId);
 		map.put("status", 1);
 		map.put("data", userDto);
-		map.put("userId", userId);
 		return map;
 	}
 
