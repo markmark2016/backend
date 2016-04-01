@@ -17,10 +17,10 @@
 	</bean>
 
 	<task:scheduled-tasks>
-		<task:scheduled ref="punchNoticeWorker" method="checkHeartbeat"
-			cron="9 * * * * ?" />
+		<task:scheduled ref="punchNoticeWorker" method="sendPunchAlert"
+			cron="0 0 21 * * ?" />
 	</task:scheduled-tasks>
 
-	<context:component-scan base-package="com.mark.backend.workder" />
+	<context:component-scan base-package="com.mark.backend.worker" />
 
 </beans>  
