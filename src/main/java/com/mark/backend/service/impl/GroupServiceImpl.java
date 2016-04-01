@@ -115,8 +115,7 @@ public class GroupServiceImpl implements IGroupService {
 		po.setUserClass(clazz);
 		po.setUserStatus("1");
 		groupUserMapper.insert(po);
-		Long groupUserId = po.getId();
-		return groupUserId;
+		return 1L;
 	}
 
 	@Override
