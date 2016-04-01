@@ -198,11 +198,17 @@ public class GroupServiceImpl implements IGroupService {
 			groupMapper.updateByPrimaryKeySelective(group);
 
 			GroupUserExample ex = new GroupUserExample();
-			ex.createCriteria().andGroupIdFkEqualTo(group.getId());
+			ex.createCriteria().andGroupIdFkEqualTo(group.getId())
+					.andUserClassEqualTo("1");
+			groupUserMapper.deleteByExample(ex);
 			GroupUser gu = new GroupUser();
-			gu.setUserIdFk(group.getCategoryIdFk());
-			groupUserMapper.updateByExampleSelective(gu, ex);
-
+			gu.setGroupIdFk(group.getId());
+			gu.setUserIdFk(group.getUserIdFk());
+			gu.setUserClass("1");
+			gu.setUserStatus("1");
+			gu.setCreateTime(new Date());
+			gu.setUpdateTime(new Date());
+			groupUserMapper.insert(gu);
 		} else {
 			if (!StringUtils.isEmpty(isApprove)) {
 				group.setStatus("2");
