@@ -45,6 +45,7 @@ public class UserController {
 		UserDto userDto = userService.queryUserPageInfo(params);
 		map.put("status", 1);
 		map.put("data", userDto);
+		map.put("userId", userId);
 		return map;
 	}
 
