@@ -129,7 +129,7 @@
 		SELECT
 		DISTINCT DATE_FORMAT(
 		create_time,
-		'%Y-%m-%e 00:00:00'
+		'%Y-%m-%d 00:00:00'
 		) AS
 		createTime
 		FROM
@@ -146,7 +146,7 @@
 		group_id_fk,
 		create_time
 		ORDER BY
-		create_time
+		createTime
 		DESC
 	</select>
 	<select id="getPunchList" parameterType="java.util.Map"
