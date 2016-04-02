@@ -65,7 +65,7 @@ public class MessageService {
 			messageDto.setHeadImage(user.getHeadImgUrl());
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("unreadlreplylist", replyMsgList);
+		resultMap.put("unreadreplylist", replyMsgList);
 		resultMap.put("unreadreplycount", replyMsgList.size());
 		return resultMap;
 	}

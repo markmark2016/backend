@@ -10,7 +10,7 @@
 		(
 		SELECT
 		tu.id,
-		head_img_url AS headImg,
+		head_img_url AS headImage,
 		tu.nickname,
 		sum(score) AS score
 		FROM
@@ -38,7 +38,7 @@
 		(
 		SELECT
 		tu.id,
-		head_img_url AS headImg,
+		tu.head_img_url AS headImg,
 		tu.nickname,
 		sum(score) AS score
 		FROM
