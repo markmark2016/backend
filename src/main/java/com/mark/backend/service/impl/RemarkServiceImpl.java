@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -143,6 +144,19 @@ public class RemarkServiceImpl implements IRemarkService {
 					.getReplyList(remark.getId());
 			// pic表中存储的书评图片，type是2
 			String pictureUrl = picService.getPicByIdFk(remark.getId(), "1");
+
+			List<RemarkDto> punchList = this.getPunchList(userId);
+			RemarkDto dto = new RemarkDto();
+			for (RemarkDto remarkDto : punchList) {
+				if (remarkDto.getGroupId() == remark.getGroupIdFk()) {
+					BeanUtils.copyProperties(remarkDto, dto);
+				}
+			}
+			if (dto != null) {
+				map.put("bookname", dto.getBookName());
+				map.put("image", dto.getImage());
+				map.put("continuepunch", dto.getContinuePunch());
+			}
 			map.put("pictureUrl", pictureUrl);
 			map.put("totalLike", likeList.size());
 			map.put("likelist", likeList);
@@ -226,6 +240,18 @@ public class RemarkServiceImpl implements IRemarkService {
 		List<UserDto> likeList = iexMapper.getLikeList(remark.getId());
 		// 回复列表
 		List<InteractDto> replyList = iexMapper.getReplyList(remark.getId());
+		List<RemarkDto> punchList = this.getPunchList(remark.getUserIdFk());
+		RemarkDto dto = new RemarkDto();
+		for (RemarkDto remarkDto : punchList) {
+			if (remarkDto.getGroupId() == remark.getGroupIdFk()) {
+				BeanUtils.copyProperties(remarkDto, dto);
+			}
+		}
+		if (dto != null) {
+			map.put("bookname", dto.getBookName());
+			map.put("image", dto.getImage());
+			map.put("continuepunch", dto.getContinuePunch());
+		}
 		map.put("totalLike", likeList.size());
 		map.put("likelist", likeList);
 		map.put("replylist", replyList);

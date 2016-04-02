@@ -43,6 +43,8 @@ import com.mark.backend.utils.MarkUtils;
 public class WeixinService {
 	public static String access_token = null;
 
+	public static String ticket = null;
+
 	public static String auth_access_token = null;
 
 	public static String refresh_auth_access_token = null;
@@ -58,7 +60,8 @@ public class WeixinService {
 
 	ScheduledExecutorService executor = Executors
 			.newSingleThreadScheduledExecutor();
-
+	ScheduledExecutorService executor2 = Executors
+			.newSingleThreadScheduledExecutor();
 	ExecutorService multiExecutor = Executors.newFixedThreadPool(5);
 
 	@PostConstruct
@@ -101,6 +104,7 @@ public class WeixinService {
 		@Override
 		public void run() {
 			access_token = MarkUtils.getAccessToken().getAccess_token();
+			ticket = MarkUtils.getJSTicket(access_token);
 			while (access_token == null) {
 				access_token = MarkUtils.getAccessToken().getAccess_token();
 			}

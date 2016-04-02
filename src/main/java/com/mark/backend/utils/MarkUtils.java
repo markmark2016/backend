@@ -327,4 +327,29 @@ public class MarkUtils {
 		// getMonthStartAndEnd();
 		// getDoubanBookList("嫌疑人", 5);
 	}
+
+	public static String getJSTicket(String access_token) {
+		String url = Constans.JS_TOKEN + access_token;
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(get);
+			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (200 != statusCode) {
+				return null;
+			}
+			if (entity != null) {
+				// 响应内容
+				String content = EntityUtils.toString(entity, "UTF-8");
+				JSONObject json = JSONObject.parseObject(content);
+				String ticket = json.getString("ticket");
+				return ticket;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

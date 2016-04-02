@@ -70,5 +70,9 @@ public class Constans {
 	 * 通知的模板id
 	 */
 	public static final String TEMPLEATE_NOTIFICE_ID = "9sCHmqDnWO6jo-15gFUsiaZKvmZojjB5gKeTwJunpCc";
+	/**
+	 * js接口
+	 */
+	public static final String JS_TOKEN = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=";
 
 }
