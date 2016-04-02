@@ -64,4 +64,12 @@ public class WechatController {
 		}
 		return null;
 	}
+
+	@RequestMapping(value = "/js", method = RequestMethod.GET)
+	public @ResponseBody
+	Object validate(String url, Model model) {
+
+		return MarkUtils.createReply(url);
+	}
+
 }

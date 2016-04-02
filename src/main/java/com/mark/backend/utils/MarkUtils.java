@@ -26,7 +26,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mark.backend.model.AccessToken;
 import com.mark.backend.model.CheckModel;
+import com.mark.backend.model.JSReply;
 import com.mark.backend.mysql.po.Book;
+import com.mark.backend.service.impl.WeixinService;
 
 public class MarkUtils {
 	private final static Logger LOGGER = LoggerFactory
@@ -351,5 +353,14 @@ public class MarkUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static JSReply createReply(String url) {
+		String s = "jsapi_ticket=" + WeixinService.ticket
+				+ "&noncestr=a&timestamp=1459611621&url=" + url;
+		String digest = MarkUtils.encode("SHA1", s);
+		JSReply r = new JSReply();
+		r.setSignature(digest);
+		return r;
 	}
 }
