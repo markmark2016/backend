@@ -72,4 +72,10 @@ public class WechatController {
 		return MarkUtils.createReply(url);
 	}
 
+	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
+	public Object redirect(String url, Model model) {
+
+		return null;
+	}
+
 }

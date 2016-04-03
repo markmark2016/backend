@@ -1,19 +1,20 @@
 package com.mark.backend.model;
 
 import com.mark.backend.utils.Constans;
+
 //jsticket返回对象
 public class JSReply {
-	private String noncestr = "a";
+	private String nonceStr = "a";
 	private String signature;
 	private Long timestamp = 1459611621L;
-	private String appid = Constans.APPID;
+	private String appId = Constans.APPID;
 
-	public String getNoncestr() {
-		return noncestr;
+	public String getNonceStr() {
+		return nonceStr;
 	}
 
-	public void setNoncestr(String noncestr) {
-		this.noncestr = noncestr;
+	public void setNonceStr(String nonceStr) {
+		this.nonceStr = nonceStr;
 	}
 
 	public String getSignature() {
@@ -32,12 +33,12 @@ public class JSReply {
 		this.timestamp = timestamp;
 	}
 
-	public String getAppid() {
-		return appid;
+	public String getAppId() {
+		return appId;
 	}
 
-	public void setAppid(String appid) {
-		this.appid = appid;
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 
 }

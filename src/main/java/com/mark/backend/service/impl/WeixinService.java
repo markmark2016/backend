@@ -182,10 +182,10 @@ public class WeixinService {
 							openId);
 					User user = userMap.get(userId);
 					user.setUpdateTime(new Date());
-					// user.setCity(userInfo.getString("city"));
-					// user.setProvince(userInfo.getString("province"));
+					user.setCity(userInfo.getString("city"));
+					user.setProvince(userInfo.getString("province"));
 					user.setNickname(userInfo.getString("nickname"));
-					// user.setGender(userInfo.getString("sex"));
+					user.setGender(Integer.parseInt(userInfo.getString("sex")));
 					user.setHeadImgUrl(userInfo.getString("headimgurl"));
 					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
@@ -200,5 +200,4 @@ public class WeixinService {
 			return (Long) markInfoMap.get("userIdMap").get(openId);
 		}
 	}
-
 }

@@ -5,11 +5,11 @@ public class Constans {
 	/**
 	 * APPID
 	 */
-	public static String APPID = "wx4610ff3b6e3b4370";
+	public static String APPID = "wxdac023cef2cea008";
 	/**
 	 * SECRET
 	 */
-	public static String SECRET = "f4f07054119aae7193f89ebd1c83ddac";
+	public static String SECRET = "6c1b7da82cc38eb2a0377e303e131dd7";
 	/**
 	 * 获取ACCESS_TOKEN接口
 	 */

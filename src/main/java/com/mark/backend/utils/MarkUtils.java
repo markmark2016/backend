@@ -1,6 +1,8 @@
 package com.mark.backend.utils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -356,6 +358,12 @@ public class MarkUtils {
 	}
 
 	public static JSReply createReply(String url) {
+		try {
+			url = URLDecoder.decode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String s = "jsapi_ticket=" + WeixinService.ticket
 				+ "&noncestr=a&timestamp=1459611621&url=" + url;
 		String digest = MarkUtils.encode("SHA1", s);
