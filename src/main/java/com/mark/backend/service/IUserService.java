@@ -145,4 +145,6 @@ public interface IUserService {
 	 * @return
 	 */
 	Integer editUserBook(Map<String, Object> params);
+
+	User getUserById(Long userId);
 }

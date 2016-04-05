@@ -339,4 +339,10 @@ public class UserServiceImpl implements IUserService {
 		}
 		return i;
 	}
+
+	@Override
+	public User getUserById(Long userId) {
+		User user = userMapper.selectByPrimaryKey(userId);
+		return user;
+	}
 }

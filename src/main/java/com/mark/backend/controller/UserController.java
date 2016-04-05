@@ -20,7 +20,6 @@ import com.mark.backend.mysql.po.Book;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.service.IBookService;
 import com.mark.backend.service.IUserService;
-import com.mark.backend.service.impl.WeixinService;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -63,7 +62,7 @@ public class UserController {
 		params.put("userId", userId);
 		Map<String, Object> bookMap = bookService.getUserBookList(params);
 		params.clear();
-		User user = WeixinService.userMap.get(userId);
+		User user = userService.getUserById(userId);
 		params.put("user", user);
 		params.put("bookList", bookMap);
 		map.put("status", 1);
