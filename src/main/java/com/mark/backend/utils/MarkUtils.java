@@ -325,13 +325,6 @@ public class MarkUtils {
 		return bookList;
 	}
 
-	public static void main(String[] args) {
-		// getAccessToken();
-		// System.out.println(getZeroTime().getTime());
-		// getMonthStartAndEnd();
-		// getDoubanBookList("嫌疑人", 5);
-	}
-
 	public static String getJSTicket(String access_token) {
 		String url = Constans.JS_TOKEN + access_token;
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -371,4 +364,12 @@ public class MarkUtils {
 		r.setSignature(digest);
 		return r;
 	}
+
+	public static void main(String[] args) {
+		getAccessToken();
+		// System.out.println(getZeroTime().getTime());
+		// getMonthStartAndEnd();
+		// getDoubanBookList("嫌疑人", 5);
+	}
+
 }

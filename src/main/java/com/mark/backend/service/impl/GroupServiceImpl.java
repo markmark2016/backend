@@ -108,14 +108,24 @@ public class GroupServiceImpl implements IGroupService {
 	@Override
 	public Long joinGroup(Long groupId, Long userId, String clazz) {
 		GroupUser po = new GroupUser();
-		po.setGroupIdFk(groupId);
-		po.setUserIdFk(userId);
-		po.setCreateTime(MarkUtils.getCurrentTime());
-		po.setUpdateTime(po.getCreateTime());
-		po.setUserClass(clazz);
-		po.setUserStatus("1");
-		groupUserMapper.insert(po);
-		return 1L;
+		GroupUserExample ex = new GroupUserExample();
+		ex.createCriteria().andGroupIdFkEqualTo(groupId)
+				.andUserIdFkEqualTo(userId);
+		List<GroupUser> list = groupUserMapper.selectByExample(ex);
+		if (list.size() > 0) {
+			this.updateGroupUserStatus(groupId, userId, "1");
+			return 1L;
+		} else {
+			po.setGroupIdFk(groupId);
+			po.setUserIdFk(userId);
+			po.setCreateTime(MarkUtils.getCurrentTime());
+			po.setUpdateTime(po.getCreateTime());
+			po.setUserClass(clazz);
+			po.setUserStatus("1");
+			groupUserMapper.insert(po);
+			return 1L;
+		}
+
 	}
 
 	@Override
