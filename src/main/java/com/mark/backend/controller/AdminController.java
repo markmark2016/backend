@@ -272,7 +272,7 @@ public class AdminController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("group", group);
 		params.put("approve", "approve");
-		groupService.saveGroup(params);
+		groupService.approveGroup(params);
 		return "redirect:/admin/group";
 	}
 

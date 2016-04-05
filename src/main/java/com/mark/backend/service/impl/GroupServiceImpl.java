@@ -189,20 +189,24 @@ public class GroupServiceImpl implements IGroupService {
 	@Override
 	public Integer saveGroup(Map<String, Object> params) {
 		Group group = (Group) params.get("group");
-		Long bookId = Long.parseLong(group.getBookIdFk());
-		// 设置小组对应的书籍名称
-		Book book = bookMapper.selectByPrimaryKey(bookId);
+		String isApprove = params.get("approve").toString();
+		if (StringUtils.isEmpty(isApprove)) {
+			Long bookId = Long.parseLong(group.getBookIdFk());
+			// 设置小组对应的书籍名称
+			Book book = bookMapper.selectByPrimaryKey(bookId);
+			group.setBookName(book.getTitle());
+		}
 
 		// 设置小组的领读人名称
 		User user = userMapper.selectByPrimaryKey(group.getUserIdFk());
 		Long associationId = (Long) params.get("associationId");
 		// Long categoryId = (Long) params.get("categoryId");
-		String isApprove = params.get("approve").toString();
+
 		Integer i = 0;
 		// 先对小组信息做处理
 		if (group.getId() != null) {
 			group.setUpdateTime(group.getUpdateTime());
-			group.setBookName(book.getTitle());
+
 			group.setCaptainName(user.getNickname());
 			groupMapper.updateByPrimaryKeySelective(group);
 
@@ -222,7 +226,6 @@ public class GroupServiceImpl implements IGroupService {
 			if (!StringUtils.isEmpty(isApprove)) {
 				group.setStatus("2");
 			}
-			group.setBookName(book.getTitle());
 			group.setCaptainName(user.getNickname());
 			group.setCreateTime(MarkUtils.getCurrentTime());
 			group.setUpdateTime(group.getCreateTime());
@@ -271,5 +274,12 @@ public class GroupServiceImpl implements IGroupService {
 		ex.createCriteria().andGroupIdFkEqualTo(groupId);
 		agMapper.deleteByExample(ex);
 		return i;
+	}
+
+	@Override
+	public Integer approveGroup(Map<String, Object> params) {
+		Group group = (Group) params.get("group");
+		groupMapper.updateByPrimaryKeySelective(group);
+		return 1;
 	}
 }

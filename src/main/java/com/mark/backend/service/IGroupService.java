@@ -94,5 +94,7 @@ public interface IGroupService {
 	Integer saveGroup(Map<String, Object> params);
 
 	Integer deleteGroupById(Long groupId);
+	
+	Integer approveGroup(Map<String,Object> params);
 
 }
