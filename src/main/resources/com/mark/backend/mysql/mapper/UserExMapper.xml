@@ -24,7 +24,10 @@
 			,
 			t_group_user tgu
 			WHERE
-			tu.id = tgu.user_id_fk AND
+			tu.id = tgu.user_id_fk
+			AND
+			tgu.user_status = '1'
+			AND
 			tgu.group_id_fk = ${groupId}
 		</if>
 	</select>
@@ -53,17 +56,20 @@
 		tu.id = tgu.user_id_fk
 		GROUP BY
 		tu.id
-		) AS user_group ON tu.id = user_group.id
+		) AS
+		user_group ON tu.id = user_group.id
 		LEFT JOIN (
 		SELECT
 		tu.id,
-		COUNT(*) AS totalRead
+		COUNT(*) AS
+		totalRead
 		FROM
 		t_user tu,
 		t_group_user tgu
 		WHERE
 		tu.id = tgu.user_id_fk
-		AND tgu.user_status = 2
+		AND
+		tgu.user_status = 2
 		GROUP BY
 		tu.id
 		) AS user_book ON tu.id = user_book.id
@@ -73,12 +79,14 @@
 		COUNT(*) AS totalRemark
 		FROM
 		t_user tu,
-		t_remark tr
+		t_remark
+		tr
 		WHERE
 		tu.id = tr.user_id_fk
 		GROUP BY
 		tu.id
-		) AS user_remark ON tu.id = user_remark.id
+		) AS user_remark ON tu.id =
+		user_remark.id
 		LEFT JOIN (
 		SELECT
 		(@rowNO := @rowNo + 1) AS num,
@@ -90,14 +98,16 @@
 		ts.user_id_fk AS id,
 		sum(score) AS score
 		FROM
-		t_score ts
+		t_score
+		ts
 		GROUP BY
 		ts.user_id_fk
 		ORDER BY
 		score DESC
 		) a,
 		(SELECT @rowNO := 0) b
-		) AS user_rank ON tu.id = user_rank.id
+		)
+		AS user_rank ON tu.id = user_rank.id
 		<if test="userId != null">
 			WHERE
 			tu.id = ${userId}
