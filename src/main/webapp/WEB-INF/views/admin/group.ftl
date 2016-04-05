@@ -34,10 +34,10 @@
 			[#if groupList??]
 				[#list groupList as group]
 					<tr>
-						<td>${group.groupName?default('')}</td>
-						<td>${group.captainName?default('')}</td>
-						<td>${group.bookName?default('')}</td>
-						<td>${group.beginTime ? string("yyyy-MM-dd")}</td>
+						<td>[#if group.groupName]${group.groupName?default('')}[/#if]</td>
+						<td>[#if group.captainName]${group.captainName?default('')}[/#if]</td>
+						<td>[#if group.bookName]${group.bookName?default('')}[/#if]</td>
+						<td>[#if group.beginTime]${group.beginTime ? string("yyyy-MM-dd")}[/#if]</td>
 						[#if group.status== "0"]
 							<td><a class="am-btn am-btn-primary" href="${ctxPath}/admin/group/approve?id=${group.id}&status=2">通过申请</a></td>
 						[/#if]
