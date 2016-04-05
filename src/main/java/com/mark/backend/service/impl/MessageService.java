@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.MessageDto;
 import com.mark.backend.mysql.mapper.RemarkInteractMapper;
@@ -129,9 +130,17 @@ public class MessageService {
 		// User fromUser = WeixinService.userMap.get(fromUserId);
 		String content = "";
 		if ("1".equals(type)) {
-			content = "评论了你的书评《" + title + "》";
+			if (StringUtils.isEmpty(title)) {
+				content = "评论了你的书评";
+			} else {
+				content = "评论了你的书评《" + title + "》";
+			}
 		} else {
-			content = "攒了你的书评《" + title + "》";
+			if (StringUtils.isEmpty(title)) {
+				content = "评论了你的书评";
+			} else {
+				content = "评论了你的书评《" + title + "》";
+			}
 		}
 		UserMessage um = new UserMessage();
 		um.setCreateTime(MarkUtils.getCurrentTime());
