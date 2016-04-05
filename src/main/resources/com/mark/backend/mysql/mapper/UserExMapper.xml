@@ -51,9 +51,13 @@
 		COUNT(*) AS totalGroup
 		FROM
 		t_user tu,
-		t_group_user tgu
+		t_group_user tgu,
+		t_group tg
 		WHERE
-		tu.id = tgu.user_id_fk AND tgu.user_status = '1'
+		tu.id = tgu.user_id_fk
+		AND tg.id = tgu.group_id_fk
+		AND tgu.user_status = '1'
+		AND tg.`status` != '0'
 		GROUP BY
 		tu.id
 		) AS
