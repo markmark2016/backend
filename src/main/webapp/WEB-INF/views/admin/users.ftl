@@ -30,7 +30,7 @@
 				<tbody>
 				[#list userlist as user]
 					<tr>
-						<td>${user.id?default("")}</td>
+						<td>${user.id?c?default("")}</td>
 						<td>${user.nickname?default("")}</td>
 						<td><img style="width:24px;height:auto;" src="${user.headImgUrl?default("")}"></td>
 						<!--<td>2015-10-24 12:39:26</td> -->

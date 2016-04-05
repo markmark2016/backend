@@ -94,7 +94,7 @@
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="creator_id" class="col-sm-2 control-label">用户ID</label><br>
-			<input type="text" class="form-control" placeholder="用户id" name="userIdFk" required value="[#if group??]${group.userIdFk?default('')}[/#if]" required>
+			<input type="text" class="form-control" placeholder="用户id" name="userIdFk" required value="[#if group??]${group.userIdFk?c?default('')}[/#if]" required>
    		</div>
    		<div class="am-form-group am-form-icon">
 			<label for="wechat_qrcode" class="col-sm-2 control-label">加入小组后显示的二维码</label><br>

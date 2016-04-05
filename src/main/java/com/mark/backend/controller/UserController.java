@@ -61,8 +61,8 @@ public class UserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
-		params.clear();
 		Map<String, Object> bookMap = bookService.getUserBookList(params);
+		params.clear();
 		User user = WeixinService.userMap.get(userId);
 		params.put("user", user);
 		params.put("bookList", bookMap);
