@@ -92,6 +92,7 @@ public class GroupServiceImpl implements IGroupService {
 		Group po = new Group();
 		try {
 			BeanUtils.copyProperties(vo, po);
+			po.setStatus("0");
 		} catch (Exception e) {
 			LOGGER.error("po转vo出错", e);
 		}
