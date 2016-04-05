@@ -86,7 +86,7 @@ public class RemarkServiceImpl implements IRemarkService {
 					.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
 			List<Remark> remarkList = remarkMapper.selectByExample(rex);
 			for (Remark remark : remarkList) {
-				if (remark.getUserIdFk() == userId) {
+				if (userId.equals(remark.getUserIdFk())) {
 					rdto.setIsPunch(true);
 				}
 			}
