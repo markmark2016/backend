@@ -53,7 +53,7 @@
 		t_user tu,
 		t_group_user tgu
 		WHERE
-		tu.id = tgu.user_id_fk
+		tu.id = tgu.user_id_fk AND tgu.user_status = '1'
 		GROUP BY
 		tu.id
 		) AS
@@ -67,12 +67,14 @@
 		t_user tu,
 		t_group_user tgu
 		WHERE
-		tu.id = tgu.user_id_fk
+		tu.id =
+		tgu.user_id_fk
 		AND
 		tgu.user_status = 2
 		GROUP BY
 		tu.id
-		) AS user_book ON tu.id = user_book.id
+		) AS user_book ON
+		tu.id = user_book.id
 		LEFT JOIN (
 		SELECT
 		tu.id,
@@ -85,18 +87,21 @@
 		tu.id = tr.user_id_fk
 		GROUP BY
 		tu.id
-		) AS user_remark ON tu.id =
+		) AS
+		user_remark ON tu.id =
 		user_remark.id
 		LEFT JOIN (
 		SELECT
-		(@rowNO := @rowNo + 1) AS num,
+		(@rowNO := @rowNo
+		+ 1) AS num,
 		a.id,
 		a.score
 		FROM
 		(
 		SELECT
 		ts.user_id_fk AS id,
-		sum(score) AS score
+		sum(score) AS
+		score
 		FROM
 		t_score
 		ts
@@ -105,7 +110,8 @@
 		ORDER BY
 		score DESC
 		) a,
-		(SELECT @rowNO := 0) b
+		(SELECT
+		@rowNO := 0) b
 		)
 		AS user_rank ON tu.id = user_rank.id
 		<if test="userId != null">
