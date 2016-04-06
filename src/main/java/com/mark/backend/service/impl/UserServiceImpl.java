@@ -187,7 +187,7 @@ public class UserServiceImpl implements IUserService {
 		for (Long id : groupIdList) {
 			List<GroupDto> tmpDto = sexMapper.getUserGroupRank(id);
 			for (GroupDto groupDto : tmpDto) {
-				if (groupDto.getUserId() == userId) {
+				if (userId.equals(groupDto.getUserId())) {
 					GroupDto finalDto = new GroupDto();
 					BeanUtils.copyProperties(groupDto, finalDto);
 					finalDto.setId(id);
