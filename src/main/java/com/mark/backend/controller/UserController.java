@@ -225,7 +225,7 @@ public class UserController {
 				.getRemarkInGroupkByUserId(userId);
 		map.put("status", 1);
 		map.put("msg", "更新成功");
-		map.put("date", data);
+		map.put("data", data);
 		return map;
 	}
 
@@ -243,7 +243,7 @@ public class UserController {
 				groupId);
 		map.put("status", 1);
 		map.put("msg", "更新成功");
-		map.put("date", data);
+		map.put("data", data);
 		return map;
 	}
 
