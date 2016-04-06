@@ -26,7 +26,7 @@
 			WHERE
 			tu.id = tgu.user_id_fk
 			AND
-			tgu.user_status = '1'
+			tgu.user_status != '0'
 			AND
 			tgu.group_id_fk = ${groupId}
 		</if>
