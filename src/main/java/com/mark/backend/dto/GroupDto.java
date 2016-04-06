@@ -69,7 +69,7 @@ public class GroupDto {
 	/**
 	 * 用户咋小组的状态
 	 */
-	private String userStatus;
+	private Integer userStatus;
 	/**
 	 * 用户在该小组的积分
 	 */
@@ -229,11 +229,11 @@ public class GroupDto {
 		this.userClass = userClass;
 	}
 
-	public String getUserStatus() {
+	public Integer getUserStatus() {
 		return userStatus;
 	}
 
-	public void setUserStatus(String userStatus) {
+	public void setUserStatus(Integer userStatus) {
 		this.userStatus = userStatus;
 	}
 
