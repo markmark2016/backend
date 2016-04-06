@@ -19,12 +19,15 @@ import com.mark.backend.dto.UserDto;
 import com.mark.backend.mysql.mapper.AssociationExMapper;
 import com.mark.backend.mysql.mapper.BookMapper;
 import com.mark.backend.mysql.mapper.GroupExMapper;
+import com.mark.backend.mysql.mapper.GroupUserMapper;
 import com.mark.backend.mysql.mapper.RemarkExMapper;
 import com.mark.backend.mysql.mapper.ScoreExMapper;
 import com.mark.backend.mysql.mapper.UserExMapper;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.mapper.userLikeMapper;
 import com.mark.backend.mysql.po.Book;
+import com.mark.backend.mysql.po.GroupUser;
+import com.mark.backend.mysql.po.GroupUserExample;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
@@ -56,6 +59,8 @@ public class UserServiceImpl implements IUserService {
 	private userLikeMapper ulMapper;
 	@Resource
 	private BookMapper bookMapper;
+	@Resource
+	private GroupUserMapper guMapper;
 
 	@Override
 	public User getUserByOpenId(String openId) {
@@ -191,8 +196,11 @@ public class UserServiceImpl implements IUserService {
 					GroupDto finalDto = new GroupDto();
 					BeanUtils.copyProperties(groupDto, finalDto);
 					finalDto.setId(id);
+					GroupUserExample ex = new GroupUserExample();
+					ex.createCriteria().andGroupIdFkEqualTo(groupDto.getId());
+					List<GroupUser> list = guMapper.selectByExample(ex);
 					finalDto.setGroupRank(groupDto.getNum().toString() + "/"
-							+ total.toString());
+							+ list.size());
 					finalList.add(finalDto);
 				}
 			}
