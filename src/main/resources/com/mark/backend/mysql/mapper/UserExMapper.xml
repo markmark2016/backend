@@ -56,7 +56,7 @@
 		WHERE
 		tu.id = tgu.user_id_fk
 		AND tg.id = tgu.group_id_fk
-		AND tgu.user_status ！= '0'
+		AND tgu.user_status != '0'
 		AND tg.`status` != '0'
 		GROUP BY
 		tu.id
