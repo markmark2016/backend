@@ -180,7 +180,7 @@ public class WeixinService {
 							openId);
 					Long userId = (Long) markInfoMap.get("userIdMap").get(
 							openId);
-					User user = userMap.get(userId);
+					User user = new User();
 					user.setUpdateTime(new Date());
 					user.setCity(userInfo.getString("city"));
 					user.setProvince(userInfo.getString("province"));

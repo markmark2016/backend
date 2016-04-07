@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
@@ -62,6 +64,8 @@ public class UserServiceImpl implements IUserService {
 	@Resource
 	private GroupUserMapper guMapper;
 
+	ExecutorService executor = Executors.newFixedThreadPool(2);
+
 	@Override
 	public User getUserByOpenId(String openId) {
 		UserExample ue = new UserExample();
@@ -107,6 +111,15 @@ public class UserServiceImpl implements IUserService {
 		ex.createCriteria().andIdEqualTo(userId);
 		user.setUpdateTime(MarkUtils.getCurrentTime());
 		int i = userMapper.updateByExampleSelective(user, ex);
+		final Long id = userId;
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				User user = userMapper.selectByPrimaryKey(id);
+				WeixinService.userMap.put(id, user);
+			}
+		});
 		return i;
 	}
 
