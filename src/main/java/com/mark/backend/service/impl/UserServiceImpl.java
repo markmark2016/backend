@@ -147,7 +147,7 @@ public class UserServiceImpl implements IUserService {
 		List<GroupDto> gdtoList = gexMapper.getUserGroupList(userId);
 		List<GroupDto> finalgdtoList = new ArrayList<GroupDto>();
 		for (GroupDto groupDto : gdtoList) {
-			if ("2".equals(groupDto.getUserStatus())) {
+			if (2 == groupDto.getUserStatus()) {
 				finalgdtoList.add(groupDto);
 			}
 		}
@@ -187,7 +187,7 @@ public class UserServiceImpl implements IUserService {
 	public Map<String, Object> getUserGroupRankInfo(Long userId) {
 		Map<String, Object> rankMap = new HashMap<String, Object>();
 		List<Long> groupIdList = sexMapper.getUserGroupIdList(userId);
-//		Integer total = groupIdList.size();
+		// Integer total = groupIdList.size();
 		List<GroupDto> finalList = new ArrayList<GroupDto>();
 		for (Long id : groupIdList) {
 			List<GroupDto> tmpDto = sexMapper.getUserGroupRank(id);
