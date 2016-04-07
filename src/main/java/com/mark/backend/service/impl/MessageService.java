@@ -62,16 +62,6 @@ public class MessageService {
 	 */
 	public Map<String, Object> getUnreadReplyMap(Map<String, Object> params) {
 		final Long userId = (Long) params.get("userId");
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				UserMessageExample ex = new UserMessageExample();
-				ex.createCriteria().andUserIdFkEqualTo(userId);
-				UserMessage um = new UserMessage();
-				um.setIsCheck("1");
-				userMessageMapper.updateByExampleSelective(um, ex);
-			}
-		});
 		params.put("type", "1");
 		params.put("ischeck", "0");
 		List<MessageDto> replyMsgList = umexMapper.getMessageList(params);
@@ -83,6 +73,18 @@ public class MessageService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("unreadreplylist", replyMsgList);
 		resultMap.put("unreadreplycount", replyMsgList.size());
+
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				UserMessageExample ex = new UserMessageExample();
+				ex.createCriteria().andUserIdFkEqualTo(userId)
+						.andTypeEqualTo("1");
+				UserMessage um = new UserMessage();
+				um.setIsCheck("1");
+				userMessageMapper.updateByExampleSelective(um, ex);
+			}
+		});
 		return resultMap;
 	}
 
@@ -94,17 +96,7 @@ public class MessageService {
 	 */
 	public Map<String, Object> getUnreadLikeMap(Map<String, Object> params) {
 		final Long userId = (Long) params.get("userId");
-		executor.execute(new Runnable() {
 
-			@Override
-			public void run() {
-				UserMessageExample ex = new UserMessageExample();
-				ex.createCriteria().andUserIdFkEqualTo(userId);
-				UserMessage um = new UserMessage();
-				um.setIsCheck("1");
-				userMessageMapper.updateByExampleSelective(um, ex);
-			}
-		});
 		params.put("type", "2");
 		params.put("ischeck", "0");
 		List<MessageDto> likeMsgList = umexMapper.getMessageList(params);
@@ -116,6 +108,18 @@ public class MessageService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("unreadlikelist", likeMsgList);
 		resultMap.put("unreadlikecount", likeMsgList.size());
+
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				UserMessageExample ex = new UserMessageExample();
+				ex.createCriteria().andUserIdFkEqualTo(userId)
+						.andTypeEqualTo("2");
+				UserMessage um = new UserMessage();
+				um.setIsCheck("1");
+				userMessageMapper.updateByExampleSelective(um, ex);
+			}
+		});
 		return resultMap;
 	}
 
