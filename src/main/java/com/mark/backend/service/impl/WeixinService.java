@@ -181,6 +181,7 @@ public class WeixinService {
 					Long userId = (Long) markInfoMap.get("userIdMap").get(
 							openId);
 					User user = new User();
+					user.setId(userId);
 					user.setUpdateTime(new Date());
 					user.setCity(userInfo.getString("city"));
 					user.setProvince(userInfo.getString("province"));
@@ -193,7 +194,8 @@ public class WeixinService {
 					Integer i = userMapper.updateByExampleSelective(user, ex);
 					if (i > 0) {
 						markInfoMap.get("userIdMap").put(openId, user.getId());
-						userMap.put(user.getId(), user);
+						User u = userMapper.selectByPrimaryKey(userId);
+						userMap.put(user.getId(), u);
 					}
 				}
 			});
