@@ -3,6 +3,8 @@ package com.mark.backend.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
@@ -15,6 +17,7 @@ import com.mark.backend.mysql.mapper.UserMessageExMapper;
 import com.mark.backend.mysql.mapper.UserMessageMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserMessage;
+import com.mark.backend.mysql.po.UserMessageExample;
 import com.mark.backend.utils.MarkUtils;
 
 @Service
@@ -26,6 +29,8 @@ public class MessageService {
 	private UserMessageMapper userMessageMapper;
 	@Resource
 	private UserMessageExMapper umexMapper;
+
+	ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	/**
 	 * 获得总未读信息
@@ -56,7 +61,17 @@ public class MessageService {
 	 * @return
 	 */
 	public Map<String, Object> getUnreadReplyMap(Map<String, Object> params) {
-		// Long userId = (Long) params.get("userId");
+		final Long userId = (Long) params.get("userId");
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				UserMessageExample ex = new UserMessageExample();
+				ex.createCriteria().andUserIdFkEqualTo(userId);
+				UserMessage um = new UserMessage();
+				um.setIsCheck("1");
+				userMessageMapper.updateByExampleSelective(um, ex);
+			}
+		});
 		params.put("type", "1");
 		params.put("ischeck", "0");
 		List<MessageDto> replyMsgList = umexMapper.getMessageList(params);
@@ -78,7 +93,18 @@ public class MessageService {
 	 * @return
 	 */
 	public Map<String, Object> getUnreadLikeMap(Map<String, Object> params) {
-		// Long userId = (Long) params.get("userId");
+		final Long userId = (Long) params.get("userId");
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				UserMessageExample ex = new UserMessageExample();
+				ex.createCriteria().andUserIdFkEqualTo(userId);
+				UserMessage um = new UserMessage();
+				um.setIsCheck("1");
+				userMessageMapper.updateByExampleSelective(um, ex);
+			}
+		});
 		params.put("type", "2");
 		params.put("ischeck", "0");
 		List<MessageDto> likeMsgList = umexMapper.getMessageList(params);
@@ -137,9 +163,9 @@ public class MessageService {
 			}
 		} else {
 			if (StringUtils.isEmpty(title)) {
-				content = "评论了你的书评";
+				content = "赞了你的书评";
 			} else {
-				content = "评论了你的书评《" + title + "》";
+				content = "赞了你的书评《" + title + "》";
 			}
 		}
 		UserMessage um = new UserMessage();
