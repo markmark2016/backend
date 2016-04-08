@@ -63,21 +63,21 @@ public class PunchNoticeWorker {
 			WxTemplate wxt = new WxTemplate();
 			wxt.setTemplate_id(Constans.TEMPLEATE_NOTIFICE_ID);
 			wxt.setTouser(WeixinService.userMap.get(userId).getOpenid());
-			
+
 			// 设置map中的数据，根据模板参数配置而看
 			TemplateData first = new TemplateData();
 			first.setValue("您好，亲爱的MarkMark成员，您今日仍有" + i + "个小组未打卡哦~~");
 			TemplateData keynote1 = new TemplateData();
-			keynote1.setValue("任务:" + sb.toString());
+			keynote1.setValue(sb.toString());
 			TemplateData keynote2 = new TemplateData();
-			keynote2.setValue("时间:"
-					+ MarkUtils.formatDate("MM-dd", MarkUtils.getZeroTime()));
-			// TemplateData remark = new TemplateData();
-			// remark.setValue("您参加的小组" + dto.getGroupName() + "今天还没有打卡，快去打吧");
+			keynote2.setValue(MarkUtils.formatDate("yy-MM-dd",
+					MarkUtils.getZeroTime()));
+			TemplateData remark = new TemplateData();
+			remark.setValue("点击浏览当日作业。");
 			data.put("first", first);
 			data.put("keynote1", keynote1);
 			data.put("keynote2", keynote2);
-			// data.put("remark", remark);
+			data.put("remark", remark);
 			wxt.setData(data);
 			String jsonStr = JSONObject.toJSONString(wxt);
 			StringEntity entity = new StringEntity(jsonStr, "utf-8");

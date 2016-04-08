@@ -1,6 +1,7 @@
 package com.mark.backend.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -45,20 +46,22 @@ public class WechatController {
 
 	@RequestMapping(value = "/authorize", method = RequestMethod.GET)
 	public Object authorize(@RequestParam(required = true) String code,
-			@RequestParam(required = false) String status,
+			@RequestParam(required = false) String state,
 			HttpServletRequest request, HttpServletResponse response) {
-		String userId = wxService.getUserInfo(code, status).toString();
+		String userId = wxService.getUserInfo(code, state).toString();
 		LOGGER.info("用户:" + userId + "登录了");
 		Cookie c = new Cookie("userId", userId);
 		c.setDomain("*");
 		c.setPath("/");
 		response.addCookie(c);
 		response.setHeader("markUserId", userId);
+
 		// response.setHeader("Location",
 		// "http://markmark.sinaapp.com/app/#/tab/groups-center");
 		try {
+			String toUrl = URLDecoder.decode(state, "UTF-8");
 			response.sendRedirect("http://www.swanhi.com/app/" + "?userId="
-					+ userId);
+					+ userId + "#" + toUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -144,7 +144,7 @@ public class WeixinService {
 		return "失败！";
 	}
 
-	public Object getUserInfo(String code, String status) {
+	public Object getUserInfo(String code, String state) {
 		/**
 		 * 根据获得的code去得到用户的openid
 		 */
