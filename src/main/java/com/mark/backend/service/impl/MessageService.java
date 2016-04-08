@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -19,7 +18,6 @@ import com.mark.backend.mysql.mapper.UserMessageExMapper;
 import com.mark.backend.mysql.mapper.UserMessageMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserMessage;
-import com.mark.backend.mysql.po.UserMessageExample;
 import com.mark.backend.utils.MarkUtils;
 
 @Service

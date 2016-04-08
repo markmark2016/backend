@@ -60,7 +60,9 @@ public class PunchNoticeWorker {
 		if (i > 0) {
 			HttpPost post = new HttpPost(url);
 			Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+			String punchUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxdac023cef2cea008&redirect_uri=http%3a%2f%2fwww.swanhi.com%2fmark-backend%2fwechat%2fauthorize&response_type=code&scope=snsapi_base&state=%2ftab%2fpunch-center#wechat_redirect";
 			WxTemplate wxt = new WxTemplate();
+			wxt.setUrl(punchUrl);
 			wxt.setTemplate_id(Constans.TEMPLEATE_NOTIFICE_ID);
 			wxt.setTouser(WeixinService.userMap.get(userId).getOpenid());
 

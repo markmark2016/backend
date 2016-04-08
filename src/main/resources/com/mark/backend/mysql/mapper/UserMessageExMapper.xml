@@ -30,13 +30,14 @@
 		<if test="type != null">
 			AND tum.type = ${type}
 		</if>
-		<if test="ischeck != null">
-			AND
-			tum.is_check =
-			${ischeck}
-		</if>
+	<!-- <if test="ischeck != null"> -->
+	<!-- AND -->
+	<!-- tum.is_check = -->
+	<!-- ${ischeck} -->
+	<!-- </if> -->
 		ORDER
 		BY
+		is_check ASC,
 		tum.create_time DESC
 	</select>
 
