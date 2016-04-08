@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mark.backend.dto.MessageDto;
+import com.mark.backend.dto.RemarkDto;
 
 public interface UserMessageExMapper {
 	/**
@@ -13,4 +14,10 @@ public interface UserMessageExMapper {
 	 * @return
 	 */
 	List<MessageDto> getMessageList(Map<String, Object> params);
+
+	Integer updateUserLikeMessage(Long userId);
+
+	Integer updateUserReplyMessage(Long userId);
+	
+	RemarkDto getCount(Long userId);
 }

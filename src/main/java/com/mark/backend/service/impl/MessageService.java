@@ -3,8 +3,9 @@ package com.mark.backend.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.mark.backend.dto.MessageDto;
+import com.mark.backend.dto.RemarkDto;
 import com.mark.backend.mysql.mapper.RemarkInteractMapper;
 import com.mark.backend.mysql.mapper.UserMessageExMapper;
 import com.mark.backend.mysql.mapper.UserMessageMapper;
@@ -30,7 +32,8 @@ public class MessageService {
 	@Resource
 	private UserMessageExMapper umexMapper;
 
-	ExecutorService executor = Executors.newSingleThreadExecutor();
+	ScheduledExecutorService executor = Executors
+			.newSingleThreadScheduledExecutor();
 
 	/**
 	 * 获得总未读信息
@@ -74,17 +77,19 @@ public class MessageService {
 		resultMap.put("unreadreplylist", replyMsgList);
 		resultMap.put("unreadreplycount", replyMsgList.size());
 
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				UserMessageExample ex = new UserMessageExample();
-				ex.createCriteria().andUserIdFkEqualTo(userId)
-						.andTypeEqualTo("1");
-				UserMessage um = new UserMessage();
-				um.setIsCheck("1");
-				userMessageMapper.updateByExampleSelective(um, ex);
-			}
-		});
+		umexMapper.updateUserReplyMessage(userId);
+
+		// executor.schedule(new Runnable() {
+		// @Override
+		// public void run() {
+		// UserMessageExample ex = new UserMessageExample();
+		// ex.createCriteria().andUserIdFkEqualTo(userId)
+		// .andTypeEqualTo("1");
+		// UserMessage um = new UserMessage();
+		// um.setIsCheck("1");
+		// userMessageMapper.updateByExampleSelective(um, ex);
+		// }
+		// }, 3, TimeUnit.SECONDS);
 		return resultMap;
 	}
 
@@ -98,7 +103,7 @@ public class MessageService {
 		final Long userId = (Long) params.get("userId");
 
 		params.put("type", "2");
-		params.put("ischeck", "0");
+		params.put("ischeck", 0);
 		List<MessageDto> likeMsgList = umexMapper.getMessageList(params);
 		for (MessageDto messageDto : likeMsgList) {
 			User user = WeixinService.userMap.get(messageDto.getUserId());
@@ -109,17 +114,19 @@ public class MessageService {
 		resultMap.put("unreadlikelist", likeMsgList);
 		resultMap.put("unreadlikecount", likeMsgList.size());
 
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				UserMessageExample ex = new UserMessageExample();
-				ex.createCriteria().andUserIdFkEqualTo(userId)
-						.andTypeEqualTo("2");
-				UserMessage um = new UserMessage();
-				um.setIsCheck("1");
-				userMessageMapper.updateByExampleSelective(um, ex);
-			}
-		});
+		umexMapper.updateUserLikeMessage(userId);
+
+		// executor.schedule(new Runnable() {
+		// @Override
+		// public void run() {
+		// UserMessageExample ex = new UserMessageExample();
+		// ex.createCriteria().andUserIdFkEqualTo(userId)
+		// .andTypeEqualTo("2");
+		// UserMessage um = new UserMessage();
+		// um.setIsCheck("1");
+		// userMessageMapper.updateByExampleSelective(um, ex);
+		// }
+		// }, 3, TimeUnit.SECONDS);
 		return resultMap;
 	}
 
@@ -186,14 +193,16 @@ public class MessageService {
 	public Map<String, Object> getMsgIndexInfo(Map<String, Object> params) {
 		// 未读系统信息
 		Map<String, Object> sysMsgMap = getUnreadSysMap(params);
-		// 未读回复信息
-		Map<String, Object> replyMsgMap = getUnreadReplyMap(params);
-		// 未读赞信息
-		Map<String, Object> likeMsgMap = getUnreadLikeMap(params);
+		// // 未读回复信息
+		// Map<String, Object> replyMsgMap = getUnreadReplyMap(params);
+		// // 未读赞信息
+		// Map<String, Object> likeMsgMap = getUnreadLikeMap(params);
+		Long userId = (Long) params.get("userId");
+		RemarkDto dto = umexMapper.getCount(userId);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("unreadsyscount", sysMsgMap.get("unreadsyscount"));
-		resultMap.put("unreadreplycount", replyMsgMap.get("unreadreplycount"));
-		resultMap.put("unreadlikecount", likeMsgMap.get("unreadlikecount"));
+		resultMap.put("unreadreplycount", dto.getTotalReply());
+		resultMap.put("unreadlikecount", dto.getTotalLike());
 		return resultMap;
 	}
 }

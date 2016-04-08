@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -129,21 +130,34 @@ public class UserServiceImpl implements IUserService {
 		List<GroupDto> finalgdtoList = new ArrayList<GroupDto>();
 		List<AssociationDto> assdtoList = new ArrayList<AssociationDto>();
 		Map<String, Object> params = new HashMap<String, Object>();
+		Map<Long, AssociationDto> assMap = new HashMap<Long, AssociationDto>();
 		for (GroupDto dto : gdtoList) {
 			if (dto.getAssociationId() != null) {
 				params.put("associationId", dto.getAssociationId());
 				AssociationDto adto = aexMapper.queryAssociationList(params)
 						.get(0);
-				assdtoList.add(adto);
+//				assdtoList.add(adto);
+				assMap.put(adto.getId(), adto);
 			}
 		}
-		for (AssociationDto dto : assdtoList) {
+
+		Set<Long> assId = assMap.keySet();
+		for (Long assid : assId) {
 			for (GroupDto groupDto : gdtoList) {
-				if (groupDto.getAssociationId() == dto.getId()) {
-					dto.getGroupList().add(groupDto);
+				if (groupDto.getAssociationId() == assid) {
+					assMap.get(assid).getGroupList().add(groupDto);
 				}
 			}
+			assdtoList.add(assMap.get(assid));
 		}
+
+//		for (AssociationDto dto : assdtoList) {
+//			for (GroupDto groupDto : gdtoList) {
+//				if (groupDto.getAssociationId() == dto.getId()) {
+//					dto.getGroupList().add(groupDto);
+//				}
+//			}
+//		}
 		for (GroupDto groupDto : gdtoList) {
 			if (groupDto.getAssociationId() == null) {
 				finalgdtoList.add(groupDto);

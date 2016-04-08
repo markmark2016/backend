@@ -66,6 +66,10 @@ public class RemarkServiceImpl implements IRemarkService {
 		List<GroupDto> groupList = gexMapper.getUserGroupList(userId);
 		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
 		for (GroupDto groupDto : groupList) {
+//			if (groupDto.getBeginDate().getTime() > MarkUtils.getZeroTime()
+//					.getTime()) {
+//				break;
+//			}
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("groupId", groupDto.getId());
 			params.put("userId", userId);
@@ -76,7 +80,7 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setImage(groupDto.getGroupImage());
 			rdto.setUserId(userId);
 			rdto.setReadCompleteDate(groupDto.getReadCompleteDate());
-			rdto.setIsComplete("2".equals(groupDto.getUserStatus()));
+			rdto.setIsComplete(2 == groupDto.getUserStatus());
 			rdto.setContinuePunch((Integer) this.getContinuePunchInfo(params)
 					.get("totalPunch"));
 			rdto.setLastPage(groupDto.getLastPage());

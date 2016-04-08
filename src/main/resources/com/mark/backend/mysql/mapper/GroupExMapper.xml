@@ -80,7 +80,10 @@
 		tgu.user_status AS
 		userStatus,
 		tgu.update_time AS readCompleteDate,
-		MAX(tr.end_page) AS lastPage
+		MAX(tr.end_page) AS lastPage,
+		tg.begin_time AS beginDate,
+		tg.end_time AS
+		endDate
 		FROM
 		t_group tg
 		LEFT JOIN
@@ -99,12 +102,16 @@
 		STATUS != 0
 		AND
 		tgu.group_id_fk = tg.id
-		AND tgu.user_status != 0
+		AND tgu.user_status
+		!= 0
 		AND tgu.user_id_fk
 		=
 		#{userId}
 		GROUP BY
 		tg.id
+		ORDER BY
+		tg.`status` DESC,
+		tgu.user_status ASC
 	</select>
 	<select id="getTotalReader" parameterType="Long" resultType="int">
 		SELECT

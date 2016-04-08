@@ -69,7 +69,7 @@ public class Constans {
 	/**
 	 * 通知的模板id
 	 */
-	public static final String TEMPLEATE_NOTIFICE_ID = "9sCHmqDnWO6jo-15gFUsiaZKvmZojjB5gKeTwJunpCc";
+	public static final String TEMPLEATE_NOTIFICE_ID = "NVXx4dXcNB3ZAamlDiUtrtFPJ9BPLq07fMHM3Op8ba0";
 	/**
 	 * js接口
 	 */

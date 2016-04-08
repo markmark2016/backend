@@ -213,7 +213,7 @@ public class GroupServiceImpl implements IGroupService {
 
 			GroupUserExample ex = new GroupUserExample();
 			ex.createCriteria().andGroupIdFkEqualTo(group.getId())
-					.andUserClassEqualTo("1");
+					.andUserIdFkEqualTo(user.getId());
 			groupUserMapper.deleteByExample(ex);
 			GroupUser gu = new GroupUser();
 			gu.setGroupIdFk(group.getId());

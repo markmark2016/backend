@@ -15,10 +15,16 @@
 
 	<bean id="punchNoticeWorker" class="com.mark.backend.worker.PunchNoticeWorker">
 	</bean>
+	<bean id="updateGroupStatus" class="com.mark.backend.worker.UpdateGroupStatusWorker">
+	</bean>
 
 	<task:scheduled-tasks>
 		<task:scheduled ref="punchNoticeWorker" method="sendPunchAlert"
-			cron="0 0 21 * * ?" />
+			cron="00 00 21 * * ?" />
+	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="updateGroupStatus" method="updateGroupStatus"
+			cron="01 00 00 * * ?" />
 	</task:scheduled-tasks>
 
 	<context:component-scan base-package="com.mark.backend.worker" />

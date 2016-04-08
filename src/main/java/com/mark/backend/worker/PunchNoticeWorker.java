@@ -21,6 +21,7 @@ import com.mark.backend.model.WxTemplate;
 import com.mark.backend.service.impl.RemarkServiceImpl;
 import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.Constans;
+import com.mark.backend.utils.MarkUtils;
 
 public class PunchNoticeWorker {
 	@Resource
@@ -48,40 +49,45 @@ public class PunchNoticeWorker {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		@SuppressWarnings("unused")
 		CloseableHttpResponse response = null;
+		int i = 0;
+		StringBuilder sb = new StringBuilder();
 		for (RemarkDto dto : punchList) {
 			if (!dto.getIsPunch()) {
-				HttpPost post = new HttpPost(url);
-				Map<String, TemplateData> data = new HashMap<String, TemplateData>();
-				WxTemplate wxt = new WxTemplate();
-				wxt.setTemplate_id(Constans.TEMPLEATE_NOTIFICE_ID);
-				wxt.setTouser(WeixinService.userMap.get(userId).getOpenid());
-				// 设置map中的数据，根据模板参数配置而看
-				TemplateData first = new TemplateData();
-				first.setValue("您参加的小组" + dto.getGroupName() + "今天还没有打卡，快去打吧");
-				// TemplateData keynote1 = new TemplateData();
-				// keynote1.setValue("您参加的小组" + dto.getGroupName()
-				// + "今天还没有打卡，快去打吧");
-				// TemplateData keynote2 = new TemplateData();
-				// keynote2.setValue("您参加的小组" + dto.getGroupName()
-				// + "今天还没有打卡，快去打吧");
-				// TemplateData remark = new TemplateData();
-				// remark.setValue("您参加的小组" + dto.getGroupName() +
-				// "今天还没有打卡，快去打吧");
-				data.put("first", first);
-				// data.put("keynote1", keynote1);
-				// data.put("keynote2", keynote2);
-				// data.put("remark", remark);
-				wxt.setData(data);
-				String jsonStr = JSONObject.toJSONString(wxt);
-				StringEntity entity = new StringEntity(jsonStr, "utf-8");
-				entity.setContentEncoding("UTF-8");
-				entity.setContentType("application/json");
-				post.setEntity(entity);
-				try {
-					response = httpClient.execute(post);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				i++;
+				sb.append(dto.getGroupName() + " ");
+			}
+		}
+		if (i > 0) {
+			HttpPost post = new HttpPost(url);
+			Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+			WxTemplate wxt = new WxTemplate();
+			wxt.setTemplate_id(Constans.TEMPLEATE_NOTIFICE_ID);
+			wxt.setTouser(WeixinService.userMap.get(userId).getOpenid());
+			
+			// 设置map中的数据，根据模板参数配置而看
+			TemplateData first = new TemplateData();
+			first.setValue("您好，亲爱的MarkMark成员，您今日仍有" + i + "个小组未打卡哦~~");
+			TemplateData keynote1 = new TemplateData();
+			keynote1.setValue("任务:" + sb.toString());
+			TemplateData keynote2 = new TemplateData();
+			keynote2.setValue("时间:"
+					+ MarkUtils.formatDate("MM-dd", MarkUtils.getZeroTime()));
+			// TemplateData remark = new TemplateData();
+			// remark.setValue("您参加的小组" + dto.getGroupName() + "今天还没有打卡，快去打吧");
+			data.put("first", first);
+			data.put("keynote1", keynote1);
+			data.put("keynote2", keynote2);
+			// data.put("remark", remark);
+			wxt.setData(data);
+			String jsonStr = JSONObject.toJSONString(wxt);
+			StringEntity entity = new StringEntity(jsonStr, "utf-8");
+			entity.setContentEncoding("UTF-8");
+			entity.setContentType("application/json");
+			post.setEntity(entity);
+			try {
+				response = httpClient.execute(post);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

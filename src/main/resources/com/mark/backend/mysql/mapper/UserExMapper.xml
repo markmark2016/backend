@@ -4,7 +4,7 @@
 	<select id="queryUserList" parameterType="java.util.Map"
 		resultType="com.mark.backend.dto.UserDto">
 		SELECT
-		tu.id,
+		tu.id as userId,
 		tu.nickname AS nickName,
 		tu.head_img_url AS headImage
 		<if test="groupId != null">
