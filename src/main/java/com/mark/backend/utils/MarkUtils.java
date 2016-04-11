@@ -66,6 +66,18 @@ public class MarkUtils {
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
+	
+	public static Date getYestarday(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int day = calendar.get(Calendar.DATE);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.DATE, day-1);
+		return calendar.getTime();
+	}
 
 	/**
 	 * 返回日期map

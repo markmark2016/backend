@@ -26,6 +26,11 @@
 		<task:scheduled ref="updateGroupStatus" method="updateGroupStatus"
 			cron="01 00 00 * * ?" />
 	</task:scheduled-tasks>
+	<task:scheduled-tasks>
+		<task:scheduled ref="punchNoticeWorker" method="sendPunchDetail"
+			cron="02 00 00 * * ?" />
+	</task:scheduled-tasks>
+	
 
 	<context:component-scan base-package="com.mark.backend.worker" />
 
