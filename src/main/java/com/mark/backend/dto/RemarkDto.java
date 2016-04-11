@@ -91,6 +91,10 @@ public class RemarkDto {
 	 * 是否点过赞
 	 */
 	private String hasLike;
+	/**
+	 * 小组状态
+	 */
+	private String groupStatus;
 
 	public Long getUserId() {
 		return userId;
@@ -266,6 +270,14 @@ public class RemarkDto {
 
 	public void setHasLike(String hasLike) {
 		this.hasLike = hasLike;
+	}
+
+	public String getGroupStatus() {
+		return groupStatus;
+	}
+
+	public void setGroupStatus(String groupStatus) {
+		this.groupStatus = groupStatus;
 	}
 
 }

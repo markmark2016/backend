@@ -83,7 +83,8 @@
 		MAX(tr.end_page) AS lastPage,
 		tg.begin_time AS beginDate,
 		tg.end_time AS
-		endDate
+		endDate,
+		tg.`status` AS groupStatus
 		FROM
 		t_group tg
 		LEFT JOIN

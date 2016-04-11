@@ -116,6 +116,10 @@ public class GroupDto {
 	 * 上次结束的页码
 	 */
 	private Integer lastPage;
+	/**
+	 * 小组的状态
+	 */
+	private String groupStatus;
 
 	public Long getId() {
 		return id;
@@ -323,6 +327,14 @@ public class GroupDto {
 
 	public void setLastPage(Integer lastPage) {
 		this.lastPage = lastPage;
+	}
+
+	public String getGroupStatus() {
+		return groupStatus;
+	}
+
+	public void setGroupStatus(String groupStatus) {
+		this.groupStatus = groupStatus;
 	}
 
 }

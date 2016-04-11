@@ -74,6 +74,7 @@ public class RemarkServiceImpl implements IRemarkService {
 			params.put("groupId", groupDto.getId());
 			params.put("userId", userId);
 			RemarkDto rdto = new RemarkDto();
+			rdto.setGroupStatus(groupDto.getGroupStatus());
 			rdto.setGroupId(groupDto.getId());
 			rdto.setGroupName(groupDto.getGroupName());
 			rdto.setBookName(groupDto.getBookName());
