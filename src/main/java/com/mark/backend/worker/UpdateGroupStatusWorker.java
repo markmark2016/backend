@@ -24,6 +24,13 @@ public class UpdateGroupStatusWorker {
 				MarkUtils.getZeroTime());
 		g.setStatus("2");
 		groupMapper.updateByExampleSelective(g, ex);
+
+		ex.clear();
+		ex.createCriteria()
+				.andBeginTimeLessThanOrEqualTo(MarkUtils.getZeroTime())
+				.andEndTimeGreaterThanOrEqualTo(MarkUtils.getZeroTime());
+		g.setStatus("3");
+		groupMapper.updateByExampleSelective(g, ex);
 	}
 
 	public static void main(String[] args) {
