@@ -186,7 +186,7 @@ public class WeixinService {
 					user.setCity(userInfo.getString("city"));
 					user.setProvince(userInfo.getString("province"));
 					user.setNickname(userInfo.getString("nickname"));
-					user.setGender(Integer.parseInt(userInfo.getString("sex")));
+					user.setGender(userInfo.getInteger("sex"));
 					user.setHeadImgUrl(userInfo.getString("headimgurl"));
 					// user.setOpenid(userInfo.getString("openid"));
 					UserExample ex = new UserExample();
