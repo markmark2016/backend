@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -39,6 +41,12 @@ import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class RemarkServiceImpl implements IRemarkService {
+	
+	
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(RemarkServiceImpl.class);
+	
+	
 	ExecutorService executor = Executors.newSingleThreadExecutor();
 	@Resource
 	private RemarkMapper remarkMapper;
@@ -181,9 +189,11 @@ public class RemarkServiceImpl implements IRemarkService {
 		// 只有热门的list中做了当前用户是否对这条书评点过赞的查询，而且若要进行查询，需在map中加入当前登录的用户id，而现在没有加
 		// 热门的list
 		List<RemarkDto> hotList = rexMapper.getGroupRemarkHotList(map);
+		LOGGER.debug("热门书评列表大小："+hotList.size());
 		// 按时间排序list
 		List<RemarkDto> timeOrderList = rexMapper
 				.getGroupRemarkListRecentlyList(map);
+		LOGGER.debug("热门书评列表大小："+timeOrderList.size());
 		// 丰富后的热门列表
 		List<RemarkDto> finalHotList = new ArrayList<RemarkDto>();
 		List<RemarkDto> finalTimeOrderList = new ArrayList<RemarkDto>();
@@ -200,12 +210,12 @@ public class RemarkServiceImpl implements IRemarkService {
 			hotDto.setUserName(user.getNickname());
 			hotDto.setHeadImage(user.getHeadImgUrl());
 			for (RemarkDto replyDto : replyCountList) {
-				if (replyDto.getRemarkId() == hotDto.getRemarkId()) {
+				if (replyDto.getRemarkId().equals(hotDto.getRemarkId())) {
 					hotDto.setTotalReply(replyDto.getTotalReply());
 				}
 			}
 			for (RemarkDto likeDto : likeCountList) {
-				if (likeDto.getRemarkId() == hotDto.getRemarkId()) {
+				if (likeDto.getRemarkId().equals(hotDto.getRemarkId())) {
 					hotDto.setTotalLike(likeDto.getTotalLike());
 				}
 			}
@@ -230,6 +240,8 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.clear();
 		map.put("hotlist", finalHotList);
 		map.put("timeorderlist", finalTimeOrderList);
+		LOGGER.debug("finla'热门书评列表大小："+finalHotList.size());
+		LOGGER.debug("final时间排序评列表大小："+finalTimeOrderList.size());
 		return map;
 	}
 
