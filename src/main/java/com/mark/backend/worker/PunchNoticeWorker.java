@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +24,15 @@ import com.mark.backend.model.WxTemplate;
 import com.mark.backend.mysql.mapper.GroupMapper;
 import com.mark.backend.mysql.mapper.GroupUserMapper;
 import com.mark.backend.mysql.mapper.RemarkMapper;
+import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.Group;
 import com.mark.backend.mysql.po.GroupExample;
 import com.mark.backend.mysql.po.GroupUser;
 import com.mark.backend.mysql.po.GroupUserExample;
 import com.mark.backend.mysql.po.Remark;
 import com.mark.backend.mysql.po.RemarkExample;
+import com.mark.backend.mysql.po.User;
+import com.mark.backend.mysql.po.UserExample;
 import com.mark.backend.service.impl.RemarkServiceImpl;
 import com.mark.backend.service.impl.WeixinService;
 import com.mark.backend.utils.Constans;
@@ -43,12 +47,23 @@ public class PunchNoticeWorker {
 	private RemarkMapper remarkMapper;
 	@Resource
 	private GroupUserMapper guMapper;
+	@Resource
+	private UserMapper	 userMapper;
 
 	/**
 	 * 发送打卡提醒
 	 */
 	public void sendPunchAlert() {
-		Set<Long> set = WeixinService.userMap.keySet();
+//		Set<Long> set = WeixinService.userMap.keySet();
+		
+		UserExample ex = new UserExample();
+		ex.createCriteria();
+		Set<Long> set = new HashSet<Long>();
+		List<User> userList = userMapper.selectByExample(ex);
+		for (User user : userList) {
+			set.add(user.getId());
+		}
+		
 		for (Long userId : set) {
 			List<RemarkDto> punchList = remarkService.getPunchList(userId);
 			sendAlertToUser(userId, punchList);
