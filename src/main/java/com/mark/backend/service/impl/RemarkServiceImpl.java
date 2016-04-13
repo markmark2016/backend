@@ -226,12 +226,12 @@ public class RemarkServiceImpl implements IRemarkService {
 			timeOrderDto.setUserName(user.getNickname());
 			timeOrderDto.setHeadImage(user.getHeadImgUrl());
 			for (RemarkDto replyDto : replyCountList) {
-				if (replyDto.getRemarkId() == timeOrderDto.getRemarkId()) {
+				if (replyDto.getRemarkId().equals(timeOrderDto.getRemarkId())) {
 					timeOrderDto.setTotalReply(replyDto.getTotalReply());
 				}
 			}
 			for (RemarkDto likeDto : likeCountList) {
-				if (likeDto.getRemarkId() == timeOrderDto.getRemarkId()) {
+				if (likeDto.getRemarkId().equals(timeOrderDto.getRemarkId())) {
 					timeOrderDto.setTotalLike(likeDto.getTotalLike());
 				}
 			}
