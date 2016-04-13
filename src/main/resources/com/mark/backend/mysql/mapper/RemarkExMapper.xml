@@ -46,7 +46,7 @@
 		tr.group_id_fk =
 		${groupId}
 		GROUP BY
-		tri.remark_id_fk
+		tr.id
 		ORDER BY
 		counts
 		DESC
