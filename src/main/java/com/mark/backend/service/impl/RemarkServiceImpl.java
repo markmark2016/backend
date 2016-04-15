@@ -114,6 +114,15 @@ public class RemarkServiceImpl implements IRemarkService {
 
 	@Override
 	public Long createRemark(RemarkWithBLOBs remark, String picUrl) {
+		// 判断今天是否打过卡了
+		RemarkExample ex = new RemarkExample();
+		ex.createCriteria().andUserIdFkEqualTo(remark.getUserIdFk())
+				.andGroupIdFkEqualTo(remark.getGroupIdFk())
+				.andCreateTimeGreaterThan(MarkUtils.getZeroTime());
+		List<Remark> remarkList = remarkMapper.selectByExample(ex);
+		if (remarkList.size() > 0) {
+			return -2L;
+		}
 		remark.setCreateTime(MarkUtils.getCurrentTime());
 		remark.setUpdateTime(remark.getCreateTime());
 		remarkMapper.insert(remark);

@@ -70,7 +70,10 @@ public class RemarkController {
 		if (remarkId > 0) {
 			map.put("status", 1);
 			map.put("msg", "sucess");
-		} else {
+		} else if (remarkId.equals(-2L)) {
+			map.put("status", 1);
+			map.put("msg", "一天只能打一次卡");
+		}else{
 			map.put("status", 1);
 			map.put("msg", "fail");
 		}
