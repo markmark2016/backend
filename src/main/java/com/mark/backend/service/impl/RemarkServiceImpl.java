@@ -41,12 +41,10 @@ import com.mark.backend.utils.MarkUtils;
 
 @Service
 public class RemarkServiceImpl implements IRemarkService {
-	
-	
+
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(RemarkServiceImpl.class);
-	
-	
+
 	ExecutorService executor = Executors.newSingleThreadExecutor();
 	@Resource
 	private RemarkMapper remarkMapper;
@@ -74,10 +72,10 @@ public class RemarkServiceImpl implements IRemarkService {
 		List<GroupDto> groupList = gexMapper.getUserGroupList(userId);
 		List<RemarkDto> finalList = new ArrayList<RemarkDto>();
 		for (GroupDto groupDto : groupList) {
-//			if (groupDto.getBeginDate().getTime() > MarkUtils.getZeroTime()
-//					.getTime()) {
-//				break;
-//			}
+			// if (groupDto.getBeginDate().getTime() > MarkUtils.getZeroTime()
+			// .getTime()) {
+			// break;
+			// }
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("groupId", groupDto.getId());
 			params.put("userId", userId);
@@ -92,7 +90,11 @@ public class RemarkServiceImpl implements IRemarkService {
 			rdto.setIsComplete(2 == groupDto.getUserStatus());
 			rdto.setContinuePunch((Integer) this.getContinuePunchInfo(params)
 					.get("totalPunch"));
-			rdto.setLastPage(groupDto.getLastPage());
+			Map<String, Object> params1 = new HashMap<String, Object>();
+			params1.put("userId", userId);
+			params1.put("groupId", groupDto.getId());
+			Integer lastPage = gexMapper.getLastReadPage(params1);
+			rdto.setLastPage(lastPage);
 			// 今日是否打卡了
 			RemarkExample rex = new RemarkExample();
 			rex.createCriteria().andGroupIdFkEqualTo(groupDto.getId())
@@ -189,11 +191,11 @@ public class RemarkServiceImpl implements IRemarkService {
 		// 只有热门的list中做了当前用户是否对这条书评点过赞的查询，而且若要进行查询，需在map中加入当前登录的用户id，而现在没有加
 		// 热门的list
 		List<RemarkDto> hotList = rexMapper.getGroupRemarkHotList(map);
-		LOGGER.debug("热门书评列表大小："+hotList.size());
+		LOGGER.debug("热门书评列表大小：" + hotList.size());
 		// 按时间排序list
 		List<RemarkDto> timeOrderList = rexMapper
 				.getGroupRemarkListRecentlyList(map);
-		LOGGER.debug("热门书评列表大小："+timeOrderList.size());
+		LOGGER.debug("热门书评列表大小：" + timeOrderList.size());
 		// 丰富后的热门列表
 		List<RemarkDto> finalHotList = new ArrayList<RemarkDto>();
 		List<RemarkDto> finalTimeOrderList = new ArrayList<RemarkDto>();
@@ -240,8 +242,8 @@ public class RemarkServiceImpl implements IRemarkService {
 		map.clear();
 		map.put("hotlist", finalHotList);
 		map.put("timeorderlist", finalTimeOrderList);
-		LOGGER.debug("finla'热门书评列表大小："+finalHotList.size());
-		LOGGER.debug("final时间排序评列表大小："+finalTimeOrderList.size());
+		LOGGER.debug("finla'热门书评列表大小：" + finalHotList.size());
+		LOGGER.debug("final时间排序评列表大小：" + finalTimeOrderList.size());
 		return map;
 	}
 
