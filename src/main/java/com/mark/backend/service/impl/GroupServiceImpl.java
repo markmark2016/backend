@@ -191,6 +191,7 @@ public class GroupServiceImpl implements IGroupService {
 	public Integer saveGroup(Map<String, Object> params) {
 		Group group = (Group) params.get("group");
 		String isApprove = params.get("approve").toString();
+
 		if (StringUtils.isEmpty(isApprove)) {
 			Long bookId = Long.parseLong(group.getBookIdFk());
 			// 设置小组对应的书籍名称
@@ -205,16 +206,19 @@ public class GroupServiceImpl implements IGroupService {
 
 		Integer i = 0;
 		// 先对小组信息做处理
+
+		// 小组已存在，更新其信息
 		if (group.getId() != null) {
 			group.setUpdateTime(group.getUpdateTime());
 
 			group.setCaptainName(user.getNickname());
 			groupMapper.updateByPrimaryKeySelective(group);
-
+			// 先把之前的领读人删除
 			GroupUserExample ex = new GroupUserExample();
 			ex.createCriteria().andGroupIdFkEqualTo(group.getId())
-					.andUserIdFkEqualTo(user.getId());
+					.andUserClassEqualTo("1");
 			groupUserMapper.deleteByExample(ex);
+
 			GroupUser gu = new GroupUser();
 			gu.setGroupIdFk(group.getId());
 			gu.setUserIdFk(group.getUserIdFk());
@@ -223,14 +227,18 @@ public class GroupServiceImpl implements IGroupService {
 			gu.setCreateTime(new Date());
 			gu.setUpdateTime(new Date());
 			groupUserMapper.insert(gu);
-		} else {
+		}
+		// 此为新建小组
+		else {
 			if (!StringUtils.isEmpty(isApprove)) {
 				group.setStatus("2");
 			}
+			// 更新小组表信息
 			group.setCaptainName(user.getNickname());
 			group.setCreateTime(MarkUtils.getCurrentTime());
 			group.setUpdateTime(group.getCreateTime());
 			groupMapper.insert(group);
+
 			GroupUser gu = new GroupUser();
 			gu.setGroupIdFk(group.getId());
 			gu.setUserIdFk(group.getUserIdFk());
