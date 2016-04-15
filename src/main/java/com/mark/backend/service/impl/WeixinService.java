@@ -152,32 +152,62 @@ public class WeixinService {
 		if (openId == null) {
 			return null;
 		}
+
+		final JSONObject userInfo = MarkUtils.getUserInfo(access_token, openId);
+
 		/**
 		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取用户部分信息数据 阻塞执行。若存在，更新用户的昵称和头像信息，异步执行
 		 */
 		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
-			JSONObject userInfo = MarkUtils.getUserInfo(access_token, openId);
 			User user = new User();
-			user.setCreateTime(MarkUtils.getCurrentTime());
-			user.setUpdateTime(user.getCreateTime());
-			user.setCity(userInfo.getString("city"));
-			user.setProvince(userInfo.getString("province"));
-			user.setNickname(userInfo.getString("nickname"));
-			user.setGender(userInfo.getInteger("sex"));
-			user.setHeadImgUrl(userInfo.getString("headimgurl"));
-			user.setOpenid(userInfo.getString("openid"));
-			int i = userMapper.insert(user);
-			if (i > 0) {
-				markInfoMap.get("userIdMap").put(openId, user.getId());
-				userMap.put(user.getId(), user);
+			// 若没有，看是不是老用户
+			UserExample ex = new UserExample();
+			ex.createCriteria()
+					.andNicknameEqualTo(userInfo.getString("nickname"))
+					.andCityEqualTo(userInfo.getString("city"))
+					.andProvinceEqualTo(userInfo.getString("province"))
+					.andGenderEqualTo(userInfo.getInteger("sex"))
+					.andOpenidNotEqualTo(userInfo.getString("openid"));
+			List<User> userList = userMapper.selectByExample(ex);
+			// 是老用户，更新其openId和其他信息
+			if (userList.size() > 0) {
+				user.setUpdateTime(user.getCreateTime());
+				user.setCity(userInfo.getString("city"));
+				user.setProvince(userInfo.getString("province"));
+				user.setNickname(userInfo.getString("nickname"));
+				user.setGender(userInfo.getInteger("sex"));
+				user.setHeadImgUrl(userInfo.getString("headimgurl"));
+				user.setOpenid(userInfo.getString("openid"));
+				int i = userMapper.updateByExampleSelective(user, ex);
+				// 查询更新后的老用户信息
+				if (i > 0) {
+					user = userMapper.selectByPrimaryKey(userList.get(0)
+							.getId());
+					markInfoMap.get("userIdMap").put(openId, user.getId());
+					userMap.put(user.getId(), user);
+				}
+				return user.getId();
+
+			} else {
+				user.setCreateTime(MarkUtils.getCurrentTime());
+				user.setUpdateTime(user.getCreateTime());
+				user.setCity(userInfo.getString("city"));
+				user.setProvince(userInfo.getString("province"));
+				user.setNickname(userInfo.getString("nickname"));
+				user.setGender(userInfo.getInteger("sex"));
+				user.setHeadImgUrl(userInfo.getString("headimgurl"));
+				user.setOpenid(userInfo.getString("openid"));
+				int i = userMapper.insert(user);
+				if (i > 0) {
+					markInfoMap.get("userIdMap").put(openId, user.getId());
+					userMap.put(user.getId(), user);
+				}
+				return user.getId();
 			}
-			return user.getId();
 		} else {
 			multiExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
-					JSONObject userInfo = MarkUtils.getUserInfo(access_token,
-							openId);
 					Long userId = (Long) markInfoMap.get("userIdMap").get(
 							openId);
 					User user = new User();
