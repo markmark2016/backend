@@ -145,4 +145,14 @@
 		WHERE
 		tg.book_id_fk = tb.id
 	</select>
+	<select id="getLastReadPage" parameterType="java.util.Map"
+		resultType="Integer">
+		SELECT
+		MAX(end_page) AS lastPage
+		FROM
+		t_remark
+		WHERE
+		group_id_fk = ${groupId}
+		AND user_id_fk = ${userId}
+	</select>
 </mapper>

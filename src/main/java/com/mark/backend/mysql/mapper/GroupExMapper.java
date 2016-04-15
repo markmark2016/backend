@@ -31,4 +31,6 @@ public interface GroupExMapper {
 	public Integer getTotalReader(Long groupId);
 
 	public List<GroupDto> getAllGroupList();
+	
+	public Integer getLastReadPage(Map<String,Object> params);
 }
