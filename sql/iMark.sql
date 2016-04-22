@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/3/31 16:41:24                           */
+/* Created on:     2016/4/22 12:30:12                           */
 /*==============================================================*/
 
 
@@ -152,9 +152,9 @@ create table t_group
    book_name            varchar(50),
    read_slogan          varchar(2014) comment '读书标语',
    group_desc           text comment '小组简介',
-   captain_name         varchar(200),
    captain_brief        varchar(144) comment '领读人简介',
    user_id_fk           bigint(20) comment '领读人对应在用户表中的主键',
+   captain_name         varchar(200),
    captain_email        varchar(250),
    captain_wecode       varchar(100),
    captain_phone        varchar(22),
@@ -230,8 +230,8 @@ create table t_remark
    user_id_fk           bigint(20) comment 't_user主键',
    start_page           integer comment '本次打卡/书评开始页码',
    end_page             integer comment '本次打卡/书评结束页码',
-   comment              Text comment '本次打卡/书评 具体内容',
    title                Text,
+   comment              Text comment '本次打卡/书评 具体内容',
    primary key (id)
 );
 
