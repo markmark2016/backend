@@ -42,13 +42,13 @@ create table t_association
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   name                 varchar(30) comment 'ÉçÈºÃû',
-   status               char(1) comment 'ÉçÈº×´Ì¬,0Í£ÓÃ£¬1ÆôÓÃ',
-   user_id_fk           bigint(20) comment 'ÉçÈºÓµÓĞÕß,t_userÖ÷¼ü',
+   name                 varchar(30) comment 'ç¤¾ç¾¤å',
+   status               char(1) comment 'ç¤¾ç¾¤çŠ¶æ€,0åœç”¨ï¼Œ1å¯ç”¨',
+   user_id_fk           bigint(20) comment 'ç¤¾ç¾¤æ‹¥æœ‰è€…,t_userä¸»é”®',
    association_desc     varchar(500),
    slogan               varchar(100),
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table t_association comment 't_association';
 
@@ -61,9 +61,9 @@ create table t_association_category
    create_time          date,
    association_id_fk    bigint(20),
    category_id_fk       bigint(20),
-   status               char(1) comment '1¿ÉÓÃ£¬0²»¿ÉÓÃ',
+   status               char(1) comment '1å¯ç”¨ï¼Œ0ä¸å¯ç”¨',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*==============================================================*/
 /* Table: t_association_group                                   */
@@ -71,15 +71,15 @@ create table t_association_category
 create table t_association_group
 (
    id                   bigint(20) not null auto_increment,
-   association_id_fk    bigint(20) comment 't_associationÖ÷¼ü',
-   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
+   association_id_fk    bigint(20) comment 't_associationä¸»é”®',
+   group_id_fk          bigint(20) comment 't_groupä¸»é”®',
    create_time          datetime,
    update_time          datetime,
-   status               char(1) comment 'ÉçÈºÓëĞ¡×éµÄ¹ØÏµ×´Ì¬£¬0²»ÔÚ×éÄÚÁË£¬1ÔÚ×éÄÚ',
+   status               char(1) comment 'ç¤¾ç¾¤ä¸å°ç»„çš„å…³ç³»çŠ¶æ€ï¼Œ0ä¸åœ¨ç»„å†…äº†ï¼Œ1åœ¨ç»„å†…',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_association_group comment 'ÉçÈºÓëĞ¡×é¹ØÏµ±í';
+alter table t_association_group comment 'ç¤¾ç¾¤ä¸å°ç»„å…³ç³»è¡¨';
 
 /*==============================================================*/
 /* Table: t_book                                                */
@@ -89,11 +89,11 @@ create table t_book
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   title                varchar(128) comment 'ÊéÃû',
-   author               varchar(256) comment '×÷Õß',
-   pic_id_fk            varchar(1024) comment 'ÊéµÄÍ¼Æ¬µØÖ·£¬¶ÔÓ¦t_pic±íµÄÖ÷¼ü',
+   title                varchar(128) comment 'ä¹¦å',
+   author               varchar(256) comment 'ä½œè€…',
+   pic_id_fk            varchar(1024) comment 'ä¹¦çš„å›¾ç‰‡åœ°å€ï¼Œå¯¹åº”t_picè¡¨çš„ä¸»é”®',
    image                varchar(1024),
-   status               char(1) comment 'ÊéµÄ×´Ì¬£¬0ÎªËø¶¨£¬1Îª¿ÉÓÃ',
+   status               char(1) comment 'ä¹¦çš„çŠ¶æ€ï¼Œ0ä¸ºé”å®šï¼Œ1ä¸ºå¯ç”¨',
    origin_title         varchar(128),
    alt_title            varchar(128),
    subtitle             varchar(128),
@@ -117,9 +117,9 @@ create table t_book
    ebook_url            varchar(1024),
    ebook_price          varchar(16),
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_book comment 'ºóÃæµÄÓ¢ÎÄÀ¸Î»£¬ÊÇ¿´µ½Ô­°æ±¾Éè¼ÆÖĞÓĞÕâĞ©£¬ËùÒÔ±£ÁôÁËÏÂÀ´£¬²»ÖªµÀÔ­°æ±¾ÊÇÊ²Ã´¿¼ÂÇ';
+alter table t_book comment 'åé¢çš„è‹±æ–‡æ ä½ï¼Œæ˜¯çœ‹åˆ°åŸç‰ˆæœ¬è®¾è®¡ä¸­æœ‰è¿™äº›ï¼Œæ‰€ä»¥ä¿ç•™äº†ä¸‹æ¥ï¼Œä¸çŸ¥é“åŸç‰ˆæœ¬æ˜¯ä»€ä¹ˆè€ƒè™‘';
 
 /*==============================================================*/
 /* Table: t_category                                            */
@@ -129,9 +129,9 @@ create table t_category
    id                   bigint(20) not null auto_increment,
    category_name        varchar(64),
    create_time          date,
-   status               char(1) comment '1¿ÉÓÃ£¬0É¾³ı',
+   status               char(1) comment '1å¯ç”¨ï¼Œ0åˆ é™¤',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*==============================================================*/
 /* Table: t_group                                               */
@@ -141,33 +141,33 @@ create table t_group
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   begin_time           datetime comment 'Ğ¡×é¿ªÊ¼Ê±¼ä',
-   end_time             datetime comment 'Ğ¡×é½áÊøÊ±¼ä',
+   begin_time           datetime comment 'å°ç»„å¼€å§‹æ—¶é—´',
+   end_time             datetime comment 'å°ç»„ç»“æŸæ—¶é—´',
    group_name           varchar(200),
-   guarantee            integer comment '±£Ö¤½ğ',
-   frequency            varchar(20) comment '´ò¿¨ÆµÂÊ',
-   latest_time          datetime comment '×îÍí¼ÓÈëÊ±¼ä',
-   book_id_fk           varchar(36) comment 'Ğ¡×éËù¶ÁÍ¼Êé£¬Êé¼®±íÍâ¼ü',
-   book_brief           varchar(200) comment 'Í¼Êé¼ò½é',
+   guarantee            integer comment 'ä¿è¯é‡‘',
+   frequency            varchar(20) comment 'æ‰“å¡é¢‘ç‡',
+   latest_time          datetime comment 'æœ€æ™šåŠ å…¥æ—¶é—´',
+   book_id_fk           varchar(36) comment 'å°ç»„æ‰€è¯»å›¾ä¹¦ï¼Œä¹¦ç±è¡¨å¤–é”®',
+   book_brief           varchar(200) comment 'å›¾ä¹¦ç®€ä»‹',
    book_name            varchar(50),
-   read_slogan          varchar(2014) comment '¶ÁÊé±êÓï',
-   group_desc           text comment 'Ğ¡×é¼ò½é',
-   captain_brief        varchar(144) comment 'Áì¶ÁÈË¼ò½é',
-   user_id_fk           bigint(20) comment 'Áì¶ÁÈË¶ÔÓ¦ÔÚÓÃ»§±íÖĞµÄÖ÷¼ü',
+   read_slogan          varchar(2014) comment 'è¯»ä¹¦æ ‡è¯­',
+   group_desc           text comment 'å°ç»„ç®€ä»‹',
+   captain_brief        varchar(144) comment 'é¢†è¯»äººç®€ä»‹',
+   user_id_fk           bigint(20) comment 'é¢†è¯»äººå¯¹åº”åœ¨ç”¨æˆ·è¡¨ä¸­çš„ä¸»é”®',
    captain_name         varchar(200),
    captain_email        varchar(250),
    captain_wecode       varchar(100),
    captain_phone        varchar(22),
-   group_mode           varchar(50) comment '1£¬¿ªÊ¼ºó¿ÉÒÔ¼ÓÈë£¬0¿ªÊ¼ºó²»¿ÉÒÔ¼ÓÈë',
-   status               char(1) comment 'Ğ¡×éµÄ×´Ì¬¡£0ÎªÎ´ÉóºË£¬1ÎªÒÑ½áÊø£¬2ÎªÎ´¿ªÊ¼,3Îª½øĞĞÖĞ,',
+   group_mode           varchar(50) comment '1ï¼Œå¼€å§‹åå¯ä»¥åŠ å…¥ï¼Œ0å¼€å§‹åä¸å¯ä»¥åŠ å…¥',
+   status               char(1) comment 'å°ç»„çš„çŠ¶æ€ã€‚0ä¸ºæœªå®¡æ ¸ï¼Œ1ä¸ºå·²ç»“æŸï¼Œ2ä¸ºæœªå¼€å§‹,3ä¸ºè¿›è¡Œä¸­,',
    wechat_qrcode        varchar(512),
    category_id_fk       bigint(20),
-   remark_visiable      char(1) comment '1¶¼¿É¼û¡£0¼ÓÈëºó¿É¼û',
-   list_visiable        char(1) comment '1ÁĞ±íÖĞ¿É¼û£¬0²»¿É¼û',
+   remark_visiable      char(1) comment '1éƒ½å¯è§ã€‚0åŠ å…¥åå¯è§',
+   list_visiable        char(1) comment '1åˆ—è¡¨ä¸­å¯è§ï¼Œ0ä¸å¯è§',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_group comment 'Ğ¡×éĞÅÏ¢±í£¬Ëù¶ÁÊé¼®ÎªÊé¼®±íÖ÷¼ü£¬Áì¶ÁÈËÎªÓÃ»§±íÖ÷¼ü£¬Ğ¡×é×´Ì¬·ÖÎªÎ´¿ªÊ¼£¬Ğ¡×éÄ£Ê½ÊÇÔ­À´Êı¾İ¿â½á¹¹ÖĞ´æÔÚµÄ ²»ÖªµÀÊ²Ã´ÓÃ';
+alter table t_group comment 'å°ç»„ä¿¡æ¯è¡¨ï¼Œæ‰€è¯»ä¹¦ç±ä¸ºä¹¦ç±è¡¨ä¸»é”®ï¼Œé¢†è¯»äººä¸ºç”¨æˆ·è¡¨ä¸»é”®ï¼Œå°ç»„çŠ¶æ€åˆ†ä¸ºæœªå¼€å§‹ï¼Œå°ç»„æ¨¡å¼æ˜¯åŸæ¥æ•°æ®åº“ç»“æ„ä¸­å­˜åœ¨çš„ ä¸çŸ¥é“ä»€ä¹ˆç”¨';
 
 /*==============================================================*/
 /* Table: t_group_user                                          */
@@ -175,16 +175,16 @@ alter table t_group comment 'Ğ¡×éĞÅÏ¢±í£¬Ëù¶ÁÊé¼®ÎªÊé¼®±íÖ÷¼ü£¬Áì¶ÁÈËÎªÓÃ»§±íÖ÷¼
 create table t_group_user
 (
    id                   bigint(20) not null auto_increment,
-   group_id_fk          bigint(20) comment 'Ğ¡×é±íÍâ¼ü',
-   user_id_fk           bigint(20) comment 'ÓÃ»§±íÍâ¼ü',
+   group_id_fk          bigint(20) comment 'å°ç»„è¡¨å¤–é”®',
+   user_id_fk           bigint(20) comment 'ç”¨æˆ·è¡¨å¤–é”®',
    create_time          datetime,
    update_time          datetime,
-   user_status          char(1) comment '³ÉÔ±ÔÚĞ¡×éÖĞµÄ×´Ì¬¡£0ÎªÍË³öĞ¡×é,1ÎªÔÚĞ¡×éÄÚ,2ÎªÒÑ¶ÁÍê',
-   user_class           char(1) comment '³ÉÔ±µÄÀà±ğ¡£1Îª·¢ÆğÈË£¬0Îª·Ç·¢ÆğÈË',
+   user_status          char(1) comment 'æˆå‘˜åœ¨å°ç»„ä¸­çš„çŠ¶æ€ã€‚0ä¸ºé€€å‡ºå°ç»„,1ä¸ºåœ¨å°ç»„å†…,2ä¸ºå·²è¯»å®Œ',
+   user_class           char(1) comment 'æˆå‘˜çš„ç±»åˆ«ã€‚1ä¸ºå‘èµ·äººï¼Œ0ä¸ºéå‘èµ·äºº',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_group_user comment '¸Ã±íÎªĞ¡×éºÍÓÃ»§µÄ¹ØÏµ±í£¬ÓÃ»§×´Ì¬0ÎªÍË³ö£¬1ÎªÔÚ×éÄÚ£¬2ÎªÒÑ¾­¶ÁÍê¡£Àà±ğÎª1µÄÎª·¢ÆğÈË£¬0ÎªĞ¡×é³ÉÔ±';
+alter table t_group_user comment 'è¯¥è¡¨ä¸ºå°ç»„å’Œç”¨æˆ·çš„å…³ç³»è¡¨ï¼Œç”¨æˆ·çŠ¶æ€0ä¸ºé€€å‡ºï¼Œ1ä¸ºåœ¨ç»„å†…ï¼Œ2ä¸ºå·²ç»è¯»å®Œã€‚ç±»åˆ«ä¸º1çš„ä¸ºå‘èµ·äººï¼Œ0ä¸ºå°ç»„æˆå‘˜';
 
 /*==============================================================*/
 /* Table: t_interact                                            */
@@ -194,12 +194,12 @@ create table t_interact
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   content              Text comment 'Èô¸ÃÏîÀàĞÍÎª ÔŞ ÔòÕâÀïÎª¿Õ',
-   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
+   content              Text comment 'è‹¥è¯¥é¡¹ç±»å‹ä¸º èµ åˆ™è¿™é‡Œä¸ºç©º',
+   user_id_fk           bigint(20) comment 't_userä¸»é”®',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_interact comment 'ÊéÆÀ¾ßÌåµÄ»¥¶¯ĞÅÏ¢£¬ÈôÎªÔŞ£¬ÔòÆÀÂÛÄÚÈİÎª¿Õ';
+alter table t_interact comment 'ä¹¦è¯„å…·ä½“çš„äº’åŠ¨ä¿¡æ¯ï¼Œè‹¥ä¸ºèµï¼Œåˆ™è¯„è®ºå†…å®¹ä¸ºç©º';
 
 /*==============================================================*/
 /* Table: t_picture                                             */
@@ -210,12 +210,12 @@ create table t_picture
    url                  varchar(1024),
    create_time          datetime,
    update_time          datetime,
-   id_fk                bigint(20) comment '¸ù¾İtype¾ßÌå¶ø¶¨',
-   type                 char(2) comment '1 Îª t_remakÖ÷¼ü£¬2 Îªt_bookÖ÷¼ü(Ğ¡×éµÄÍ¼Æ¬¾ÍÊÇÊéµÄÍ¼Æ¬)£¬3 Îªt_associationÖ÷¼ü',
+   id_fk                bigint(20) comment 'æ ¹æ®typeå…·ä½“è€Œå®š',
+   type                 char(2) comment '1 ä¸º t_remakä¸»é”®ï¼Œ2 ä¸ºt_bookä¸»é”®(å°ç»„çš„å›¾ç‰‡å°±æ˜¯ä¹¦çš„å›¾ç‰‡)ï¼Œ3 ä¸ºt_associationä¸»é”®',
    primary key (id)
 );
 
-alter table t_picture comment '¸Ã±íÄ¿Ç°´æ´¢ÈıÀàÍ¼Æ¬µÄµØÖ·£¬1ÊéÆÀÍ¼Æ¬£¬2Êé/Ğ¡×éÍ¼Æ¬£¬3ÉçÈºÍ¼Æ¬';
+alter table t_picture comment 'è¯¥è¡¨ç›®å‰å­˜å‚¨ä¸‰ç±»å›¾ç‰‡çš„åœ°å€ï¼Œ1ä¹¦è¯„å›¾ç‰‡ï¼Œ2ä¹¦/å°ç»„å›¾ç‰‡ï¼Œ3ç¤¾ç¾¤å›¾ç‰‡';
 
 /*==============================================================*/
 /* Table: t_remark                                              */
@@ -225,17 +225,17 @@ create table t_remark
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
-   book_id_fk           bigint(20) comment 't_bookÖ÷¼ü',
-   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
-   start_page           integer comment '±¾´Î´ò¿¨/ÊéÆÀ¿ªÊ¼Ò³Âë',
-   end_page             integer comment '±¾´Î´ò¿¨/ÊéÆÀ½áÊøÒ³Âë',
+   group_id_fk          bigint(20) comment 't_groupä¸»é”®',
+   book_id_fk           bigint(20) comment 't_bookä¸»é”®',
+   user_id_fk           bigint(20) comment 't_userä¸»é”®',
+   start_page           integer comment 'æœ¬æ¬¡æ‰“å¡/ä¹¦è¯„å¼€å§‹é¡µç ',
+   end_page             integer comment 'æœ¬æ¬¡æ‰“å¡/ä¹¦è¯„ç»“æŸé¡µç ',
    title                Text,
-   comment              Text comment '±¾´Î´ò¿¨/ÊéÆÀ ¾ßÌåÄÚÈİ',
+   comment              Text comment 'æœ¬æ¬¡æ‰“å¡/ä¹¦è¯„ å…·ä½“å†…å®¹',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_remark comment '2016-03-10 µ±Ç°µÄÊéÆÀ²éÑ¯°´ÕÕĞ¡×éÀ´²éÑ¯£¬ÒÔºó³öÏÖ¶à¸öĞ¡×é¶ÁÒ»±¾ÊéµÄÊ±ºòÔÙÏ¸»¯¡£¸Ã±íÍ¬Ê±×÷Îª´ò¿¨¼ÇÂ¼µÄ¹¦ÄÜ±í¡£';
+alter table t_remark comment '2016-03-10 å½“å‰çš„ä¹¦è¯„æŸ¥è¯¢æŒ‰ç…§å°ç»„æ¥æŸ¥è¯¢ï¼Œä»¥åå‡ºç°å¤šä¸ªå°ç»„è¯»ä¸€æœ¬ä¹¦çš„æ—¶å€™å†ç»†åŒ–ã€‚è¯¥è¡¨åŒæ—¶ä½œä¸ºæ‰“å¡è®°å½•çš„åŠŸèƒ½è¡¨ã€‚';
 
 /*==============================================================*/
 /* Table: t_remark_interact                                     */
@@ -243,16 +243,16 @@ alter table t_remark comment '2016-03-10 µ±Ç°µÄÊéÆÀ²éÑ¯°´ÕÕĞ¡×éÀ´²éÑ¯£¬ÒÔºó³öÏÖ¶
 create table t_remark_interact
 (
    id                   bigint(20) not null auto_increment,
-   remark_id_fk         bigint(20) comment 't_remarkÖ÷¼ü',
-   interact_id_fk       bigint(20) comment 't_interactÖ÷¼ü',
-   type                 char(1) comment '»¥¶¯ÀàĞÍ£¬1ÎªÆÀÂÛ£¬2ÎªÔŞ',
+   remark_id_fk         bigint(20) comment 't_remarkä¸»é”®',
+   interact_id_fk       bigint(20) comment 't_interactä¸»é”®',
+   type                 char(1) comment 'äº’åŠ¨ç±»å‹ï¼Œ1ä¸ºè¯„è®ºï¼Œ2ä¸ºèµ',
    create_time          datetime,
    update_time          datetime,
-   status               char(1) comment '¸Ä»¥¶¯¼ÇÂ¼×´Ì¬£¬0ÎªÎ´¶Á£¬1ÎªÒÑ¶Á',
+   status               char(1) comment 'æ”¹äº’åŠ¨è®°å½•çŠ¶æ€ï¼Œ0ä¸ºæœªè¯»ï¼Œ1ä¸ºå·²è¯»',
    primary key (id)
 );
 
-alter table t_remark_interact comment 'ÊéÆÀÓëÊéÆÀ»¥¶¯ ¹ØÏµ±í';
+alter table t_remark_interact comment 'ä¹¦è¯„ä¸ä¹¦è¯„äº’åŠ¨ å…³ç³»è¡¨';
 
 /*==============================================================*/
 /* Table: t_score                                               */
@@ -262,13 +262,13 @@ create table t_score
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   score                bigint(6) comment '»ı·Ö',
-   user_id_fk           bigint(20) comment 't_userÖ÷¼ü',
-   group_id_fk          bigint(20) comment 't_groupÖ÷¼ü',
+   score                bigint(6) comment 'ç§¯åˆ†',
+   user_id_fk           bigint(20) comment 't_userä¸»é”®',
+   group_id_fk          bigint(20) comment 't_groupä¸»é”®',
    primary key (id)
 );
 
-alter table t_score comment '¸üĞÂ»ı·ÖÊ±£¬¿ÉÒÔÃ¿´Î²åÈëÒ»ÌõĞÂ»ı·Ö£¬»òÕßÎ¨Ò»¸üĞÂÄ³Ò»Ğ¡×éµÄ»ı·ÖÊı¾İ';
+alter table t_score comment 'æ›´æ–°ç§¯åˆ†æ—¶ï¼Œå¯ä»¥æ¯æ¬¡æ’å…¥ä¸€æ¡æ–°ç§¯åˆ†ï¼Œæˆ–è€…å”¯ä¸€æ›´æ–°æŸä¸€å°ç»„çš„ç§¯åˆ†æ•°æ®';
 
 /*==============================================================*/
 /* Table: t_user                                                */
@@ -278,25 +278,25 @@ create table t_user
    id                   bigint(20) not null auto_increment,
    create_time          datetime,
    update_time          datetime,
-   user_id              bigint(20) comment '²»×ßÎ¢ĞÅÇşµÀÊ±ºò¿ÉÓÃ',
-   openid               varchar(50) comment 'Î¢ĞÅopenid',
-   nickname             varchar(2014) comment 'êÇ³Æ',
-   gender               int(1) comment '1´ú±íÄĞ2´ú±íÅ®',
-   interests            varchar(24) comment 'ĞËÈ¤ÁìÓò',
-   intro                varchar(144) comment 'ÃèÊö
+   user_id              bigint(20) comment 'ä¸èµ°å¾®ä¿¡æ¸ é“æ—¶å€™å¯ç”¨',
+   openid               varchar(50) comment 'å¾®ä¿¡openid',
+   nickname             varchar(2014) comment 'æ˜µç§°',
+   gender               int(1) comment '1ä»£è¡¨ç”·2ä»£è¡¨å¥³',
+   interests            varchar(24) comment 'å…´è¶£é¢†åŸŸ',
+   intro                varchar(144) comment 'æè¿°
             ',
-   city                 varchar(32) comment '³ÇÊĞ',
-   province             varchar(32) comment 'Ê¡·İ',
-   school               varchar(22) comment 'Ñ§Ğ£',
-   occupation           varchar(20) comment 'Ö°Òµ',
-   constellation        varchar(20) comment 'ĞÇ×ù',
-   affective_status     int(1) comment 'Çé¸Ğ×´Ì¬¡£0Îªµ¥Éí,1ÎªÁµ°®,2ÎªÒÑ»é',
-   head_img_url         varchar(1024) comment 'Í·ÏñµØÖ·£¬pic±íµÄÍâ¼ü',
+   city                 varchar(32) comment 'åŸå¸‚',
+   province             varchar(32) comment 'çœä»½',
+   school               varchar(22) comment 'å­¦æ ¡',
+   occupation           varchar(20) comment 'èŒä¸š',
+   constellation        varchar(20) comment 'æ˜Ÿåº§',
+   affective_status     int(1) comment 'æƒ…æ„ŸçŠ¶æ€ã€‚0ä¸ºå•èº«,1ä¸ºæ‹çˆ±,2ä¸ºå·²å©š',
+   head_img_url         varchar(1024) comment 'å¤´åƒåœ°å€ï¼Œpicè¡¨çš„å¤–é”®',
    unionid              varchar(32),
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_user comment '´æ´¢ÓÃ»§µÄ¸öÈËĞÅÏ¢';
+alter table t_user comment 'å­˜å‚¨ç”¨æˆ·çš„ä¸ªäººä¿¡æ¯';
 
 /*==============================================================*/
 /* Table: t_user_like                                           */
@@ -304,16 +304,16 @@ alter table t_user comment '´æ´¢ÓÃ»§µÄ¸öÈËĞÅÏ¢';
 create table t_user_like
 (
    id                   bigint(20) not null auto_increment,
-   user_id_fk           bigint(20) comment 'ÓÃ»§±íÖ÷¼ü',
-   book_id_fk           bigint(20) comment 'Êé¼®±íÖ÷¼ü',
+   user_id_fk           bigint(20) comment 'ç”¨æˆ·è¡¨ä¸»é”®',
+   book_id_fk           bigint(20) comment 'ä¹¦ç±è¡¨ä¸»é”®',
    create_time          datetime,
    update_time          datetime,
-   type                 char(1) comment 'ÓÃ»§¶ÔÊéÏ´ºÃÀàĞÍ£¬1Îª×îÏ²»¶µÄÊé£¬2Îª×îÏë¶ÁµÄÊé',
-   status               char(1) comment 'ÓÃ»§¶Á¸ÃÊéµÄ²Ù×÷£¬Èô¼ÓÈëÎª1£¬ÒÆ³ıÎª0.0ÎªÊ§Ğ§£¬1Îª¿ÉÓÃ',
+   type                 char(1) comment 'ç”¨æˆ·å¯¹ä¹¦æ´—å¥½ç±»å‹ï¼Œ1ä¸ºæœ€å–œæ¬¢çš„ä¹¦ï¼Œ2ä¸ºæœ€æƒ³è¯»çš„ä¹¦',
+   status               char(1) comment 'ç”¨æˆ·è¯»è¯¥ä¹¦çš„æ“ä½œï¼Œè‹¥åŠ å…¥ä¸º1ï¼Œç§»é™¤ä¸º0.0ä¸ºå¤±æ•ˆï¼Œ1ä¸ºå¯ç”¨',
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_user_like comment 'ÓÃÓÚ´æ´¢ÓÃ»§¸öÈËĞÅÏ¢ÖĞ£¬×îÏ²»¶µÄÈı±¾ÊéºÍ×îÏë¿´µÄÈı±¾Êé£¬×´Ì¬Îª0´ú±íÓÃ»§ÒÆ³ıÁËÕâ±¾Êé';
+alter table t_user_like comment 'ç”¨äºå­˜å‚¨ç”¨æˆ·ä¸ªäººä¿¡æ¯ä¸­ï¼Œæœ€å–œæ¬¢çš„ä¸‰æœ¬ä¹¦å’Œæœ€æƒ³çœ‹çš„ä¸‰æœ¬ä¹¦ï¼ŒçŠ¶æ€ä¸º0ä»£è¡¨ç”¨æˆ·ç§»é™¤äº†è¿™æœ¬ä¹¦';
 
 /*==============================================================*/
 /* Table: t_user_message                                        */
@@ -321,16 +321,16 @@ alter table t_user_like comment 'ÓÃÓÚ´æ´¢ÓÃ»§¸öÈËĞÅÏ¢ÖĞ£¬×îÏ²»¶µÄÈı±¾ÊéºÍ×îÏë¿´µ
 create table t_user_message
 (
    id                   bigint(20) not null auto_increment,
-   user_id_fk           bigint(20) comment 'ÍÆËÍµ½µÄÓÃ»§£¬t_userÖ÷¼ü',
-   content              varchar(2014) comment 'ÍÆËÍ¾ßÌåÄÚÈİ',
-   url                  varchar(2014) comment 'µØÖ·',
-   interact_id_fk       bigint(20) comment 'ÈôtypeÎª1»òÕß2£¬ÔòÓĞ¸ÃÍâ¼ü',
-   type                 char(1) comment '1 ÆÀÂÛĞÅÏ¢£¬2µãÔŞĞÅÏ¢ £¬3 ÏµÍ³ĞÅÏ¢',
-   is_check             char(1) comment 'ÊÇ·ñ±»²é¿´',
+   user_id_fk           bigint(20) comment 'æ¨é€åˆ°çš„ç”¨æˆ·ï¼Œt_userä¸»é”®',
+   content              varchar(2014) comment 'æ¨é€å…·ä½“å†…å®¹',
+   url                  varchar(2014) comment 'åœ°å€',
+   interact_id_fk       bigint(20) comment 'è‹¥typeä¸º1æˆ–è€…2ï¼Œåˆ™æœ‰è¯¥å¤–é”®',
+   type                 char(1) comment '1 è¯„è®ºä¿¡æ¯ï¼Œ2ç‚¹èµä¿¡æ¯ ï¼Œ3 ç³»ç»Ÿä¿¡æ¯',
+   is_check             char(1) comment 'æ˜¯å¦è¢«æŸ¥çœ‹',
    create_time          datetime,
    update_time          datetime,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table t_user_message comment '¹«ÖÚºÅ¶©ÔÄÓÃ»§ÍÆËÍ';
+alter table t_user_message comment 'å…¬ä¼—å·è®¢é˜…ç”¨æˆ·æ¨é€';
 
