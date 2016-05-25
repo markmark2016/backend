@@ -1,10 +1,10 @@
 package com.mark.backend.service.impl;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mark.backend.model.ErrorCodeModel;
+import com.mark.backend.model.UserInfoAccessToken;
 import com.mark.backend.mysql.mapper.UserMapper;
 import com.mark.backend.mysql.po.User;
 import com.mark.backend.mysql.po.UserExample;
@@ -32,204 +33,239 @@ import com.mark.backend.utils.MarkUtils;
 
 /**
  * 微信定时获得token
- * 
+ *
+ * @author YangTianxiao
  * @Title:WeixinService
  * @Description:TODO
- * @author YangTianxiao
  * @date 2016年3月17日
- * 
  */
 @Service
 public class WeixinService {
-	public static String access_token = null;
+    public static String access_token = null;
 
-	public static String ticket = null;
+    public static String ticket = null;
 
-	public static String auth_access_token = null;
+    public static String auth_access_token = null;
 
-	public static String refresh_auth_access_token = null;
+    public static String refresh_auth_access_token = null;
 
-	public static Map<String, Map<String, Object>> markInfoMap = new HashMap<String, Map<String, Object>>();
-	/**
-	 * Id---user 对象map
-	 */
-	public static Map<Long, User> userMap = new HashMap<Long, User>();
+    // public static Map<String, Map<String, Object>> markInfoMap = new HashMap<String, Map<String, Object>>();
 
-	@Resource
-	private UserMapper userMapper;
+    public static Map<String, User> openIdUserMap = new ConcurrentHashMap<>();
 
-	ScheduledExecutorService executor = Executors
-			.newSingleThreadScheduledExecutor();
-	ScheduledExecutorService executor2 = Executors
-			.newSingleThreadScheduledExecutor();
-	ExecutorService multiExecutor = Executors.newFixedThreadPool(5);
+    /**
+     * Id---user 对象map
+     */
+    public static Map<Long, User> userMap = new HashMap<Long, User>();
 
-	@PostConstruct
-	private void init() {
-		executor.execute(new Runnable() {
+    @Resource
+    private UserMapper userMapper;
 
-			@Override
-			public void run() {
-				markLoad();
-				System.out.println("定时获取Token开始");
-			}
-		});
-		executor.scheduleAtFixedRate(new getTokenSchedule(), 1, 7000,
-				TimeUnit.SECONDS);
-	}
+    ScheduledExecutorService executor = Executors
+            .newSingleThreadScheduledExecutor();
+    ExecutorService multiExecutor = Executors.newFixedThreadPool(5);
 
-	public void markLoad() {
-		Map<String, Object> userIdMap = getUserIdMap();
-		markInfoMap.put("userIdMap", userIdMap);
-	}
+    @PostConstruct
+    private void init() {
+        executor.execute(new Runnable() {
 
-	/**
-	 * 获得用户openid和id 对应map
-	 * 
-	 * @return
-	 */
-	private Map<String, Object> getUserIdMap() {
-		UserExample ex = new UserExample();
-		ex.createCriteria();
-		List<User> userList = userMapper.selectByExample(ex);
-		Map<String, Object> map = new HashMap<String, Object>();
-		for (User user : userList) {
-			userMap.put(user.getId(), user);
-			map.put(user.getOpenid(), user.getId());
-		}
-		return map;
-	}
+            @Override
+            public void run() {
+                markLoad();
+                System.out.println("定时获取Token开始");
+            }
+        });
+        executor.scheduleAtFixedRate(new getTokenSchedule(), 1, 7000,
+                TimeUnit.SECONDS);
+    }
 
-	class getTokenSchedule implements Runnable {
-		@Override
-		public void run() {
-			access_token = MarkUtils.getAccessToken().getAccess_token();
-			ticket = MarkUtils.getJSTicket(access_token);
-			while (access_token == null) {
-				access_token = MarkUtils.getAccessToken().getAccess_token();
-			}
-		}
-	}
+    public void markLoad() {
+        UserExample ex = new UserExample();
+        ex.createCriteria();
+        List<User> userList = userMapper.selectByExample(ex);
+        if (userList != null) {
+            for (User user : userList) {
+                userMap.put(user.getId(), user);
+                String openId = user.getOpenid();
+                if ("dirty openid data".equals(openId)) {
+                    continue;
+                } else {
+                    openIdUserMap.put(openId, user);
+                }
 
-	public String createMenu(String jsonStr) {
-		String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="
-				+ access_token;
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpPost post = new HttpPost(url);
-		post.setEntity(new StringEntity(jsonStr, "UTF-8"));
-		CloseableHttpResponse response = null;
-		try {
-			response = httpClient.execute(post);
-			HttpEntity entity = response.getEntity();
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (200 != statusCode) {
-				return "失败！";
-			}
-			if (entity != null) {
-				ErrorCodeModel ecm = new ErrorCodeModel();
-				// 响应内容
-				String content = EntityUtils.toString(entity);
-				JSONObject.parseObject(content, ErrorCodeModel.class);
-				if (ecm.getErrcode() != "0") {
-					return "失败！";
-				} else {
-					return "成功";
-				}
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "失败！";
-	}
+            }
+        }
+    }
 
-	public Object getUserInfo(String code, String state) {
-		/**
-		 * 根据获得的code去得到用户的openid
-		 */
-		final String openId = MarkUtils.getAuthJsonobject(code);
-		if (openId == null) {
-			return null;
-		}
+    /**
+     * 获得用户openid和id 对应map
+     *
+     * @return
+     */
+  /*  private Map<String, Object> getUserIdMap() {
+        UserExample ex = new UserExample();
+        ex.createCriteria();
+        List<User> userList = userMapper.selectByExample(ex);
+        for (User user : userList) {
+            userMap.put(user.getId(), user);
+            openIdUserMap.put(user.getOpenid(), user);
+        }
+    }*/
 
-		final JSONObject userInfo = MarkUtils.getUserInfo(access_token, openId);
+    class getTokenSchedule implements Runnable {
+        @Override
+        public void run() {
 
-		/**
-		 * 查看用户是否已存在mark数据库中，若无插入并从微信拉取用户部分信息数据 阻塞执行。若存在，更新用户的昵称和头像信息，异步执行
-		 */
-		if (!markInfoMap.get("userIdMap").containsKey(openId)) {
-			User user = new User();
-			// 若没有，看是不是老用户
-			UserExample ex = new UserExample();
-			ex.createCriteria()
-					.andNicknameEqualTo(userInfo.getString("nickname"))
-					.andCityEqualTo(userInfo.getString("city"))
-					.andProvinceEqualTo(userInfo.getString("province"))
-					.andGenderEqualTo(userInfo.getInteger("sex"))
-					.andOpenidNotEqualTo(userInfo.getString("openid"));
-			List<User> userList = userMapper.selectByExample(ex);
-			// 是老用户，更新其openId和其他信息
-			if (userList.size() > 0) {
-				user.setUpdateTime(user.getCreateTime());
-				user.setCity(userInfo.getString("city"));
-				user.setProvince(userInfo.getString("province"));
-				user.setNickname(userInfo.getString("nickname"));
-				user.setGender(userInfo.getInteger("sex"));
-				user.setHeadImgUrl(userInfo.getString("headimgurl"));
-				user.setOpenid(userInfo.getString("openid"));
-				int i = userMapper.updateByExampleSelective(user, ex);
-				// 查询更新后的老用户信息
-				if (i > 0) {
-					user = userMapper.selectByPrimaryKey(userList.get(0)
-							.getId());
-					markInfoMap.get("userIdMap").put(openId, user.getId());
-					userMap.put(user.getId(), user);
-				}
-				return user.getId();
+            access_token = MarkUtils.getAccessToken().getAccess_token();
+            ticket = MarkUtils.getJSTicket(access_token);
+            while (access_token == null) {
+                access_token = MarkUtils.getAccessToken().getAccess_token();
+            }
+            System.out.println("GOT_GLOBAL_ACCESS_TOKEN:" + access_token);
+        }
+    }
 
-			} else {
-				user.setCreateTime(MarkUtils.getCurrentTime());
-				user.setUpdateTime(user.getCreateTime());
-				user.setCity(userInfo.getString("city"));
-				user.setProvince(userInfo.getString("province"));
-				user.setNickname(userInfo.getString("nickname"));
-				user.setGender(userInfo.getInteger("sex"));
-				user.setHeadImgUrl(userInfo.getString("headimgurl"));
-				user.setOpenid(userInfo.getString("openid"));
-				int i = userMapper.insert(user);
-				if (i > 0) {
-					markInfoMap.get("userIdMap").put(openId, user.getId());
-					userMap.put(user.getId(), user);
-				}
-				return user.getId();
-			}
-		} else {
-			multiExecutor.execute(new Runnable() {
-				@Override
-				public void run() {
-					Long userId = (Long) markInfoMap.get("userIdMap").get(
-							openId);
-					User user = new User();
-					user.setId(userId);
-					user.setUpdateTime(new Date());
-					user.setCity(userInfo.getString("city"));
-					user.setProvince(userInfo.getString("province"));
-					user.setNickname(userInfo.getString("nickname"));
-					user.setGender(userInfo.getInteger("sex"));
-					user.setHeadImgUrl(userInfo.getString("headimgurl"));
-					// user.setOpenid(userInfo.getString("openid"));
-					UserExample ex = new UserExample();
-					ex.createCriteria().andIdEqualTo(userId);
-					Integer i = userMapper.updateByExampleSelective(user, ex);
-					if (i > 0) {
-						markInfoMap.get("userIdMap").put(openId, user.getId());
-						User u = userMapper.selectByPrimaryKey(userId);
-						userMap.put(user.getId(), u);
-					}
-				}
-			});
-			return (Long) markInfoMap.get("userIdMap").get(openId);
-		}
-	}
+    public String createMenu(String jsonStr) {
+        String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="
+                + access_token;
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+        post.setEntity(new StringEntity(jsonStr, "UTF-8"));
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(post);
+            HttpEntity entity = response.getEntity();
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (200 != statusCode) {
+                return "失败！";
+            }
+            if (entity != null) {
+                ErrorCodeModel ecm = new ErrorCodeModel();
+                // 响应内容
+                String content = EntityUtils.toString(entity);
+                JSONObject.parseObject(content, ErrorCodeModel.class);
+                if (ecm.getErrcode() != "0") {
+                    return "失败！";
+                } else {
+                    return "成功";
+                }
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "失败！";
+    }
+
+    public Object getUserInfo(String code, String state) {
+
+        System.out.println("Getting user info, code:" + code + "state:" + state);
+
+        /**
+         * 根据获得的code去得到用户的openid
+         */
+        UserInfoAccessToken userInfoAccessToken = MarkUtils.getAuthJsonobject(code);
+
+        System.out.println("Got auth json object done, UserInfoAccessToken:" + userInfoAccessToken);
+
+        if (userInfoAccessToken == null) {
+            return null;
+        }
+
+        String openId = userInfoAccessToken.getOpenid();
+        String scope = userInfoAccessToken.getScope();
+        String accessToken = userInfoAccessToken.getAccess_token();
+
+        JSONObject userInfo;
+
+        if (openId == null || accessToken == null) {
+            return null;
+        }
+
+        if (scope != null && "snsapi_base".equals(scope)) {
+            userInfo = MarkUtils.getUserInfo(access_token, openId);
+        } else {
+            userInfo = MarkUtils.getSNSUserInfo(accessToken, openId);
+        }
+
+        System.out.println("Got userInfo by access_token and openid done! userInfo:" + userInfo);
+
+        if (userInfo == null) {
+            return null;
+        }
+
+        /**
+         * 查看用户是否已存在mark数据库中
+         */
+        Integer errCode = userInfo.getInteger("errcode");
+        if (errCode != null && errCode == 40001) {
+            System.out.println("Got user info failure!");
+            if (openIdUserMap.containsKey(openId)) {
+                return openIdUserMap.get(openId).getId();
+            }
+            return null;
+        }
+
+        String nickName = userInfo.getString("nickname");
+        String city = userInfo.getString("city");
+        String province = userInfo.getString("province");
+        Integer sex = userInfo.getInteger("sex");
+        String headImgUrl = userInfo.getString("headimgurl");
+
+        if (!openIdUserMap.containsKey(openId)) {
+
+            User user = new User();
+            user.setCity(city);
+            user.setProvince(province);
+            user.setCreateTime(MarkUtils.getCurrentTime());
+            user.setUpdateTime(MarkUtils.getCurrentTime());
+            user.setGender(sex);
+            user.setHeadImgUrl(headImgUrl);
+            user.setNickname(nickName);
+            user.setOpenid(openId);
+
+            System.out.println("User not exists, now creating, user:" + user);
+
+            int i = userMapper.insert(user);
+            if (i > 0) {
+                userMap.put(user.getId(), user);
+                openIdUserMap.put(openId, user);
+                return user.getId();
+            }
+        } else {
+            Long userId = openIdUserMap.get(openId).getId();
+            User userInDb = userMapper.selectByPrimaryKey(userId);
+            if (userInDb == null) {
+                throw new IllegalStateException("User information in cache map didn't match db! userId:" + userId +
+                        ", openid:" + openId);
+            }
+            if (nickName != null) {
+                userInDb.setNickname(nickName);
+            }
+            if (headImgUrl != null) {
+                userInDb.setHeadImgUrl(headImgUrl);
+            }
+            if (sex != null) {
+                userInDb.setGender(sex);
+            }
+            if (userInDb != null) {
+                userInDb.setCity(city);
+            }
+            if (province != null) {
+                userInDb.setProvince(province);
+            }
+            userInDb.setUpdateTime(MarkUtils.getCurrentTime());
+
+            System.out.println("User already exists, now updating, user:" + userInDb);
+
+            int i = userMapper.updateByPrimaryKey(userInDb);
+            if (i > 0) {
+                userMap.put(userId, userInDb);
+                openIdUserMap.put(openId, userInDb);
+                return userId;
+            }
+        }
+        return null;
+    }
 }

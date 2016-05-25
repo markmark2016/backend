@@ -16,6 +16,9 @@
 			       <li>
 			      	<a href="${ctxPath}/admin/group">小组列表</a>
 			      </li>
+                    <li>
+                        <a href="${ctxPath}/admin/remark">书评管理</a>
+                    </li>
 			    </ul>
 			</div>
 		</header>
