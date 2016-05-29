@@ -33,10 +33,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -374,7 +379,6 @@ public class AdminController {
     @RequestMapping(value = "/remark/group", method = RequestMethod.GET)
     public String remarkOfGroup(Model model, @RequestParam Long groupId) {
         Group group = groupService.getGroupInfo(groupId);
-
         if (group != null) {
             model.addAttribute("group", group);
             String bookIdFk = group.getBookIdFk();
@@ -399,6 +403,143 @@ public class AdminController {
         model.addAttribute("userList", filteredList);
 
         return "admin/group_remark";
+    }
+
+    /**
+     * 导出一个小组的成长报告
+     */
+    @RequestMapping(value = "/remark/report_page", method = RequestMethod.GET)
+    public String remarkReportsPage(Model model, @RequestParam Long groupId) throws ParseException {
+        Group group = groupService.getGroupInfo(groupId);
+        if (group != null) {
+            model.addAttribute("group", group);
+            String bookIdFk = group.getBookIdFk();
+            if (!StringUtils.isEmpty(bookIdFk)) {
+                Book book = bookService.getBookById(Long.parseLong(bookIdFk));
+                model.addAttribute("book", book);
+            }
+        }
+        Map<String, Object> groupRemarks = remarkService.getGroupRemark(groupId);
+        if (groupRemarks != null) {
+            model.addAttribute("groupRemarks", groupRemarks);
+        }
+        List<User> userList = userSerivce.getUserList(null);
+        List<User> filteredList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(userList)) {
+            for (User u : userList) {
+                if (!StringUtils.isEmpty(u.getNickname())) {
+                    filteredList.add(u);
+                }
+            }
+        }
+        return "admin/remark_reports";
+    }
+
+
+    /**
+     * 导出一个小组的成长报告
+     */
+    @RequestMapping(value = "/remark/reports", method = RequestMethod.GET)
+    public String remarkReports(Model model, @RequestParam(required = false) String startTime,
+                                @RequestParam(required = false) String endTime,
+                                @RequestParam Long groupId) throws ParseException {
+        Group group = groupService.getGroupInfo(groupId);
+        if (group != null) {
+            model.addAttribute("group", group);
+            String bookIdFk = group.getBookIdFk();
+            if (!StringUtils.isEmpty(bookIdFk)) {
+                Book book = bookService.getBookById(Long.parseLong(bookIdFk));
+                model.addAttribute("book", book);
+            }
+        }
+        Map<String, Object> groupRemarks = remarkService.getGroupRemark(groupId);
+        if (groupRemarks != null) {
+            model.addAttribute("groupRemarks", groupRemarks);
+        }
+        List<User> userList = userSerivce.getUserList(null);
+        List<User> filteredList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(userList)) {
+            for (User u : userList) {
+                if (!StringUtils.isEmpty(u.getNickname())) {
+                    filteredList.add(u);
+                }
+            }
+        }
+        List<RemarkDto> timeOrderList = null;
+        List<RemarkDto> hotOrderList = null;
+        if (groupRemarks != null) {
+            timeOrderList = (ArrayList<RemarkDto>) groupRemarks.get("timeorderlist");
+            hotOrderList = (ArrayList<RemarkDto>) groupRemarks.get("hotlist");
+        }
+        // 小组总人数
+        int totalUsers = userList == null ? 0 : userList.size();
+        model.addAttribute("totalUsers", totalUsers);
+
+        Date start = null;
+        Date end = null;
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+        if (startTime == null) {
+            start = getTodayStartTime();
+        } else {
+            start = sdf.parse(startTime);
+        }
+        if (endTime == null) {
+            end = new Date();
+        } else {
+            end = sdf.parse(endTime);
+        }
+        if (end.compareTo(start) <= 0) {
+            return null;
+        }
+
+        if (!CollectionUtils.isEmpty(timeOrderList)) {
+            Set<Long> userIdSet = new HashSet<>();
+            Map<String, Integer> remarkedTimes = new HashMap<>();
+            int totalCharacters = 0;
+            int totalRemarks = 0;
+            for (RemarkDto remarkDto : timeOrderList) {
+                Date remarkCreateTime = remarkDto.getCreateTime();
+                if (start.compareTo(remarkCreateTime) <= 0 && end.compareTo(remarkCreateTime) >= 0) {
+                    totalRemarks += 1;
+                    userIdSet.add(remarkDto.getUserId());
+                    totalCharacters += remarkDto.getComment().length();
+                    if (remarkedTimes.get(remarkDto.getUserName()) == null) {
+                        remarkedTimes.put(remarkDto.getUserName(), 1);
+                    } else {
+                        remarkedTimes.put(remarkDto.getUserName(), remarkedTimes.get(remarkDto.getUserName()) + 1);
+                    }
+                }
+            }
+            Map<String, Integer> sortedMap = sortMap(remarkedTimes);
+            model.addAttribute("totalRemarks", totalRemarks);
+            model.addAttribute("totalUsersRemarked", userIdSet.size());
+            model.addAttribute("totalCharacters", totalCharacters);
+            model.addAttribute("punchMap", sortedMap);
+        }
+
+       /* if (!CollectionUtils.isEmpty(hotOrderList)) {
+            model.addAttribute("hotOrderTopThree", hotOrderList.subList(0, 3));
+        }*/
+
+        return "admin/remark_reports";
+
+    }
+
+    private static Map sortMap(Map oldMap) {
+        ArrayList<Map.Entry<String, Integer>> list = new ArrayList<>(oldMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> arg0,
+                               Map.Entry<String, Integer> arg1) {
+                return arg0.getValue() - arg1.getValue();
+            }
+        });
+        Map newMap = new LinkedHashMap();
+        for (int i = 0; i < list.size(); i++) {
+            newMap.put(list.get(i).getKey(), list.get(i).getValue());
+        }
+        return newMap;
     }
 
     /**

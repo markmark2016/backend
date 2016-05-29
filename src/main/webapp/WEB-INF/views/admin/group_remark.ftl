@@ -85,7 +85,10 @@
                     <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#remarkModal">导出书评
                     </button>
+                    <a type="button" class="btn btn-success" href="/mark-backend/admin/remark/report_page?groupId=${group.id}">成长报告
+                    </a>
                 </p>
+
             </div>
         </div>
     </div>
@@ -234,6 +237,7 @@
 
         </div>
     </div>
+
 
     <script>
         $(function () {
