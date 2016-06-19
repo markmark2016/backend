@@ -73,6 +73,9 @@ public interface IRemarkService {
      */
 	int getContinuePunchInfoBetween(Map<String, Object> params);
 
+
+	List<java.util.Date> getNotPunchDates(Map<String, Object> params);
+
 	/**
 	 * 获得用户的书评列表
 	 * 

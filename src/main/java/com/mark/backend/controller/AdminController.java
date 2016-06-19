@@ -530,19 +530,23 @@ public class AdminController {
 
         // 获取用户连续打卡信息
         Map<String, Object> params = new HashMap<>();
-        params.put("startDate", start.getTime());
-        params.put("endDate", end.getTime());
+        params.put("startTime", start.getTime());
+        params.put("endTime", end.getTime());
         params.put("groupId", groupId);
         Map<String, Integer> continuePunchTimesMap = new HashMap<>();
+        Map<String, List<Date>> notPunchDates = new HashMap<>();
         for (User u : userList) {
             if (u.getId() != null) {
                 params.put("userId", u.getId());
                 int continuePunchTimes = remarkService.getContinuePunchInfoBetween(params);
+                List<Date> notPunchDatesList = remarkService.getNotPunchDates(params);
+                notPunchDates.put(u.getNickname(), notPunchDatesList);
                 continuePunchTimesMap.put(u.getNickname(), continuePunchTimes);
             }
         }
-        Map<User, Integer> sortedContinuePunchMap = sortMap(continuePunchTimesMap);
-        model.addAttribute("continuePunchMap", sortedContinuePunchMap);
+
+        model.addAttribute("continuePunchMap", sortMap(continuePunchTimesMap));
+        model.addAttribute("notPunchDatesMap", sortMapList(notPunchDates));
 
         return "admin/remark_reports";
 
@@ -555,6 +559,30 @@ public class AdminController {
             public int compare(Map.Entry<String, Integer> arg0,
                                Map.Entry<String, Integer> arg1) {
                 return arg0.getValue() - arg1.getValue();
+            }
+        });
+        Map newMap = new LinkedHashMap();
+        for (int i = 0; i < list.size(); i++) {
+            newMap.put(list.get(i).getKey(), list.get(i).getValue());
+        }
+        return newMap;
+    }
+
+    private static Map sortMapList(Map<String, List<Date>> oldMap) {
+        ArrayList<Map.Entry<String, List<Date>>> list = new ArrayList<>(oldMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, List<Date>>>() {
+
+            @Override
+            public int compare(Map.Entry<String, List<Date>> o1, Map.Entry<String, List<Date>> o2) {
+                int o1Size = o1.getValue().size();
+                int o2Size = o2.getValue().size();
+                if (o1Size > o2Size) {
+                    return 1;
+                } else if (o1Size == o2Size) {
+                    return 0;
+                } else {
+                    return -1;
+                }
             }
         });
         Map newMap = new LinkedHashMap();

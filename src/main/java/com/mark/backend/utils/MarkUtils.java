@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +51,30 @@ public class MarkUtils {
     public static Date getCurrentTime() {
         return new Date();
 
+    }
+
+
+    /**
+     * 获取当前时间
+     */
+    public static List<Date> getDatesBwtween(Date start, Date end) {
+        List<Date> dates = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        dates.add(start);
+        while (cal.getTime().before(end)) {
+            cal.add(Calendar.DATE, 1);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            dates.add(cal.getTime());
+        }
+        return dates;
     }
 
     /**
@@ -434,10 +460,26 @@ public class MarkUtils {
     }
 
     public static void main(String[] args) {
-        getAccessToken();
+        //getAccessToken();
         // System.out.println(getZeroTime().getTime());
         // getMonthStartAndEnd();
         // getDoubanBookList("嫌疑人", 5);
+
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+        try {
+            Date s = dateFormat.parse("2016-03-01 00:00:00");
+            Date e = dateFormat.parse("2016-04-01 00:00:00");
+
+            List<Date> dates = getDatesBwtween(s, e);
+            for (Date d : dates) {
+                System.out.println(d.toString());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.sql.Date;
@@ -407,13 +408,58 @@ public class RemarkServiceImpl implements IRemarkService {
         return punchMap;
     }
 
+    public List<java.util.Date> getNotPunchDates(Map<String, Object> params) {
+
+        List<Remark> remarkListNotFiltered = rexMapper.getContinuePunch(params);
+        List<Remark> remarkList = new ArrayList<>();
+
+        Date endDate = new Date((Long) params.get("endTime"));
+        Date startDate = new Date((Long) params.get("startTime"));
+
+        for (Remark remark : remarkListNotFiltered) {
+            if (remark.getCreateTime().compareTo(startDate) >= 0 && remark.getCreateTime().compareTo(endDate) <= 0) {
+                remarkList.add(remark);
+            }
+        }
+
+        List<java.util.Date> notPunchDateList = new ArrayList<>();
+        List<java.util.Date> dates = MarkUtils.getDatesBwtween(startDate, endDate);
+
+        if (CollectionUtils.isEmpty(remarkList)) {
+            notPunchDateList.addAll(dates);
+            return notPunchDateList;
+        }
+
+        for (java.util.Date d : dates) {
+            boolean find = false;
+            for (int i = 0; i < remarkList.size(); i++) {
+                Remark r = remarkList.get(i);
+                if (d.equals(r.getCreateTime())) {
+                    find = true;
+                }
+            }
+            if (!find) {
+                notPunchDateList.add(d);
+            }
+        }
+        return notPunchDateList;
+    }
+
 
     @Override
     public int getContinuePunchInfoBetween(Map<String, Object> params) {
 
-        List<Remark> remarkList = rexMapper.getContinuePunch(params);
+        List<Remark> remarkListNotFiltered = rexMapper.getContinuePunch(params);
+        List<Remark> remarkList = new ArrayList<>();
 
-        Date endDate = new Date((Long) params.get("endDate"));
+        Date endDate = new Date((Long) params.get("endTime"));
+        Date startDate = new Date((Long) params.get("startTime"));
+
+        for (Remark remark : remarkListNotFiltered) {
+            if (remark.getCreateTime().compareTo(startDate) >= 0 && remark.getCreateTime().compareTo(endDate) <= 0) {
+                remarkList.add(remark);
+            }
+        }
 
         // 获得开始日期零点
         Long endDateBaseLine = MarkUtils.getSomeDayZeroTime(endDate).getTime();
