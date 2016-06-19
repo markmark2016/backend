@@ -1,5 +1,24 @@
 package com.mark.backend.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.mark.backend.model.AccessToken;
+import com.mark.backend.model.CheckModel;
+import com.mark.backend.model.JSReply;
+import com.mark.backend.model.UserInfoAccessToken;
+import com.mark.backend.mysql.po.Book;
+import com.mark.backend.service.impl.WeixinService;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -14,25 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.mark.backend.model.AccessToken;
-import com.mark.backend.model.CheckModel;
-import com.mark.backend.model.JSReply;
-import com.mark.backend.model.UserInfoAccessToken;
-import com.mark.backend.mysql.po.Book;
-import com.mark.backend.service.impl.WeixinService;
-
 public class MarkUtils {
     private final static Logger LOGGER = LoggerFactory
             .getLogger(MarkUtils.class);
@@ -45,8 +45,6 @@ public class MarkUtils {
 
     /**
      * 获取当前时间
-     *
-     * @return
      */
     public static Date getCurrentTime() {
         return new Date();
@@ -55,12 +53,23 @@ public class MarkUtils {
 
     /**
      * 获得当日0时0分0秒时间
-     *
-     * @return
      */
     public static Date getZeroTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(getCurrentTime());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获得指定日期0时0分0秒时间
+     */
+    public static Date getSomeDayZeroTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -82,8 +91,6 @@ public class MarkUtils {
 
     /**
      * 返回日期map
-     *
-     * @return
      */
     public static Map<String, String> getMonthStartAndEnd() {
         Map<String, String> dateMap = new HashMap<String, String>();
@@ -113,11 +120,6 @@ public class MarkUtils {
 
     /**
      * 验证wx信息
-     *
-     * @param wxToken
-     * @param tokenModel
-     *
-     * @return
      */
     public static String validateWechatInfo(CheckModel tokenModel) {
         String wxToken = wxTokenStr;
@@ -154,11 +156,6 @@ public class MarkUtils {
 
     /**
      * 根据指定算法编码
-     *
-     * @param algorithm
-     * @param str
-     *
-     * @return
      */
     public static String encode(String algorithm, String str) {
         if (str == null) {
@@ -343,11 +340,6 @@ public class MarkUtils {
 
     /**
      * 格式化日期
-     *
-     * @param formate
-     * @param date
-     *
-     * @return
      */
     public static String formatDate(String formate, Date date) {
         SimpleDateFormat format = new SimpleDateFormat(formate);

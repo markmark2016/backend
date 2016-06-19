@@ -67,6 +67,13 @@ public interface IRemarkService {
 	public Map<String, Object> getContinuePunchInfo(Map<String, Object> params);
 
 	/**
+	 * 获取某个用户指定时间段内的连续打卡次数
+	 * @param params
+	 * @return
+     */
+	int getContinuePunchInfoBetween(Map<String, Object> params);
+
+	/**
 	 * 获得用户的书评列表
 	 * 
 	 * @param params

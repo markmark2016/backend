@@ -406,7 +406,7 @@ public class AdminController {
     }
 
     /**
-     * 导出一个小组的成长报告
+     * 小组成长报告
      */
     @RequestMapping(value = "/remark/report_page", method = RequestMethod.GET)
     public String remarkReportsPage(Model model, @RequestParam Long groupId) throws ParseException {
@@ -443,6 +443,7 @@ public class AdminController {
     public String remarkReports(Model model, @RequestParam(required = false) String startTime,
                                 @RequestParam(required = false) String endTime,
                                 @RequestParam Long groupId) throws ParseException {
+        // Group book
         Group group = groupService.getGroupInfo(groupId);
         if (group != null) {
             model.addAttribute("group", group);
@@ -452,6 +453,9 @@ public class AdminController {
                 model.addAttribute("book", book);
             }
         }
+
+
+        // Group Remarks
         Map<String, Object> groupRemarks = remarkService.getGroupRemark(groupId);
         if (groupRemarks != null) {
             model.addAttribute("groupRemarks", groupRemarks);
@@ -471,6 +475,8 @@ public class AdminController {
             timeOrderList = (ArrayList<RemarkDto>) groupRemarks.get("timeorderlist");
             hotOrderList = (ArrayList<RemarkDto>) groupRemarks.get("hotlist");
         }
+
+
         // 小组总人数
         int totalUsers = userList == null ? 0 : userList.size();
         model.addAttribute("totalUsers", totalUsers);
@@ -495,7 +501,7 @@ public class AdminController {
 
         if (!CollectionUtils.isEmpty(timeOrderList)) {
             Set<Long> userIdSet = new HashSet<>();
-            Map<String, Integer> remarkedTimes = new HashMap<>();
+            //Map<String, Integer> remarkedTimes = new HashMap<>();
             int totalCharacters = 0;
             int totalRemarks = 0;
             for (RemarkDto remarkDto : timeOrderList) {
@@ -504,23 +510,39 @@ public class AdminController {
                     totalRemarks += 1;
                     userIdSet.add(remarkDto.getUserId());
                     totalCharacters += remarkDto.getComment().length();
-                    if (remarkedTimes.get(remarkDto.getUserName()) == null) {
+                   /* if (remarkedTimes.get(remarkDto.getUserName()) == null) {
                         remarkedTimes.put(remarkDto.getUserName(), 1);
                     } else {
                         remarkedTimes.put(remarkDto.getUserName(), remarkedTimes.get(remarkDto.getUserName()) + 1);
-                    }
+                    }*/
                 }
             }
-            Map<String, Integer> sortedMap = sortMap(remarkedTimes);
+            // Map<String, Integer> sortedMap = sortMap(remarkedTimes);
             model.addAttribute("totalRemarks", totalRemarks);
             model.addAttribute("totalUsersRemarked", userIdSet.size());
             model.addAttribute("totalCharacters", totalCharacters);
-            model.addAttribute("punchMap", sortedMap);
+            // model.addAttribute("punchMap", sortedMap);
         }
 
-       /* if (!CollectionUtils.isEmpty(hotOrderList)) {
+        if (!CollectionUtils.isEmpty(hotOrderList)) {
             model.addAttribute("hotOrderTopThree", hotOrderList.subList(0, 3));
-        }*/
+        }
+
+        // 获取用户连续打卡信息
+        Map<String, Object> params = new HashMap<>();
+        params.put("startDate", start.getTime());
+        params.put("endDate", end.getTime());
+        params.put("groupId", groupId);
+        Map<String, Integer> continuePunchTimesMap = new HashMap<>();
+        for (User u : userList) {
+            if (u.getId() != null) {
+                params.put("userId", u.getId());
+                int continuePunchTimes = remarkService.getContinuePunchInfoBetween(params);
+                continuePunchTimesMap.put(u.getNickname(), continuePunchTimes);
+            }
+        }
+        Map<User, Integer> sortedContinuePunchMap = sortMap(continuePunchTimesMap);
+        model.addAttribute("continuePunchMap", sortedContinuePunchMap);
 
         return "admin/remark_reports";
 

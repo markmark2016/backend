@@ -1,21 +1,5 @@
 package com.mark.backend.service.impl;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
 import com.mark.backend.dto.GroupDto;
 import com.mark.backend.dto.InteractDto;
 import com.mark.backend.dto.RemarkDto;
@@ -38,6 +22,22 @@ import com.mark.backend.service.IRemarkService;
 import com.mark.backend.service.IScoreService;
 import com.mark.backend.utils.Constans;
 import com.mark.backend.utils.MarkUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.annotation.Resource;
 
 @Service
 public class RemarkServiceImpl implements IRemarkService {
@@ -196,7 +196,7 @@ public class RemarkServiceImpl implements IRemarkService {
     public Map<String, Object> getGroupRemark(Long groupId) {
         // 查询map，查点赞数和评论数用
 
-        System.out.println("Getting GroupRemark....., groupId:"+groupId);
+        System.out.println("Getting GroupRemark....., groupId:" + groupId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("groupId", groupId);
         // 只有热门的list中做了当前用户是否对这条书评点过赞的查询，而且若要进行查询，需在map中加入当前登录的用户id，而现在没有加
@@ -223,7 +223,7 @@ public class RemarkServiceImpl implements IRemarkService {
                 continue;
             }
             User user = WeixinService.userMap.get(hotDto.getUserId());
-            if(user == null){
+            if (user == null) {
                 continue;
             }
             hotDto.setUserName(user.getNickname());
@@ -248,7 +248,7 @@ public class RemarkServiceImpl implements IRemarkService {
                 continue;
             }
             User user = WeixinService.userMap.get(timeOrderDto.getUserId());
-            if(user == null){
+            if (user == null) {
                 continue;
             }
             timeOrderDto.setUserName(user.getNickname());
@@ -406,6 +406,47 @@ public class RemarkServiceImpl implements IRemarkService {
         punchMap.put("totalPunch", continuePunch);
         return punchMap;
     }
+
+
+    @Override
+    public int getContinuePunchInfoBetween(Map<String, Object> params) {
+
+        List<Remark> remarkList = rexMapper.getContinuePunch(params);
+
+        Date endDate = new Date((Long) params.get("endDate"));
+
+        // 获得开始日期零点
+        Long endDateBaseLine = MarkUtils.getSomeDayZeroTime(endDate).getTime();
+
+        // 连续打卡天数
+        int continuePunch = 0;
+        if (remarkList.size() > 0) {
+            if (remarkList.get(0).getCreateTime().getTime() == endDateBaseLine) {
+                continuePunch += 1;
+                for (int j = 1; j < remarkList.size(); j++) {
+                    Long temp = (endDateBaseLine - remarkList.get(j).getCreateTime().getTime())
+                            - j * Constans.DAY;
+                    if (temp == 0) {
+                        continuePunch += 1;
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                for (int j = 0; j < remarkList.size(); j++) {
+                    Long temp = (endDateBaseLine - remarkList.get(j).getCreateTime().getTime())
+                            - (j + 1) * Constans.DAY;
+                    if (temp == 0) {
+                        continuePunch += 1;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return continuePunch;
+    }
+
 
     @Override
     public Map<String, Object> getUserRemarkList(Map<String, Object> params) {
