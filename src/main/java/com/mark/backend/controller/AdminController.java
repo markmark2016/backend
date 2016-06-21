@@ -38,6 +38,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -469,12 +470,6 @@ public class AdminController {
                 }
             }
         }
-        List<RemarkDto> timeOrderList = null;
-        List<RemarkDto> hotOrderList = null;
-        if (groupRemarks != null) {
-            timeOrderList = (ArrayList<RemarkDto>) groupRemarks.get("timeorderlist");
-            hotOrderList = (ArrayList<RemarkDto>) groupRemarks.get("hotlist");
-        }
 
 
         // 小组总人数
@@ -498,10 +493,29 @@ public class AdminController {
         if (end.compareTo(start) <= 0) {
             return null;
         }
+        model.addAttribute("duaritionDates", MarkUtils.getDatesBwtweenInString(start, end));
+
+        List<RemarkDto> timeOrderList = null;
+        List<RemarkDto> hotOrderList = new ArrayList<>();
+        if (groupRemarks != null) {
+            timeOrderList = (ArrayList<RemarkDto>) groupRemarks.get("timeorderlist");
+
+            List<RemarkDto> hotlistNotFiltered = (ArrayList<RemarkDto>) groupRemarks.get("hotlist");
+            if (hotlistNotFiltered != null) {
+                for (RemarkDto remarkDto : hotlistNotFiltered) {
+                    if (start.compareTo(remarkDto.getCreateTime()) <= 0 && end.compareTo(remarkDto.getCreateTime()) >= 0) {
+                        hotOrderList.add(remarkDto);
+                    }
+                }
+            }
+        }
+
+        Map<String, Integer> remarkedTimes = new HashMap<>();
+        Map<String, Integer> userPunchDateMap = new HashMap<>();
 
         if (!CollectionUtils.isEmpty(timeOrderList)) {
             Set<Long> userIdSet = new HashSet<>();
-            //Map<String, Integer> remarkedTimes = new HashMap<>();
+
             int totalCharacters = 0;
             int totalRemarks = 0;
             for (RemarkDto remarkDto : timeOrderList) {
@@ -510,14 +524,18 @@ public class AdminController {
                     totalRemarks += 1;
                     userIdSet.add(remarkDto.getUserId());
                     totalCharacters += remarkDto.getComment().length();
-                   /* if (remarkedTimes.get(remarkDto.getUserName()) == null) {
-                        remarkedTimes.put(remarkDto.getUserName(), 1);
+                    if (StringUtils.isEmpty(remarkDto.getUserName())) {
+                        continue;
                     } else {
-                        remarkedTimes.put(remarkDto.getUserName(), remarkedTimes.get(remarkDto.getUserName()) + 1);
-                    }*/
+                        if (remarkedTimes.get(remarkDto.getUserName()) == null) {
+                            remarkedTimes.put(remarkDto.getUserName(), 1);
+                        } else {
+                            remarkedTimes.put(remarkDto.getUserName(), remarkedTimes.get(remarkDto.getUserName()) + 1);
+                        }
+                    }
                 }
             }
-            // Map<String, Integer> sortedMap = sortMap(remarkedTimes);
+            model.addAttribute("userPunchTimesMap", sortMap(remarkedTimes, true));
             model.addAttribute("totalRemarks", totalRemarks);
             model.addAttribute("totalUsersRemarked", userIdSet.size());
             model.addAttribute("totalCharacters", totalCharacters);
@@ -540,25 +558,61 @@ public class AdminController {
                 params.put("userId", u.getId());
                 int continuePunchTimes = remarkService.getContinuePunchInfoBetween(params);
                 List<Date> notPunchDatesList = remarkService.getNotPunchDates(params);
+                if (StringUtils.isEmpty(u.getNickname())) {
+                    continue;
+                }
                 notPunchDates.put(u.getNickname(), notPunchDatesList);
                 continuePunchTimesMap.put(u.getNickname(), continuePunchTimes);
             }
         }
 
-        model.addAttribute("continuePunchMap", sortMap(continuePunchTimesMap));
-        model.addAttribute("notPunchDatesMap", sortMapList(notPunchDates));
+
+        Map<String, Integer> sortedContinuePunchTimesMap = sortMap(continuePunchTimesMap, true);
+        Map<String, List<String>> sortedNotPunchDates = sortMapList(notPunchDates, true);
+
+        if (sortedContinuePunchTimesMap != null) {
+            int i = 0;
+            Iterator<String> iterator = sortedContinuePunchTimesMap.keySet().iterator();
+            while (iterator.hasNext()) {
+                i++;
+                iterator.next();
+                if (i > 5) {
+                    iterator.remove();
+                }
+            }
+        }
+        if (sortedNotPunchDates != null) {
+            int i = 0;
+            Iterator<String> iterator = sortedNotPunchDates.keySet().iterator();
+            while (iterator.hasNext()) {
+                i++;
+                iterator.next();
+                if (i > 5) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        model.addAttribute("continuePunchMap", sortedContinuePunchTimesMap);
+        model.addAttribute("notPunchDatesMap", sortedNotPunchDates);
+
 
         return "admin/remark_reports";
 
     }
 
-    private static Map sortMap(Map oldMap) {
+    private static Map sortMap(Map oldMap, final boolean desc) {
         ArrayList<Map.Entry<String, Integer>> list = new ArrayList<>(oldMap.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> arg0,
                                Map.Entry<String, Integer> arg1) {
-                return arg0.getValue() - arg1.getValue();
+                if (desc) {
+                    return arg1.getValue() - arg0.getValue();
+
+                } else {
+                    return arg0.getValue() - arg1.getValue();
+                }
             }
         });
         Map newMap = new LinkedHashMap();
@@ -568,7 +622,7 @@ public class AdminController {
         return newMap;
     }
 
-    private static Map sortMapList(Map<String, List<Date>> oldMap) {
+    private static Map<String, List<String>> sortMapList(Map<String, List<Date>> oldMap, final boolean desc) {
         ArrayList<Map.Entry<String, List<Date>>> list = new ArrayList<>(oldMap.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, List<Date>>>() {
 
@@ -576,18 +630,36 @@ public class AdminController {
             public int compare(Map.Entry<String, List<Date>> o1, Map.Entry<String, List<Date>> o2) {
                 int o1Size = o1.getValue().size();
                 int o2Size = o2.getValue().size();
-                if (o1Size > o2Size) {
-                    return 1;
-                } else if (o1Size == o2Size) {
-                    return 0;
+                if (desc) {
+                    if (o1Size < o2Size) {
+                        return 1;
+                    } else if (o1Size == o2Size) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
                 } else {
-                    return -1;
+                    if (o1Size > o2Size) {
+                        return 1;
+                    } else if (o1Size == o2Size) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
                 }
+
             }
         });
-        Map newMap = new LinkedHashMap();
+        Map<String, List<String>> newMap = new LinkedHashMap<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < list.size(); i++) {
-            newMap.put(list.get(i).getKey(), list.get(i).getValue());
+            List<Date> dates = list.get(i).getValue();
+            List<String> strings = new ArrayList<>();
+            for (Date d : dates) {
+                strings.add(simpleDateFormat.format(d));
+
+            }
+            newMap.put(list.get(i).getKey(), strings);
         }
         return newMap;
     }

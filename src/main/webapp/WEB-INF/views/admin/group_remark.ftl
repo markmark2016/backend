@@ -24,6 +24,9 @@
             margin-top: 20px;
         }
 
+        .book-image {
+            width: 110px !important;
+        }
         .user-head-image {
             width: 50px !important;
         }
@@ -73,7 +76,7 @@
             <div class="media-left">
                 [#if book??]
                     <a href="#">
-                        <img class="media-object" src="${book.image}" alt="...">
+                        <img class="media-object book-image" src="${book.image}" alt="...">
                     </a>
                 [/#if]
             </div>
@@ -261,6 +264,7 @@
                                           style: 'btn-success',
                                           size: 10
                                       });
+
 
     </script>
 

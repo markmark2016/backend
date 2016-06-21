@@ -197,7 +197,6 @@ public class RemarkServiceImpl implements IRemarkService {
     public Map<String, Object> getGroupRemark(Long groupId) {
         // 查询map，查点赞数和评论数用
 
-        System.out.println("Getting GroupRemark....., groupId:" + groupId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("groupId", groupId);
         // 只有热门的list中做了当前用户是否对这条书评点过赞的查询，而且若要进行查询，需在map中加入当前登录的用户id，而现在没有加

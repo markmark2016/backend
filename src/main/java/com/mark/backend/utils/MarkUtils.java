@@ -78,6 +78,21 @@ public class MarkUtils {
     }
 
     /**
+     * 获取当前时间
+     */
+    public static List<String> getDatesBwtweenInString(Date start, Date end) {
+        List<Date> dates = getDatesBwtween(start, end);
+        List<String> datesInString = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (Date d : dates) {
+
+            datesInString.add(simpleDateFormat.format(d));
+        }
+        return datesInString;
+
+    }
+
+    /**
      * 获得当日0时0分0秒时间
      */
     public static Date getZeroTime() {
